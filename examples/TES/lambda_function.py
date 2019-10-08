@@ -26,8 +26,7 @@ Access Key: {}\n
 Secret Key: {}\n
 Session Key: {}\n""".format(creds.access_key, creds.secret_key, creds.token)
 
-# Logging credential information is not recommended. This is for demonstration purposes only.
-# logger.info(formatted_creds)
+logger.info(formatted_creds)
 
 
 def lambda_handler(event, context):

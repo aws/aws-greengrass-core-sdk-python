@@ -56,13 +56,9 @@ class Client:
 
         final_qualifier = arn_qualifier if arn_qualifier else extraneous_qualifier
 
-        try:
-            # GGC v1.9.0 or newer
-            function_arn = FunctionArnFields.build_function_arn(arn_fields.unqualified_arn, final_qualifier)
-        except AttributeError:
-            # older GGC version
-            raise AttributeError('class FunctionArnFields has no attribute \'build_function_arn\'. build_function_arn '
-                                 'is introduced in GGC v1.9.0. Please check your GGC version.')
+        function_arn = FunctionArnFields.build_arn_string(
+            arn_fields.region, arn_fields.account_id, arn_fields.name, final_qualifier
+        )
 
         # ClientContext must be base64 if given, but is an option parameter
         try:

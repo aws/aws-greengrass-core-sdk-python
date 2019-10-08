@@ -25,7 +25,7 @@ def get_version():
 setup(
     name='greengrasssdk',
     version=get_version(),
-    description='The AWS IoT Greengrass SDK for Python',
+    description='The AWS Greengrass SDK for Python',
     long_description=open('README.rst').read(),
     author='Amazon Web Services',
     url='',
@@ -45,6 +45,5 @@ setup(
         'License :: OSI Approved :: Apache Software License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.7',
     ],
 )

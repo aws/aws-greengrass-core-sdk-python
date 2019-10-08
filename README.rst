@@ -1,14 +1,14 @@
 Greengrass SDK
 =====================
 
-The AWS IoT Greengrass Core SDK is meant to be used by AWS Lambda functions running on an AWS IoT Greengrass Core. It will enable Lambda functions to invoke other Lambda functions deployed to the Greengrass Core, publish messages to the Greengrass Core and work with the local Shadow service.
-You can find the latest, most up to date, documentation at our `doc site <http://aws-greengrass-core-sdk-python-docs.s3-website-us-east-1.amazonaws.com/v1.4.0/index.html>`_.
+The AWS Greengrass Core SDK is meant to be used by AWS Lambda functions running on an AWS Greengrass Core. It will enable Lambda functions to invoke other Lambda functions deployed to the Greengrass Core, publish messages to the Greengrass Core and work with the local Shadow service.
+You can find the latest, most up to date, documentation at our `doc site <http://aws-greengrass-core-sdk-python-docs.s3-website-us-east-1.amazonaws.com/v1.3.0/index.html>`_.
 
 ===============================
-Using AWS IoT Greengrass Core SDK
+Using AWS Greengrass Core SDK
 ===============================
 
-To use the AWS IoT Greengrass Core SDK, you must first import the AWS IoT Greengrass Core SDK in your Lambda function as you would with any other external libraries. You then need to create a client for 'iot-data' or 'lambda'. Use 'iot-data' if you wish to publish messages to the local Greengrass Core and interact with the local Shadow service. Use 'lambda' if you wish to invoke other Lambda functions deployed to the same Greengrass Core.
+To use the AWS Greengrass Core SDK, you must first import the AWS Greengrass Core SDK in your Lambda function as you would with any other external libraries. You then need to create a client for 'iot-data' or 'lambda'. Use 'iot-data' if you wish to publish messages to the local AWS Greengrass Core and interact with the local Shadow service. Use 'lambda' if you wish to invoke other Lambda functions deployed to the same AWS Greengrass Core.
 
 Here is an example for using the 'iot-data' client
 
@@ -48,7 +48,7 @@ Now that you have a lambda client, you can publish requests.
 
     # Invoke the lambda function
     response = client.invoke(
-        FunctionName='arn:<partition>:lambda:<region>:<account id>:function:<function name>',
+        FunctionName='arn:aws:lambda:<region>:<account id>:function:<function name>',
         InvocationType='RequestResponse',
         Payload=payload,
         Qualifier='2'
@@ -58,14 +58,12 @@ Now that you have a lambda client, you can publish requests.
 Compatibility
 ==============
 
-As new features are added to AWS IoT Greengrass, previous versions of the AWS IoT Greengrass SDK will be incompatible with newer versions of the AWS IoT Greengrass core. The following table lists the compatible SDKs for all GGC releases.
+As new features are added to AWS Greengrass, previous versions of the Greengrass SDK will be incompatible with newer versions of the AWS Greengrass core. The following table lists the compatible SDKs for all GGC releases.
 
 +-------------+------------------------+
 | GGC Version | Compatible SDK Versions|
 +=============+========================+
 | 1.0.x-1.6.x | 1.0.x-1.2.x            |
 +-------------+------------------------+
-| 1.7.x-1.8.x | 1.0.x-1.3.x            |
-+-------------+------------------------+
-| 1.9.x       | 1.0.x-1.4.x            |
+| 1.7.x       | 1.0.x-1.3.x            |
 +-------------+------------------------+

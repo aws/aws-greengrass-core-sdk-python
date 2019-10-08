@@ -5,5 +5,5 @@
 from .client import client
 from .Lambda import StreamingBody
 
-__version__ = '1.4.0'
-INTERFACE_VERSION = '1.3'
+__version__ = '1.3.0'
+INTERFACE_VERSION = '1.1'
