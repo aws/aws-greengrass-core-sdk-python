@@ -1,0 +1,374 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>greengrasssdk.IoTDataPlane &mdash; Greengrass Core Python SDK 1.5.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Greengrass Core Python SDK
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Greengrass Core Python SDK</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>greengrasssdk.IoTDataPlane</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for greengrasssdk.IoTDataPlane</h1><div class="highlight"><pre>
+<span></span><span class="c1">#</span>
+<span class="c1"># Copyright 2010-2016 Amazon.com, Inc. or its affiliates. All Rights Reserved.</span>
+<span class="c1">#</span>
+
+<span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">greengrasssdk</span> <span class="k">import</span> <span class="n">Lambda</span>
+<span class="kn">from</span> <span class="nn">greengrass_common.env_vars</span> <span class="k">import</span> <span class="n">SHADOW_FUNCTION_ARN</span><span class="p">,</span> <span class="n">ROUTER_FUNCTION_ARN</span><span class="p">,</span> <span class="n">MY_FUNCTION_ARN</span>
+
+<span class="c1"># Log messages in the SDK are part of customer&#39;s log because they&#39;re helpful for debugging</span>
+<span class="c1"># customer&#39;s lambdas. Since we configured the root logger to log to customer&#39;s log and set the</span>
+<span class="c1"># propagate flag of this logger to True. The log messages submitted from this logger will be</span>
+<span class="c1"># sent to the customer&#39;s local Cloudwatch handler.</span>
+<span class="n">customer_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">customer_logger</span><span class="o">.</span><span class="n">propagate</span> <span class="o">=</span> <span class="kc">True</span>
+
+
+<div class="viewcode-block" id="ShadowError"><a class="viewcode-back" href="../../_apidoc/greengrasssdk.IoTDataPlane.html#greengrasssdk.IoTDataPlane.ShadowError">[docs]</a><span class="k">class</span> <span class="nc">ShadowError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="Client"><a class="viewcode-back" href="../../_apidoc/greengrasssdk.IoTDataPlane.html#greengrasssdk.IoTDataPlane.Client">[docs]</a><span class="k">class</span> <span class="nc">Client</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lambda_client</span> <span class="o">=</span> <span class="n">Lambda</span><span class="o">.</span><span class="n">Client</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Client.get_thing_shadow"><a class="viewcode-back" href="../../_apidoc/greengrasssdk.IoTDataPlane.html#greengrasssdk.IoTDataPlane.Client.get_thing_shadow">[docs]</a>    <span class="k">def</span> <span class="nf">get_thing_shadow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Call shadow lambda to obtain current shadow state.</span>
+
+<span class="sd">        :Keyword Arguments:</span>
+<span class="sd">            * *thingName* (``string``) --</span>
+<span class="sd">              [REQUIRED]</span>
+<span class="sd">              The name of the thing.</span>
+
+<span class="sd">        :returns: (``dict``) --</span>
+<span class="sd">        The output from the GetThingShadow operation</span>
+<span class="sd">            * *payload* (``bytes``) --</span>
+<span class="sd">              The state information, in JSON format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">thing_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_required_parameter</span><span class="p">(</span><span class="s1">&#39;thingName&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shadow_op</span><span class="p">(</span><span class="s1">&#39;get&#39;</span><span class="p">,</span> <span class="n">thing_name</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Client.update_thing_shadow"><a class="viewcode-back" href="../../_apidoc/greengrasssdk.IoTDataPlane.html#greengrasssdk.IoTDataPlane.Client.update_thing_shadow">[docs]</a>    <span class="k">def</span> <span class="nf">update_thing_shadow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Updates the thing shadow for the specified thing.</span>
+
+<span class="sd">        :Keyword Arguments:</span>
+<span class="sd">            * *thingName* (``string``) --</span>
+<span class="sd">              [REQUIRED]</span>
+<span class="sd">              The name of the thing.</span>
+<span class="sd">            * *payload* (``bytes or seekable file-like object``) --</span>
+<span class="sd">              [REQUIRED]</span>
+<span class="sd">              The state information, in JSON format.</span>
+
+<span class="sd">        :returns: (``dict``) --</span>
+<span class="sd">        The output from the UpdateThingShadow operation</span>
+<span class="sd">            * *payload* (``bytes``) --</span>
+<span class="sd">              The state information, in JSON format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">thing_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_required_parameter</span><span class="p">(</span><span class="s1">&#39;thingName&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_required_parameter</span><span class="p">(</span><span class="s1">&#39;payload&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shadow_op</span><span class="p">(</span><span class="s1">&#39;update&#39;</span><span class="p">,</span> <span class="n">thing_name</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Client.delete_thing_shadow"><a class="viewcode-back" href="../../_apidoc/greengrasssdk.IoTDataPlane.html#greengrasssdk.IoTDataPlane.Client.delete_thing_shadow">[docs]</a>    <span class="k">def</span> <span class="nf">delete_thing_shadow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Deletes the thing shadow for the specified thing.</span>
+
+<span class="sd">        :Keyword Arguments:</span>
+<span class="sd">            * *thingName* (``string``) --</span>
+<span class="sd">              [REQUIRED]</span>
+<span class="sd">              The name of the thing.</span>
+
+<span class="sd">        :returns: (``dict``) --</span>
+<span class="sd">        The output from the DeleteThingShadow operation</span>
+<span class="sd">            * *payload* (``bytes``) --</span>
+<span class="sd">              The state information, in JSON format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">thing_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_required_parameter</span><span class="p">(</span><span class="s1">&#39;thingName&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shadow_op</span><span class="p">(</span><span class="s1">&#39;delete&#39;</span><span class="p">,</span> <span class="n">thing_name</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Client.publish"><a class="viewcode-back" href="../../_apidoc/greengrasssdk.IoTDataPlane.html#greengrasssdk.IoTDataPlane.Client.publish">[docs]</a>    <span class="k">def</span> <span class="nf">publish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Publishes state information.</span>
+
+<span class="sd">        :Keyword Arguments:</span>
+<span class="sd">            * *topic* (``string``) --</span>
+<span class="sd">              [REQUIRED]</span>
+<span class="sd">              The name of the MQTT topic.</span>
+<span class="sd">            * *payload* (``bytes or seekable file-like object``) --</span>
+<span class="sd">              The state information, in JSON format.</span>
+<span class="sd">            * *queueFullPolicy* (``string``) --</span>
+<span class="sd">              The policy for GGC to take when its internal queue is full</span>
+<span class="sd">        :returns: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">topic</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_required_parameter</span><span class="p">(</span><span class="s1">&#39;topic&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># payload and queueFullPolicy are optional parameters</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;payload&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">queue_full_policy</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;queueFullPolicy&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+        <span class="n">function_arn</span> <span class="o">=</span> <span class="n">ROUTER_FUNCTION_ARN</span>
+        <span class="n">client_context</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;custom&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="n">MY_FUNCTION_ARN</span><span class="p">,</span>
+                <span class="s1">&#39;subject&#39;</span><span class="p">:</span> <span class="n">topic</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">queue_full_policy</span> <span class="o">==</span> <span class="s1">&#39;AllOrException&#39;</span><span class="p">:</span>
+            <span class="n">client_context</span><span class="p">[</span><span class="s1">&#39;custom&#39;</span><span class="p">][</span><span class="s1">&#39;queueFullPolicy&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;AllOrError&#39;</span>
+        <span class="k">elif</span> <span class="n">queue_full_policy</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;BestEffort&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">]:</span>
+            <span class="n">client_context</span><span class="p">[</span><span class="s1">&#39;custom&#39;</span><span class="p">][</span><span class="s1">&#39;queueFullPolicy&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">queue_full_policy</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Invalid value for queueFullPolicy: </span><span class="si">{queueFullPolicy}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">queueFullPolicy</span><span class="o">=</span><span class="n">queue_full_policy</span>
+            <span class="p">))</span>
+
+        <span class="n">customer_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Publishing message on topic &quot;</span><span class="si">{}</span><span class="s1">&quot; with Payload &quot;</span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span> <span class="n">payload</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lambda_client</span><span class="o">.</span><span class="n">_invoke_internal</span><span class="p">(</span>
+            <span class="n">function_arn</span><span class="p">,</span>
+            <span class="n">payload</span><span class="p">,</span>
+            <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">client_context</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">()),</span>
+            <span class="s1">&#39;Event&#39;</span>
+        <span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_required_parameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter_name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">parameter_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Parameter &quot;</span><span class="si">{parameter_name}</span><span class="s1">&quot; is a required parameter but was not provided.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">parameter_name</span><span class="o">=</span><span class="n">parameter_name</span>
+            <span class="p">))</span>
+        <span class="k">return</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">parameter_name</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_shadow_op</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">op</span><span class="p">,</span> <span class="n">thing_name</span><span class="p">,</span> <span class="n">payload</span><span class="p">):</span>
+        <span class="n">topic</span> <span class="o">=</span> <span class="s1">&#39;$aws/things/</span><span class="si">{thing_name}</span><span class="s1">/shadow/</span><span class="si">{op}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">thing_name</span><span class="o">=</span><span class="n">thing_name</span><span class="p">,</span> <span class="n">op</span><span class="o">=</span><span class="n">op</span><span class="p">)</span>
+        <span class="n">function_arn</span> <span class="o">=</span> <span class="n">SHADOW_FUNCTION_ARN</span>
+        <span class="n">client_context</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;custom&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;subject&#39;</span><span class="p">:</span> <span class="n">topic</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="n">customer_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Calling shadow service on topic &quot;</span><span class="si">{}</span><span class="s1">&quot; with payload &quot;</span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span> <span class="n">payload</span><span class="p">))</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lambda_client</span><span class="o">.</span><span class="n">_invoke_internal</span><span class="p">(</span>
+            <span class="n">function_arn</span><span class="p">,</span>
+            <span class="n">payload</span><span class="p">,</span>
+            <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">client_context</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;FunctionError&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ShadowError</span><span class="p">(</span><span class="s1">&#39;Request for shadow state returned FunctionError &quot;</span><span class="si">{}</span><span class="s1">&quot; with error payload &quot;</span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">response</span><span class="p">[</span><span class="s1">&#39;FunctionError&#39;</span><span class="p">],</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;Payload&#39;</span><span class="p">]</span>
+            <span class="p">))</span>
+
+        <span class="n">payload</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;Payload&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">response</span><span class="p">:</span>
+            <span class="n">response_payload_map</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">payload</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="s1">&#39;code&#39;</span> <span class="ow">in</span> <span class="n">response_payload_map</span> <span class="ow">and</span> <span class="s1">&#39;message&#39;</span> <span class="ow">in</span> <span class="n">response_payload_map</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ShadowError</span><span class="p">(</span><span class="s1">&#39;Request for shadow state returned error code </span><span class="si">{}</span><span class="s1"> with message &quot;</span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">response_payload_map</span><span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">],</span> <span class="n">response_payload_map</span><span class="p">[</span><span class="s1">&#39;message&#39;</span><span class="p">]</span>
+                <span class="p">))</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;payload&#39;</span><span class="p">:</span> <span class="n">payload</span><span class="p">}</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Amazon.com.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.5.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

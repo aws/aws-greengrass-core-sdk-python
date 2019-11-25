@@ -2,10 +2,10 @@
 # Copyright 2010-2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 #
 
+from __future__ import division
 import json
 import logging
 from datetime import datetime
-from decimal import Decimal
 
 from greengrasssdk import Lambda
 from greengrass_common.env_vars import MY_FUNCTION_ARN, SECRETS_MANAGER_FUNCTION_ARN
@@ -132,7 +132,7 @@ class Client:
         # Time is serialized as epoch timestamp (int) upon IPC routing. We need to deserialize it back to datetime object in Python
         payload_dict[KEY_NAME_CREATED_DATE] = datetime.fromtimestamp(
             # Cloud response contains timestamp in milliseconds while datetime.fromtimestamp is expecting seconds
-            Decimal(payload_dict[KEY_NAME_CREATED_DATE]) / Decimal(1000)
+            payload_dict[KEY_NAME_CREATED_DATE] / 1000
         )
 
         return payload_dict

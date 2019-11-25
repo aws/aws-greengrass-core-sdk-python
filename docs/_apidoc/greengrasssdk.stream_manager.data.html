@@ -1,0 +1,1431 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>greengrasssdk.stream_manager.data package &mdash; Greengrass Core Python SDK 1.5.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Greengrass Core Python SDK
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">greengrasssdk.stream_manager.data package</a></li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Greengrass Core Python SDK</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>greengrasssdk.stream_manager.data package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/_apidoc/greengrasssdk.stream_manager.data.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-greengrasssdk.stream_manager.data">
+<span id="greengrasssdk-stream-manager-data-package"></span><h1>greengrasssdk.stream_manager.data package<a class="headerlink" href="#module-greengrasssdk.stream_manager.data" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="greengrasssdk.stream_manager.data.StrategyOnFull">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">StrategyOnFull</code><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#StrategyOnFull"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.StrategyOnFull" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>StrategyOnFull is used in the MessageStreamDefinition when creating a stream.
+It defines the behavior when the stream has reached the maximum size.
+RejectNewData: any append message request after the stream is full will be rejected with an exception.
+OverwriteOldestData: the oldest stream segments will be deleted until there is room for the new message.</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.StrategyOnFull.RejectNewData">
+<code class="descname">RejectNewData</code><em class="property"> = 0</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.StrategyOnFull.RejectNewData" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.StrategyOnFull.OverwriteOldestData">
+<code class="descname">OverwriteOldestData</code><em class="property"> = 1</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.StrategyOnFull.OverwriteOldestData" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.StrategyOnFull.from_dict">
+<code class="descname">from_dict</code><em class="property"> = &lt;function StrategyOnFull.from_dict&gt;</em><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#StrategyOnFull.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.StrategyOnFull.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.StrategyOnFull.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#StrategyOnFull.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.StrategyOnFull.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="greengrasssdk.stream_manager.data.Persistence">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">Persistence</code><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#Persistence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.Persistence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Stream persistence. If set to File, the file system will be used to persist messages long-term and is resilient to restarts.
+Memory should be used when performance matters more than durability as it only stores the stream in memory and never writes to the disk.</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Persistence.File">
+<code class="descname">File</code><em class="property"> = 0</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Persistence.File" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Persistence.Memory">
+<code class="descname">Memory</code><em class="property"> = 1</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Persistence.Memory" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Persistence.from_dict">
+<code class="descname">from_dict</code><em class="property"> = &lt;function Persistence.from_dict&gt;</em><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#Persistence.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.Persistence.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.Persistence.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#Persistence.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.Persistence.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="greengrasssdk.stream_manager.data.ConnectRequest">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">ConnectRequest</code><span class="sig-paren">(</span><em>request_id: str = None</em>, <em>protocol_version: str = None</em>, <em>sdk_version: str = None</em>, <em>auth_token: str = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#ConnectRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.ConnectRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>(Internal Only) Request object to connect to the service</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ConnectRequest.request_id">
+<code class="descname">request_id</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.ConnectRequest.request_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ConnectRequest.protocol_version">
+<code class="descname">protocol_version</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.ConnectRequest.protocol_version" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ConnectRequest.sdk_version">
+<code class="descname">sdk_version</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.ConnectRequest.sdk_version" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ConnectRequest.auth_token">
+<code class="descname">auth_token</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.ConnectRequest.auth_token" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="greengrasssdk.stream_manager.data.ConnectRequest.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#ConnectRequest.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.ConnectRequest.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.ConnectRequest.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#ConnectRequest.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.ConnectRequest.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="greengrasssdk.stream_manager.data.ResponseStatusCode">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">ResponseStatusCode</code><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#ResponseStatusCode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.ResponseStatusCode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>(Internal Only) Enum defining possible response status codes from StreamManager server.
+Success: Request succeeded.
+UnknownFailure: Encountered unknown StreamManager server failure.
+Unauthorized: Client is not authorized to perform this request.
+InvalidRequest: Client request is invalid.
+RequestPayloadTooLarge: Request payload is too large.
+ResourceNotFound: The requested resource does not exist.
+ServerTimeout: Server took too long and timed out.
+ResponsePayloadTooLarge: Server response exceeded the max allowed response payload size by the protocol.
+UnsupportedConnectVersion: Server does not support the Connect version presented by the Client.
+UnexpectedOperation: Operation presented was not expected by the Server.
+UnsupportedProtocolVersion: Protocol version presented by the Client is not compatible with the Server.
+InvalidProtocolVersion: Protocol version presented by the Client is not valid.
+FailedToConnect: Client failed to connect to the Server.
+NotEnoughMessages: There is not enough messages to return.
+MessageStoreReadError: Read messages encountered an error.</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ResponseStatusCode.Success">
+<code class="descname">Success</code><em class="property"> = 0</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.ResponseStatusCode.Success" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ResponseStatusCode.UnknownFailure">
+<code class="descname">UnknownFailure</code><em class="property"> = 1</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.ResponseStatusCode.UnknownFailure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ResponseStatusCode.Unauthorized">
+<code class="descname">Unauthorized</code><em class="property"> = 2</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.ResponseStatusCode.Unauthorized" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ResponseStatusCode.InvalidRequest">
+<code class="descname">InvalidRequest</code><em class="property"> = 3</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.ResponseStatusCode.InvalidRequest" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ResponseStatusCode.RequestPayloadTooLarge">
+<code class="descname">RequestPayloadTooLarge</code><em class="property"> = 4</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.ResponseStatusCode.RequestPayloadTooLarge" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ResponseStatusCode.ResourceNotFound">
+<code class="descname">ResourceNotFound</code><em class="property"> = 5</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.ResponseStatusCode.ResourceNotFound" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ResponseStatusCode.ServerTimeout">
+<code class="descname">ServerTimeout</code><em class="property"> = 6</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.ResponseStatusCode.ServerTimeout" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ResponseStatusCode.ResponsePayloadTooLarge">
+<code class="descname">ResponsePayloadTooLarge</code><em class="property"> = 7</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.ResponseStatusCode.ResponsePayloadTooLarge" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ResponseStatusCode.UnsupportedConnectVersion">
+<code class="descname">UnsupportedConnectVersion</code><em class="property"> = 8</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.ResponseStatusCode.UnsupportedConnectVersion" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ResponseStatusCode.UnexpectedOperation">
+<code class="descname">UnexpectedOperation</code><em class="property"> = 9</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.ResponseStatusCode.UnexpectedOperation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ResponseStatusCode.UnsupportedProtocolVersion">
+<code class="descname">UnsupportedProtocolVersion</code><em class="property"> = 10</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.ResponseStatusCode.UnsupportedProtocolVersion" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ResponseStatusCode.InvalidProtocolVersion">
+<code class="descname">InvalidProtocolVersion</code><em class="property"> = 11</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.ResponseStatusCode.InvalidProtocolVersion" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ResponseStatusCode.FailedToConnect">
+<code class="descname">FailedToConnect</code><em class="property"> = 12</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.ResponseStatusCode.FailedToConnect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ResponseStatusCode.NotEnoughMessages">
+<code class="descname">NotEnoughMessages</code><em class="property"> = 13</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.ResponseStatusCode.NotEnoughMessages" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ResponseStatusCode.MessageStoreReadError">
+<code class="descname">MessageStoreReadError</code><em class="property"> = 14</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.ResponseStatusCode.MessageStoreReadError" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ResponseStatusCode.from_dict">
+<code class="descname">from_dict</code><em class="property"> = &lt;function ResponseStatusCode.from_dict&gt;</em><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#ResponseStatusCode.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.ResponseStatusCode.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.ResponseStatusCode.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#ResponseStatusCode.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.ResponseStatusCode.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="greengrasssdk.stream_manager.data.ConnectResponse">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">ConnectResponse</code><span class="sig-paren">(</span><em>request_id: str = None</em>, <em>status: greengrasssdk.stream_manager.data.ResponseStatusCode = None</em>, <em>error_message: str = None</em>, <em>protocol_version: str = None</em>, <em>supported_protocol_versions: List[str] = None</em>, <em>server_version: str = None</em>, <em>client_identifier: str = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#ConnectResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.ConnectResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Internal Only</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ConnectResponse.request_id">
+<code class="descname">request_id</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.ConnectResponse.request_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ConnectResponse.status">
+<code class="descname">status</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.ConnectResponse.status" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ConnectResponse.error_message">
+<code class="descname">error_message</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.ConnectResponse.error_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ConnectResponse.protocol_version">
+<code class="descname">protocol_version</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.ConnectResponse.protocol_version" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ConnectResponse.supported_protocol_versions">
+<code class="descname">supported_protocol_versions</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.ConnectResponse.supported_protocol_versions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ConnectResponse.server_version">
+<code class="descname">server_version</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.ConnectResponse.server_version" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ConnectResponse.client_identifier">
+<code class="descname">client_identifier</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.ConnectResponse.client_identifier" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="greengrasssdk.stream_manager.data.ConnectResponse.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#ConnectResponse.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.ConnectResponse.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.ConnectResponse.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#ConnectResponse.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.ConnectResponse.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="greengrasssdk.stream_manager.data.Operation">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">Operation</code><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#Operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.Operation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Internal Only</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Operation.Unknown">
+<code class="descname">Unknown</code><em class="property"> = 0</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Operation.Unknown" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Operation.Connect">
+<code class="descname">Connect</code><em class="property"> = 1</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Operation.Connect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Operation.CreateMessageStream">
+<code class="descname">CreateMessageStream</code><em class="property"> = 2</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Operation.CreateMessageStream" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Operation.DeleteMessageStream">
+<code class="descname">DeleteMessageStream</code><em class="property"> = 3</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Operation.DeleteMessageStream" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Operation.AppendMessage">
+<code class="descname">AppendMessage</code><em class="property"> = 4</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Operation.AppendMessage" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Operation.ReadMessages">
+<code class="descname">ReadMessages</code><em class="property"> = 5</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Operation.ReadMessages" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Operation.ConnectResponse">
+<code class="descname">ConnectResponse</code><em class="property"> = 6</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Operation.ConnectResponse" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Operation.CreateMessageStreamResponse">
+<code class="descname">CreateMessageStreamResponse</code><em class="property"> = 7</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Operation.CreateMessageStreamResponse" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Operation.DeleteMessageStreamResponse">
+<code class="descname">DeleteMessageStreamResponse</code><em class="property"> = 8</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Operation.DeleteMessageStreamResponse" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Operation.AppendMessageResponse">
+<code class="descname">AppendMessageResponse</code><em class="property"> = 9</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Operation.AppendMessageResponse" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Operation.ReadMessagesResponse">
+<code class="descname">ReadMessagesResponse</code><em class="property"> = 10</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Operation.ReadMessagesResponse" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Operation.ListStreams">
+<code class="descname">ListStreams</code><em class="property"> = 11</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Operation.ListStreams" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Operation.ListStreamsResponse">
+<code class="descname">ListStreamsResponse</code><em class="property"> = 12</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Operation.ListStreamsResponse" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Operation.DescribeMessageStream">
+<code class="descname">DescribeMessageStream</code><em class="property"> = 13</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Operation.DescribeMessageStream" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Operation.DescribeMessageStreamResponse">
+<code class="descname">DescribeMessageStreamResponse</code><em class="property"> = 14</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Operation.DescribeMessageStreamResponse" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Operation.from_dict">
+<code class="descname">from_dict</code><em class="property"> = &lt;function Operation.from_dict&gt;</em><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#Operation.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.Operation.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.Operation.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#Operation.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.Operation.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="greengrasssdk.stream_manager.data.MessageFrame">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">MessageFrame</code><span class="sig-paren">(</span><em>operation: greengrasssdk.stream_manager.data.Operation = None</em>, <em>payload: bytes = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#MessageFrame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageFrame" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Internal Only</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.MessageFrame.operation">
+<code class="descname">operation</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageFrame.operation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.MessageFrame.payload">
+<code class="descname">payload</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageFrame.payload" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="greengrasssdk.stream_manager.data.MessageFrame.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#MessageFrame.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageFrame.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.MessageFrame.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#MessageFrame.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageFrame.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="greengrasssdk.stream_manager.data.HTTPConfig">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">HTTPConfig</code><span class="sig-paren">(</span><em>identifier: str = None</em>, <em>uri: str = None</em>, <em>batch_size: int = None</em>, <em>batch_interval_millis: int = None</em>, <em>priority: int = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#HTTPConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.HTTPConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This export destination is not supported! The interface may change at any time without notice and should not be relied on for any production use.
+There are no guarantees around its correctness.
+This configures an HTTP endpoint which sends a POST request to the provided URI. Each request contains a single message in the body of the request.</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.HTTPConfig.identifier">
+<code class="descname">identifier</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.HTTPConfig.identifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>A unique identifier to identify this individual upload stream.
+Must be an alphanumeric string including spaces, commas, periods, hyphens, and underscores with length between 1 and 255.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.HTTPConfig.uri">
+<code class="descname">uri</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.HTTPConfig.uri" title="Permalink to this definition">¶</a></dt>
+<dd><p>URL for HTTP endpoint which should receive the POST requests for export.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.HTTPConfig.batch_size">
+<code class="descname">batch_size</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.HTTPConfig.batch_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>The maximum size of a batch to send to the destination. Messages will be queued until the batch size is reached, after which they will then be uploaded. If unspecified the default will be 1.
+If both batchSize and batchIntervalMillis are specified, then messages will be eligible for upload when either condition is met.
+The minimum batch size is 1 and the maximum is 500.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.HTTPConfig.batch_interval_millis">
+<code class="descname">batch_interval_millis</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.HTTPConfig.batch_interval_millis" title="Permalink to this definition">¶</a></dt>
+<dd><p>The time in milliseconds between the earliest un-uploaded message and the current time. If this time is exceeded, messages will be uploaded in the next batch. If unspecified messages will be eligible for upload immediately.
+If both batchSize and batchIntervalMillis are specified, then messages will be eligible for upload when either condition is met.
+The minimum value is 60000 milliseconds and the maximum is 9223372036854 milliseconds.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.HTTPConfig.priority">
+<code class="descname">priority</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.HTTPConfig.priority" title="Permalink to this definition">¶</a></dt>
+<dd><p>Priority for this upload stream. Lower values are higher priority. If not specified it will have the lowest priority.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="greengrasssdk.stream_manager.data.HTTPConfig.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#HTTPConfig.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.HTTPConfig.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.HTTPConfig.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#HTTPConfig.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.HTTPConfig.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="greengrasssdk.stream_manager.data.IoTAnalyticsConfig">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">IoTAnalyticsConfig</code><span class="sig-paren">(</span><em>identifier: str = None</em>, <em>iot_channel: str = None</em>, <em>iot_msg_id_prefix: str = None</em>, <em>batch_size: int = None</em>, <em>batch_interval_millis: int = None</em>, <em>priority: int = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#IoTAnalyticsConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.IoTAnalyticsConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Configuration object for IoT Analytics export destination.</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.IoTAnalyticsConfig.identifier">
+<code class="descname">identifier</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.IoTAnalyticsConfig.identifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>A unique identifier to identify this individual upload stream.
+Must be an alphanumeric string including spaces, commas, periods, hyphens, and underscores with length between 1 and 255.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.IoTAnalyticsConfig.iot_channel">
+<code class="descname">iot_channel</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.IoTAnalyticsConfig.iot_channel" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the IoT Analytics Channel that this exporter should upload to</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.IoTAnalyticsConfig.iot_msg_id_prefix">
+<code class="descname">iot_msg_id_prefix</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.IoTAnalyticsConfig.iot_msg_id_prefix" title="Permalink to this definition">¶</a></dt>
+<dd><p>A string prefixed to each unique message id. After this prefix, StreamManager may append more data to make the message ID unique.
+This prefix must be less than 32 characters.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.IoTAnalyticsConfig.batch_size">
+<code class="descname">batch_size</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.IoTAnalyticsConfig.batch_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>The maximum size of a batch to send to IoT Analytics. Messages will be queued until the batch size is reached, after which they will then be uploaded. If unspecified the default will be 1.
+If both batchSize and batchIntervalMillis are specified, then messages will be eligible for upload when either condition is met.
+The batch size must be between 1 and 100.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.IoTAnalyticsConfig.batch_interval_millis">
+<code class="descname">batch_interval_millis</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.IoTAnalyticsConfig.batch_interval_millis" title="Permalink to this definition">¶</a></dt>
+<dd><p>The time in milliseconds between the earliest un-uploaded message and the current time. If this time is exceeded, messages will be uploaded in the next batch. If unspecified messages will be eligible for upload immediately.
+If both batchSize and batchIntervalMillis are specified, then messages will be eligible for upload when either condition is met.
+The minimum value is 60000 milliseconds and the maximum is 9223372036854 milliseconds.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.IoTAnalyticsConfig.priority">
+<code class="descname">priority</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.IoTAnalyticsConfig.priority" title="Permalink to this definition">¶</a></dt>
+<dd><p>Priority for this upload stream. Lower values are higher priority. If not specified it will have the lowest priority.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="greengrasssdk.stream_manager.data.IoTAnalyticsConfig.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#IoTAnalyticsConfig.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.IoTAnalyticsConfig.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.IoTAnalyticsConfig.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#IoTAnalyticsConfig.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.IoTAnalyticsConfig.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="greengrasssdk.stream_manager.data.KinesisConfig">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">KinesisConfig</code><span class="sig-paren">(</span><em>identifier: str = None</em>, <em>kinesis_stream_name: str = None</em>, <em>batch_size: int = None</em>, <em>batch_interval_millis: int = None</em>, <em>priority: int = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#KinesisConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.KinesisConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Configuration object for Kinesis data streams export destination.</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.KinesisConfig.identifier">
+<code class="descname">identifier</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.KinesisConfig.identifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>A unique identifier to identify this individual upload stream.
+Must be an alphanumeric string including spaces, commas, periods, hyphens, and underscores with length between 1 and 255.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.KinesisConfig.kinesis_stream_name">
+<code class="descname">kinesis_stream_name</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.KinesisConfig.kinesis_stream_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the Kinesis data stream that this exporter should upload to</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.KinesisConfig.batch_size">
+<code class="descname">batch_size</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.KinesisConfig.batch_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>The maximum size of a batch to send to Kinesis. Messages will be queued until the batch size is reached, after which they will then be uploaded. If unspecified the default will be 1.
+If both batchSize and batchIntervalMillis are specified, then messages will be eligible for upload when either condition is met.
+The batch size must be between 1 and 500.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.KinesisConfig.batch_interval_millis">
+<code class="descname">batch_interval_millis</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.KinesisConfig.batch_interval_millis" title="Permalink to this definition">¶</a></dt>
+<dd><p>The time in milliseconds between the earliest un-uploaded message and the current time. If this time is exceeded, messages will be uploaded in the next batch. If unspecified messages will be eligible for upload immediately.
+If both batchSize and batchIntervalMillis are specified, then messages will be eligible for upload when either condition is met.
+The minimum value is 60000 milliseconds and the maximum is 9223372036854 milliseconds.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.KinesisConfig.priority">
+<code class="descname">priority</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.KinesisConfig.priority" title="Permalink to this definition">¶</a></dt>
+<dd><p>Priority for this upload stream. Lower values are higher priority. If not specified it will have the lowest priority.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="greengrasssdk.stream_manager.data.KinesisConfig.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#KinesisConfig.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.KinesisConfig.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.KinesisConfig.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#KinesisConfig.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.KinesisConfig.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="greengrasssdk.stream_manager.data.ExportDefinition">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">ExportDefinition</code><span class="sig-paren">(</span><em>http: List[greengrasssdk.stream_manager.data.HTTPConfig] = None</em>, <em>iot_analytics: List[greengrasssdk.stream_manager.data.IoTAnalyticsConfig] = None</em>, <em>kinesis: List[greengrasssdk.stream_manager.data.KinesisConfig] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#ExportDefinition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.ExportDefinition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Defines how and where the stream is uploaded</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ExportDefinition.http">
+<code class="descname">http</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.ExportDefinition.http" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines how the stream is uploaded to an HTTP endpoint</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ExportDefinition.iot_analytics">
+<code class="descname">iot_analytics</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.ExportDefinition.iot_analytics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines how the stream is uploaded to IoT Analytics</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ExportDefinition.kinesis">
+<code class="descname">kinesis</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.ExportDefinition.kinesis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines how the stream is uploaded to Kinesis</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="greengrasssdk.stream_manager.data.ExportDefinition.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#ExportDefinition.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.ExportDefinition.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.ExportDefinition.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#ExportDefinition.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.ExportDefinition.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="greengrasssdk.stream_manager.data.MessageStreamDefinition">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">MessageStreamDefinition</code><span class="sig-paren">(</span><em>name: str = None</em>, <em>max_size: int = 268435456</em>, <em>stream_segment_size: int = 16777216</em>, <em>time_to_live_millis: int = None</em>, <em>strategy_on_full: greengrasssdk.stream_manager.data.StrategyOnFull = None</em>, <em>persistence: greengrasssdk.stream_manager.data.Persistence = None</em>, <em>flush_on_write: bool = None</em>, <em>export_definition: greengrasssdk.stream_manager.data.ExportDefinition = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#MessageStreamDefinition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageStreamDefinition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Object defining a message stream used in the CreateMessageStream API.</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.MessageStreamDefinition.name">
+<code class="descname">name</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageStreamDefinition.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The unique name of the stream.
+Must be an alphanumeric string including spaces, commas, periods, hyphens, and underscores with length between 1 and 255.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.MessageStreamDefinition.max_size">
+<code class="descname">max_size</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageStreamDefinition.max_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>The maximium size in bytes for the entire stream. Set to 256MB by default with a minimum of 1KB and a maximum of 8192PB.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.MessageStreamDefinition.stream_segment_size">
+<code class="descname">stream_segment_size</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageStreamDefinition.stream_segment_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>The size of each segment of the stream. Set to 16MB by default with a minimum of 1KB and a maximum of 2GB.
+Data is only deleted segment by segment, so the segment size is the smallest amount of data which can be deleted.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.MessageStreamDefinition.time_to_live_millis">
+<code class="descname">time_to_live_millis</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageStreamDefinition.time_to_live_millis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Time to live for each message in milliseconds. Data may be deleted at any time after the TTL expires; deletion is not guaranteed to occur immediately when the TTL expires.
+The minimum value is 60000 milliseconds and the maximum is 9223372036854 milliseconds.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.MessageStreamDefinition.strategy_on_full">
+<code class="descname">strategy_on_full</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageStreamDefinition.strategy_on_full" title="Permalink to this definition">¶</a></dt>
+<dd><p>What to do when the maximum size of the stream is reached.
+RejectNewData: any append message request after the stream is full will be rejected with an exception.
+OverwriteOldestData: the oldest stream segments will be deleted until there is room for the new message.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.MessageStreamDefinition.persistence">
+<code class="descname">persistence</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageStreamDefinition.persistence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stream persistence. If set to File, the file system will be used to persist messages long-term and is resilient to restarts.
+Memory should be used when performance matters more than durability as it only stores the stream in memory and never writes to the disk.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.MessageStreamDefinition.flush_on_write">
+<code class="descname">flush_on_write</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageStreamDefinition.flush_on_write" title="Permalink to this definition">¶</a></dt>
+<dd><p>This only applies when Persistence is set to File mode.
+Waits for the filesystem to complete the write for every message. This is safer, but slower. Default is false.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.MessageStreamDefinition.export_definition">
+<code class="descname">export_definition</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageStreamDefinition.export_definition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines how and where the stream is uploaded. See the definition of the ExportDefinition object for more detail.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="greengrasssdk.stream_manager.data.MessageStreamDefinition.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#MessageStreamDefinition.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageStreamDefinition.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.MessageStreamDefinition.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#MessageStreamDefinition.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageStreamDefinition.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="greengrasssdk.stream_manager.data.MessageStreamInfo">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">MessageStreamInfo</code><span class="sig-paren">(</span><em>definition: greengrasssdk.stream_manager.data.MessageStreamDefinition = None</em>, <em>storage_status: greengrasssdk.stream_manager.data.MessageStreamInfo.storageStatus = None</em>, <em>export_statuses: List[greengrasssdk.stream_manager.data.MessageStreamInfo.exportStatuses] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#MessageStreamInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageStreamInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Message stream information including its definition, storage status and export status</p>
+<dl class="class">
+<dt id="greengrasssdk.stream_manager.data.MessageStreamInfo.storageStatus">
+<em class="property">class </em><code class="descname">storageStatus</code><span class="sig-paren">(</span><em>oldest_sequence_number: int = None</em>, <em>newest_sequence_number: int = None</em>, <em>total_bytes: int = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#MessageStreamInfo.storageStatus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageStreamInfo.storageStatus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Stream status including oldest/newest sequence number and total bytes</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.MessageStreamInfo.storageStatus.oldest_sequence_number">
+<code class="descname">oldest_sequence_number</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageStreamInfo.storageStatus.oldest_sequence_number" title="Permalink to this definition">¶</a></dt>
+<dd><p>The sequence number of the first message which is still accessible in the stream.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.MessageStreamInfo.storageStatus.newest_sequence_number">
+<code class="descname">newest_sequence_number</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageStreamInfo.storageStatus.newest_sequence_number" title="Permalink to this definition">¶</a></dt>
+<dd><p>The sequence number of the last appended message.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.MessageStreamInfo.storageStatus.total_bytes">
+<code class="descname">total_bytes</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageStreamInfo.storageStatus.total_bytes" title="Permalink to this definition">¶</a></dt>
+<dd><p>The current total size of the stream in bytes.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="greengrasssdk.stream_manager.data.MessageStreamInfo.storageStatus.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#MessageStreamInfo.storageStatus.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageStreamInfo.storageStatus.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.MessageStreamInfo.storageStatus.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#MessageStreamInfo.storageStatus.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageStreamInfo.storageStatus.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="greengrasssdk.stream_manager.data.MessageStreamInfo.exportStatuses">
+<em class="property">class </em><code class="descname">exportStatuses</code><span class="sig-paren">(</span><em>export_config_identifier: str = None</em>, <em>last_exported_sequence_number: int = None</em>, <em>last_export_time: int = None</em>, <em>error_message: str = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#MessageStreamInfo.exportStatuses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageStreamInfo.exportStatuses" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Export status including the export identifier and the last exported sequence number for that export task</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.MessageStreamInfo.exportStatuses.export_config_identifier">
+<code class="descname">export_config_identifier</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageStreamInfo.exportStatuses.export_config_identifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>The unique export identifier.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.MessageStreamInfo.exportStatuses.last_exported_sequence_number">
+<code class="descname">last_exported_sequence_number</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageStreamInfo.exportStatuses.last_exported_sequence_number" title="Permalink to this definition">¶</a></dt>
+<dd><p>The sequence number of the last message which was successfully exported.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.MessageStreamInfo.exportStatuses.last_export_time">
+<code class="descname">last_export_time</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageStreamInfo.exportStatuses.last_export_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>The last time an export was attempted. Data is Unix epoch time in milliseconds.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.MessageStreamInfo.exportStatuses.error_message">
+<code class="descname">error_message</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageStreamInfo.exportStatuses.error_message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Error message from the last export attempt if it failed.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="greengrasssdk.stream_manager.data.MessageStreamInfo.exportStatuses.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#MessageStreamInfo.exportStatuses.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageStreamInfo.exportStatuses.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.MessageStreamInfo.exportStatuses.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#MessageStreamInfo.exportStatuses.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageStreamInfo.exportStatuses.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.MessageStreamInfo.definition">
+<code class="descname">definition</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageStreamInfo.definition" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.MessageStreamInfo.storage_status">
+<code class="descname">storage_status</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageStreamInfo.storage_status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stream status including oldest/newest sequence number and total bytes</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.MessageStreamInfo.export_statuses">
+<code class="descname">export_statuses</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageStreamInfo.export_statuses" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="greengrasssdk.stream_manager.data.MessageStreamInfo.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#MessageStreamInfo.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageStreamInfo.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.MessageStreamInfo.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#MessageStreamInfo.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.MessageStreamInfo.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="greengrasssdk.stream_manager.data.Message">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">Message</code><span class="sig-paren">(</span><em>stream_name: str = None</em>, <em>sequence_number: int = None</em>, <em>ingest_time: int = None</em>, <em>payload: bytes = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#Message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.Message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Message object containing metadata and the user’s payload</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Message.stream_name">
+<code class="descname">stream_name</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.Message.stream_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the stream which this message is in.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Message.sequence_number">
+<code class="descname">sequence_number</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.Message.sequence_number" title="Permalink to this definition">¶</a></dt>
+<dd><p>The sequence number of this message within the stream.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Message.ingest_time">
+<code class="descname">ingest_time</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.Message.ingest_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>The time that the message was ingested to Stream Manager. Data is Unix epoch time in milliseconds.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Message.payload">
+<code class="descname">payload</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.Message.payload" title="Permalink to this definition">¶</a></dt>
+<dd><p>The binary message data.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="greengrasssdk.stream_manager.data.Message.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#Message.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.Message.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.Message.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#Message.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.Message.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="greengrasssdk.stream_manager.data.ReadMessagesOptions">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">ReadMessagesOptions</code><span class="sig-paren">(</span><em>desired_start_sequence_number: int = None</em>, <em>min_message_count: int = 1</em>, <em>max_message_count: int = None</em>, <em>read_timeout_millis: int = 0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#ReadMessagesOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.ReadMessagesOptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Options for the ReadMessages API. All fields are optional.</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ReadMessagesOptions.desired_start_sequence_number">
+<code class="descname">desired_start_sequence_number</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.ReadMessagesOptions.desired_start_sequence_number" title="Permalink to this definition">¶</a></dt>
+<dd><p>The desired beginning sequence number to start reading from. If the desired sequence number is less than the current minimum of the stream, then it will instead start reading from the current minimum.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ReadMessagesOptions.min_message_count">
+<code class="descname">min_message_count</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.ReadMessagesOptions.min_message_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>The minimum number of messages that will be returned. If not enough messages are available for reading, then NotEnoughMessages exception will be thrown.
+The minimum values is 1 and the maximum value is 2147483647.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ReadMessagesOptions.max_message_count">
+<code class="descname">max_message_count</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.ReadMessagesOptions.max_message_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>The maximum number of messages that will be returned.
+The minimum values is the value of the minimum message count and the maximum value is 2147483647.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ReadMessagesOptions.read_timeout_millis">
+<code class="descname">read_timeout_millis</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.ReadMessagesOptions.read_timeout_millis" title="Permalink to this definition">¶</a></dt>
+<dd><p>The time to wait for messages in milliseconds. Default is 0, meaning that the server will not wait for messages.
+If it can fulfill the minimum messages it will return them, but otherwise NotEnoughMessages exception will be thrown.
+If the timeout is greater than zero, then the server will wait up to that time for more messages to be appended to the stream, waiting until the minimum number of messages is reached.
+The maximum value is the value of the client timeout.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="greengrasssdk.stream_manager.data.ReadMessagesOptions.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#ReadMessagesOptions.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.ReadMessagesOptions.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.ReadMessagesOptions.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#ReadMessagesOptions.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.ReadMessagesOptions.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="greengrasssdk.stream_manager.data.CreateMessageStreamRequest">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">CreateMessageStreamRequest</code><span class="sig-paren">(</span><em>request_id: str = None</em>, <em>definition: greengrasssdk.stream_manager.data.MessageStreamDefinition = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#CreateMessageStreamRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.CreateMessageStreamRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>(Internal Only) Request object for creating a message stream</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.CreateMessageStreamRequest.request_id">
+<code class="descname">request_id</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.CreateMessageStreamRequest.request_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.CreateMessageStreamRequest.definition">
+<code class="descname">definition</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.CreateMessageStreamRequest.definition" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="greengrasssdk.stream_manager.data.CreateMessageStreamRequest.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#CreateMessageStreamRequest.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.CreateMessageStreamRequest.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.CreateMessageStreamRequest.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#CreateMessageStreamRequest.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.CreateMessageStreamRequest.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="greengrasssdk.stream_manager.data.CreateMessageStreamResponse">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">CreateMessageStreamResponse</code><span class="sig-paren">(</span><em>request_id: str = None</em>, <em>status: greengrasssdk.stream_manager.data.ResponseStatusCode = None</em>, <em>error_message: str = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#CreateMessageStreamResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.CreateMessageStreamResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Internal Only</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.CreateMessageStreamResponse.request_id">
+<code class="descname">request_id</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.CreateMessageStreamResponse.request_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.CreateMessageStreamResponse.status">
+<code class="descname">status</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.CreateMessageStreamResponse.status" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.CreateMessageStreamResponse.error_message">
+<code class="descname">error_message</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.CreateMessageStreamResponse.error_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="greengrasssdk.stream_manager.data.CreateMessageStreamResponse.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#CreateMessageStreamResponse.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.CreateMessageStreamResponse.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.CreateMessageStreamResponse.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#CreateMessageStreamResponse.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.CreateMessageStreamResponse.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="greengrasssdk.stream_manager.data.DeleteMessageStreamRequest">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">DeleteMessageStreamRequest</code><span class="sig-paren">(</span><em>request_id: str = None</em>, <em>name: str = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#DeleteMessageStreamRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.DeleteMessageStreamRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>(Internal Only) Request object for deleting a message stream</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.DeleteMessageStreamRequest.request_id">
+<code class="descname">request_id</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.DeleteMessageStreamRequest.request_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.DeleteMessageStreamRequest.name">
+<code class="descname">name</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.DeleteMessageStreamRequest.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="greengrasssdk.stream_manager.data.DeleteMessageStreamRequest.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#DeleteMessageStreamRequest.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.DeleteMessageStreamRequest.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.DeleteMessageStreamRequest.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#DeleteMessageStreamRequest.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.DeleteMessageStreamRequest.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="greengrasssdk.stream_manager.data.DeleteMessageStreamResponse">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">DeleteMessageStreamResponse</code><span class="sig-paren">(</span><em>request_id: str = None</em>, <em>status: greengrasssdk.stream_manager.data.ResponseStatusCode = None</em>, <em>error_message: str = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#DeleteMessageStreamResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.DeleteMessageStreamResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Internal Only</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.DeleteMessageStreamResponse.request_id">
+<code class="descname">request_id</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.DeleteMessageStreamResponse.request_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.DeleteMessageStreamResponse.status">
+<code class="descname">status</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.DeleteMessageStreamResponse.status" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.DeleteMessageStreamResponse.error_message">
+<code class="descname">error_message</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.DeleteMessageStreamResponse.error_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="greengrasssdk.stream_manager.data.DeleteMessageStreamResponse.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#DeleteMessageStreamResponse.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.DeleteMessageStreamResponse.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.DeleteMessageStreamResponse.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#DeleteMessageStreamResponse.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.DeleteMessageStreamResponse.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="greengrasssdk.stream_manager.data.DescribeMessageStreamRequest">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">DescribeMessageStreamRequest</code><span class="sig-paren">(</span><em>request_id: str = None</em>, <em>name: str = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#DescribeMessageStreamRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.DescribeMessageStreamRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>(Internal Only) Request object for describing a message stream</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.DescribeMessageStreamRequest.request_id">
+<code class="descname">request_id</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.DescribeMessageStreamRequest.request_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.DescribeMessageStreamRequest.name">
+<code class="descname">name</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.DescribeMessageStreamRequest.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="greengrasssdk.stream_manager.data.DescribeMessageStreamRequest.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#DescribeMessageStreamRequest.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.DescribeMessageStreamRequest.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.DescribeMessageStreamRequest.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#DescribeMessageStreamRequest.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.DescribeMessageStreamRequest.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="greengrasssdk.stream_manager.data.DescribeMessageStreamResponse">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">DescribeMessageStreamResponse</code><span class="sig-paren">(</span><em>request_id: str = None</em>, <em>status: greengrasssdk.stream_manager.data.ResponseStatusCode = None</em>, <em>error_message: str = None</em>, <em>message_stream_info: greengrasssdk.stream_manager.data.MessageStreamInfo = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#DescribeMessageStreamResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.DescribeMessageStreamResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>(Internal Only) Response object for describing a message stream</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.DescribeMessageStreamResponse.request_id">
+<code class="descname">request_id</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.DescribeMessageStreamResponse.request_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.DescribeMessageStreamResponse.status">
+<code class="descname">status</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.DescribeMessageStreamResponse.status" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.DescribeMessageStreamResponse.error_message">
+<code class="descname">error_message</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.DescribeMessageStreamResponse.error_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.DescribeMessageStreamResponse.message_stream_info">
+<code class="descname">message_stream_info</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.DescribeMessageStreamResponse.message_stream_info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="greengrasssdk.stream_manager.data.DescribeMessageStreamResponse.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#DescribeMessageStreamResponse.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.DescribeMessageStreamResponse.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.DescribeMessageStreamResponse.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#DescribeMessageStreamResponse.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.DescribeMessageStreamResponse.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="greengrasssdk.stream_manager.data.AppendMessageRequest">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">AppendMessageRequest</code><span class="sig-paren">(</span><em>request_id: str = None</em>, <em>name: str = None</em>, <em>payload: bytes = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#AppendMessageRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.AppendMessageRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>(Intenral Only) Request object for appending to a message stream</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.AppendMessageRequest.request_id">
+<code class="descname">request_id</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.AppendMessageRequest.request_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.AppendMessageRequest.name">
+<code class="descname">name</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.AppendMessageRequest.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.AppendMessageRequest.payload">
+<code class="descname">payload</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.AppendMessageRequest.payload" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="greengrasssdk.stream_manager.data.AppendMessageRequest.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#AppendMessageRequest.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.AppendMessageRequest.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.AppendMessageRequest.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#AppendMessageRequest.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.AppendMessageRequest.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="greengrasssdk.stream_manager.data.AppendMessageResponse">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">AppendMessageResponse</code><span class="sig-paren">(</span><em>request_id: str = None</em>, <em>status: greengrasssdk.stream_manager.data.ResponseStatusCode = None</em>, <em>error_message: str = None</em>, <em>sequence_number: int = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#AppendMessageResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.AppendMessageResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Internal Only</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.AppendMessageResponse.request_id">
+<code class="descname">request_id</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.AppendMessageResponse.request_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.AppendMessageResponse.status">
+<code class="descname">status</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.AppendMessageResponse.status" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.AppendMessageResponse.error_message">
+<code class="descname">error_message</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.AppendMessageResponse.error_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.AppendMessageResponse.sequence_number">
+<code class="descname">sequence_number</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.AppendMessageResponse.sequence_number" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="greengrasssdk.stream_manager.data.AppendMessageResponse.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#AppendMessageResponse.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.AppendMessageResponse.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.AppendMessageResponse.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#AppendMessageResponse.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.AppendMessageResponse.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="greengrasssdk.stream_manager.data.ReadMessagesRequest">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">ReadMessagesRequest</code><span class="sig-paren">(</span><em>request_id: str = None</em>, <em>stream_name: str = None</em>, <em>read_messages_options: greengrasssdk.stream_manager.data.ReadMessagesOptions = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#ReadMessagesRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.ReadMessagesRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>(Internal Only) Request object for reading from a message stream. readMessagesOptions is optional.</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ReadMessagesRequest.request_id">
+<code class="descname">request_id</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.ReadMessagesRequest.request_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ReadMessagesRequest.stream_name">
+<code class="descname">stream_name</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.ReadMessagesRequest.stream_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ReadMessagesRequest.read_messages_options">
+<code class="descname">read_messages_options</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.ReadMessagesRequest.read_messages_options" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="greengrasssdk.stream_manager.data.ReadMessagesRequest.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#ReadMessagesRequest.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.ReadMessagesRequest.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.ReadMessagesRequest.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#ReadMessagesRequest.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.ReadMessagesRequest.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="greengrasssdk.stream_manager.data.ReadMessagesResponse">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">ReadMessagesResponse</code><span class="sig-paren">(</span><em>request_id: str = None</em>, <em>messages: List[greengrasssdk.stream_manager.data.Message] = None</em>, <em>status: greengrasssdk.stream_manager.data.ResponseStatusCode = None</em>, <em>error_message: str = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#ReadMessagesResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.ReadMessagesResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Internal Only</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ReadMessagesResponse.request_id">
+<code class="descname">request_id</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.ReadMessagesResponse.request_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ReadMessagesResponse.messages">
+<code class="descname">messages</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.ReadMessagesResponse.messages" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ReadMessagesResponse.status">
+<code class="descname">status</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.ReadMessagesResponse.status" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ReadMessagesResponse.error_message">
+<code class="descname">error_message</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.ReadMessagesResponse.error_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="greengrasssdk.stream_manager.data.ReadMessagesResponse.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#ReadMessagesResponse.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.ReadMessagesResponse.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.ReadMessagesResponse.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#ReadMessagesResponse.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.ReadMessagesResponse.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="greengrasssdk.stream_manager.data.ListStreamsRequest">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">ListStreamsRequest</code><span class="sig-paren">(</span><em>request_id: str = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#ListStreamsRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.ListStreamsRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>(Internal Only) Request object to list all available streams. There are no options.</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ListStreamsRequest.request_id">
+<code class="descname">request_id</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.ListStreamsRequest.request_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="greengrasssdk.stream_manager.data.ListStreamsRequest.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#ListStreamsRequest.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.ListStreamsRequest.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.ListStreamsRequest.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#ListStreamsRequest.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.ListStreamsRequest.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="greengrasssdk.stream_manager.data.ListStreamsResponse">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">ListStreamsResponse</code><span class="sig-paren">(</span><em>request_id: str = None</em>, <em>status: greengrasssdk.stream_manager.data.ResponseStatusCode = None</em>, <em>error_message: str = None</em>, <em>streams: List[str] = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#ListStreamsResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.ListStreamsResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Internal Only</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ListStreamsResponse.request_id">
+<code class="descname">request_id</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.ListStreamsResponse.request_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ListStreamsResponse.status">
+<code class="descname">status</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.ListStreamsResponse.status" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ListStreamsResponse.error_message">
+<code class="descname">error_message</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.ListStreamsResponse.error_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.ListStreamsResponse.streams">
+<code class="descname">streams</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.ListStreamsResponse.streams" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="greengrasssdk.stream_manager.data.ListStreamsResponse.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#ListStreamsResponse.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.ListStreamsResponse.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.ListStreamsResponse.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#ListStreamsResponse.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.ListStreamsResponse.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Amazon.com.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.5.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

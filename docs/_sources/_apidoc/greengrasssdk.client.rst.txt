@@ -1,0 +1,7 @@
+greengrasssdk.client module
+===========================
+
+.. automodule:: greengrasssdk.client
+    :members:
+    :undoc-members:
+    :show-inheritance:

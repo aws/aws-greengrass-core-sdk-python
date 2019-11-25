@@ -1,0 +1,7 @@
+greengrasssdk.stream\_manager.exceptions module
+===============================================
+
+.. automodule:: greengrasssdk.stream_manager.exceptions
+    :members:
+    :undoc-members:
+    :show-inheritance:

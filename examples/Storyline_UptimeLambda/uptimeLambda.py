@@ -1,5 +1,5 @@
 #
-# Copyright 2010-2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# Copyright 2010-2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 #
 
 import sys
@@ -17,14 +17,24 @@ def uptime_handler(event, context):
     logger.info("Received message!")
     if 'state' in event:
         if event['state'] == "on":
-            client.publish(
-                topic='/topic/metering',
-                payload="Robot arm turned ON")
-            logger.info("Triggering publish to topic "
-                        "/topic/metering with ON state")
+            try:
+                client.publish(
+                    topic='/topic/metering',
+                    queueFullPolicy='AllOrException',
+                    payload="Robot arm turned ON")
+                logger.info("Triggering publish to topic "
+                            "/topic/metering with ON state")
+            except Exception as e:
+                logger.error("Failed to trigger publish to topic "
+                             "/topic/metering with ON state: " + repr(e))
         elif event['state'] == "off":
-            client.publish(
-                topic='/topic/metering',
-                payload="Robot arm turned OFF")
-            logger.info("Triggering publish to topic "
-                        "/topic/metering with OFF state")
+            try:
+                client.publish(
+                    topic='/topic/metering',
+                    queueFullPolicy='AllOrException',
+                    payload="Robot arm turned OFF")
+                logger.info("Triggering publish to topic "
+                            "/topic/metering with OFF state")
+            except Exception as e:
+                logger.error("Failed to trigger publish to topic "
+                             "/topic/metering with OFF state: " + repr(e))

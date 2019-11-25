@@ -1,0 +1,343 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>greengrasssdk.Lambda &mdash; Greengrass Core Python SDK 1.5.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Greengrass Core Python SDK
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Greengrass Core Python SDK</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>greengrasssdk.Lambda</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for greengrasssdk.Lambda</h1><div class="highlight"><pre>
+<span></span><span class="c1">#</span>
+<span class="c1"># Copyright 2010-2016 Amazon.com, Inc. or its affiliates. All Rights Reserved.</span>
+<span class="c1">#</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="kn">from</span> <span class="nn">io</span> <span class="k">import</span> <span class="n">BytesIO</span>
+
+<span class="kn">from</span> <span class="nn">greengrass_common.function_arn_fields</span> <span class="k">import</span> <span class="n">FunctionArnFields</span>
+<span class="kn">from</span> <span class="nn">greengrass_ipc_python_sdk.ipc_client</span> <span class="k">import</span> <span class="n">IPCClient</span><span class="p">,</span> <span class="n">IPCException</span>
+<span class="kn">from</span> <span class="nn">greengrasssdk.utils.testing</span> <span class="k">import</span> <span class="n">mock</span>
+
+<span class="c1"># Log messages in the SDK are part of customer&#39;s log because they&#39;re helpful for debugging</span>
+<span class="c1"># customer&#39;s lambdas. Since we configured the root logger to log to customer&#39;s log and set the</span>
+<span class="c1"># propagate flag of this logger to True. The log messages submitted from this logger will be</span>
+<span class="c1"># sent to the customer&#39;s local Cloudwatch handler.</span>
+<span class="n">customer_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">customer_logger</span><span class="o">.</span><span class="n">propagate</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="n">valid_base64_regex</span> <span class="o">=</span> <span class="s1">&#39;^([A-Za-z0-9+/]</span><span class="si">{4}</span><span class="s1">)*([A-Za-z0-9+/]</span><span class="si">{4}</span><span class="s1">|[A-Za-z0-9+/]</span><span class="si">{3}</span><span class="s1">=|[A-Za-z0-9+/]</span><span class="si">{2}</span><span class="s1">==)$&#39;</span>
+
+
+<div class="viewcode-block" id="InvocationException"><a class="viewcode-back" href="../../_apidoc/greengrasssdk.Lambda.html#greengrasssdk.Lambda.InvocationException">[docs]</a><span class="k">class</span> <span class="nc">InvocationException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="Client"><a class="viewcode-back" href="../../_apidoc/greengrasssdk.Lambda.html#greengrasssdk.Lambda.Client">[docs]</a><span class="k">class</span> <span class="nc">Client</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8000</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param endpoint: Endpoint used to connect to IPC.</span>
+<span class="sd">        :type endpoint: str</span>
+
+<span class="sd">        :param port: Port number used to connect to the :code:`endpoint`.</span>
+<span class="sd">        :type port: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ipc</span> <span class="o">=</span> <span class="n">IPCClient</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Client.invoke"><a class="viewcode-back" href="../../_apidoc/greengrasssdk.Lambda.html#greengrasssdk.Lambda.Client.invoke">[docs]</a>    <span class="k">def</span> <span class="nf">invoke</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="c1"># FunctionName is a required parameter</span>
+        <span class="k">if</span> <span class="s1">&#39;FunctionName&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;&quot;FunctionName&quot; argument of Lambda.Client.invoke is a required argument but was not provided.&#39;</span>
+            <span class="p">)</span>
+
+        <span class="n">arn_fields</span> <span class="o">=</span> <span class="n">FunctionArnFields</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;FunctionName&#39;</span><span class="p">])</span>
+        <span class="n">arn_qualifier</span> <span class="o">=</span> <span class="n">arn_fields</span><span class="o">.</span><span class="n">qualifier</span>
+
+        <span class="c1"># A Function qualifier can be provided as part of the ARN in FunctionName, or it can be provided here. The</span>
+        <span class="c1"># behavior of the cloud is to throw an exception if both are specified but not equal</span>
+        <span class="n">extraneous_qualifier</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Qualifier&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">extraneous_qualifier</span> <span class="ow">and</span> <span class="n">arn_qualifier</span> <span class="ow">and</span> <span class="n">arn_qualifier</span> <span class="o">!=</span> <span class="n">extraneous_qualifier</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The derived qualifier from the function name does not match the specified qualifier.&#39;</span><span class="p">)</span>
+
+        <span class="n">final_qualifier</span> <span class="o">=</span> <span class="n">arn_qualifier</span> <span class="k">if</span> <span class="n">arn_qualifier</span> <span class="k">else</span> <span class="n">extraneous_qualifier</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># GGC v1.9.0 or newer</span>
+            <span class="n">function_arn</span> <span class="o">=</span> <span class="n">FunctionArnFields</span><span class="o">.</span><span class="n">build_function_arn</span><span class="p">(</span><span class="n">arn_fields</span><span class="o">.</span><span class="n">unqualified_arn</span><span class="p">,</span> <span class="n">final_qualifier</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="c1"># older GGC version</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s1">&#39;class FunctionArnFields has no attribute </span><span class="se">\&#39;</span><span class="s1">build_function_arn</span><span class="se">\&#39;</span><span class="s1">. build_function_arn &#39;</span>
+                                 <span class="s1">&#39;is introduced in GGC v1.9.0. Please check your GGC version.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># ClientContext must be base64 if given, but is an option parameter</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">client_context</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ClientContext&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">customer_logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;&quot;ClientContext&quot; argument must be a byte string or support a decode method which returns a string&#39;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">client_context</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">valid_base64_regex</span><span class="p">,</span> <span class="n">client_context</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;&quot;ClientContext&quot; argument of Lambda.Client.invoke must be base64 encoded.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Payload is an optional parameter</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Payload&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">invocation_type</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;InvocationType&#39;</span><span class="p">,</span> <span class="s1">&#39;RequestResponse&#39;</span><span class="p">)</span>
+        <span class="n">customer_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Invoking local lambda &quot;</span><span class="si">{}</span><span class="s1">&quot; with payload &quot;</span><span class="si">{}</span><span class="s1">&quot; and client context &quot;</span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">function_arn</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">client_context</span><span class="p">))</span>
+
+        <span class="c1"># Post the work to IPC and return the result of that work</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_invoke_internal</span><span class="p">(</span><span class="n">function_arn</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">client_context</span><span class="p">,</span> <span class="n">invocation_type</span><span class="p">)</span></div>
+
+    <span class="nd">@mock</span>
+    <span class="k">def</span> <span class="nf">_invoke_internal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function_arn</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">client_context</span><span class="p">,</span> <span class="n">invocation_type</span><span class="o">=</span><span class="s2">&quot;RequestResponse&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This private method is seperate from the main, public invoke method so that other code within this SDK can</span>
+<span class="sd">        give this Lambda client a raw payload/client context to invoke with, rather than having it built for them.</span>
+<span class="sd">        This lets you include custom ExtensionMap_ values like subject which are needed for our internal pinned Lambdas.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">customer_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Invoking Lambda function &quot;</span><span class="si">{}</span><span class="s1">&quot; with Greengrass Message &quot;</span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">function_arn</span><span class="p">,</span> <span class="n">payload</span><span class="p">))</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">invocation_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ipc</span><span class="o">.</span><span class="n">post_work</span><span class="p">(</span><span class="n">function_arn</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">client_context</span><span class="p">,</span> <span class="n">invocation_type</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">invocation_type</span> <span class="o">==</span> <span class="s2">&quot;Event&quot;</span><span class="p">:</span>
+                <span class="c1"># TODO: Properly return errors based on BOTO response</span>
+                <span class="c1"># https://boto3.readthedocs.io/en/latest/reference/services/lambda.html#Lambda.Client.invoke</span>
+                <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;Payload&#39;</span><span class="p">:</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;FunctionError&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">}</span>
+
+            <span class="n">work_result_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ipc</span><span class="o">.</span><span class="n">get_work_result</span><span class="p">(</span><span class="n">function_arn</span><span class="p">,</span> <span class="n">invocation_id</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">work_result_output</span><span class="o">.</span><span class="n">func_err</span><span class="p">:</span>
+                <span class="n">output_payload</span> <span class="o">=</span> <span class="n">StreamingBody</span><span class="p">(</span><span class="n">work_result_output</span><span class="o">.</span><span class="n">payload</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">output_payload</span> <span class="o">=</span> <span class="n">work_result_output</span><span class="o">.</span><span class="n">payload</span>
+            <span class="n">invoke_output</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;Payload&#39;</span><span class="p">:</span> <span class="n">output_payload</span><span class="p">,</span>
+                <span class="s1">&#39;FunctionError&#39;</span><span class="p">:</span> <span class="n">work_result_output</span><span class="o">.</span><span class="n">func_err</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="k">return</span> <span class="n">invoke_output</span>
+        <span class="k">except</span> <span class="n">IPCException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">customer_logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">InvocationException</span><span class="p">(</span><span class="s1">&#39;Failed to invoke function due to &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="StreamingBody"><a class="viewcode-back" href="../../_apidoc/greengrasssdk.Lambda.html#greengrasssdk.Lambda.StreamingBody">[docs]</a><span class="k">class</span> <span class="nc">StreamingBody</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Wrapper class for http response payload</span>
+
+<span class="sd">    This provides a consistent interface to AWS Lambda Python SDK</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">payload</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_raw_stream</span> <span class="o">=</span> <span class="n">BytesIO</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_amount_read</span> <span class="o">=</span> <span class="mi">0</span>
+
+<div class="viewcode-block" id="StreamingBody.read"><a class="viewcode-back" href="../../_apidoc/greengrasssdk.Lambda.html#greengrasssdk.Lambda.StreamingBody.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">amt</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Read at most amt bytes from the stream.</span>
+<span class="sd">        If the amt argument is omitted, read all data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">chunk</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_raw_stream</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">amt</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_amount_read</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">chunk</span></div>
+
+<div class="viewcode-block" id="StreamingBody.close"><a class="viewcode-back" href="../../_apidoc/greengrasssdk.Lambda.html#greengrasssdk.Lambda.StreamingBody.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_raw_stream</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Amazon.com.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.5.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

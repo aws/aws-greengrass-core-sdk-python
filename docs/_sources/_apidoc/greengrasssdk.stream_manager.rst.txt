@@ -1,0 +1,24 @@
+greengrasssdk.stream\_manager package
+=====================================
+
+.. automodule:: greengrasssdk.stream_manager
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+    greengrasssdk.stream_manager.data
+
+Submodules
+----------
+
+.. toctree::
+
+   greengrasssdk.stream_manager.exceptions
+   greengrasssdk.stream_manager.streammanagerclient
+   greengrasssdk.stream_manager.util
+

@@ -1,12 +1,11 @@
-Greengrass SDK
-=====================
+Greengrass Core Python SDK
+==========================
 
 The AWS IoT Greengrass Core SDK is meant to be used by AWS Lambda functions running on an AWS IoT Greengrass Core. It will enable Lambda functions to invoke other Lambda functions deployed to the Greengrass Core, publish messages to the Greengrass Core and work with the local Shadow service.
-You can find the latest, most up to date, documentation at our `doc site <http://aws-greengrass-core-sdk-python-docs.s3-website-us-east-1.amazonaws.com/v1.4.0/index.html>`_.
 
-===============================
+=================================
 Using AWS IoT Greengrass Core SDK
-===============================
+=================================
 
 To use the AWS IoT Greengrass Core SDK, you must first import the AWS IoT Greengrass Core SDK in your Lambda function as you would with any other external libraries. You then need to create a client for 'iot-data' or 'lambda'. Use 'iot-data' if you wish to publish messages to the local Greengrass Core and interact with the local Shadow service. Use 'lambda' if you wish to invoke other Lambda functions deployed to the same Greengrass Core.
 
@@ -69,3 +68,15 @@ As new features are added to AWS IoT Greengrass, previous versions of the AWS Io
 +-------------+------------------------+
 | 1.9.x       | 1.0.x-1.4.x            |
 +-------------+------------------------+
+| 1.10.x      | 1.0.x-1.5.x            |
++-------------+------------------------+
+
+==============
+Stream Manager
+==============
+
+Greengrass version 1.10 comes with a new optional feature, Stream Manager. This SDK supports Stream Manager, but it has additional requirements. Specifically, Stream Manager requires Python version 3.7 or above. It also has package requirements listed in the requirements.txt file. Please install these requirements and bundle it with your lambda zip package.
+
+To install the requirements you can use pip such as :code:`pip install --target . -r requirements.txt`. This will install the requirements to the directory that you run the command in. In order to work in Greengrass the dependencies must be bundled in the zip with your lambda code.
+With the pip command above, the dependencies will be installed to the current directory. The dependencies must be bundled with your lambda code, so if the current directory doesn't have your
+lambda code, then simply copy the installed dependencies to the directory which contains your code.

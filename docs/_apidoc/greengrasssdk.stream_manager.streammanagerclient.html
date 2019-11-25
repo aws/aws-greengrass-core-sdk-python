@@ -1,0 +1,421 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>greengrasssdk.stream_manager.streammanagerclient module &mdash; Greengrass Core Python SDK 1.5.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Greengrass Core Python SDK
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">greengrasssdk.stream_manager.streammanagerclient module</a></li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Greengrass Core Python SDK</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>greengrasssdk.stream_manager.streammanagerclient module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/_apidoc/greengrasssdk.stream_manager.streammanagerclient.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-greengrasssdk.stream_manager.streammanagerclient">
+<span id="greengrasssdk-stream-manager-streammanagerclient-module"></span><h1>greengrasssdk.stream_manager.streammanagerclient module<a class="headerlink" href="#module-greengrasssdk.stream_manager.streammanagerclient" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="greengrasssdk.stream_manager.streammanagerclient.StreamManagerClient">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.streammanagerclient.</code><code class="descname">StreamManagerClient</code><span class="sig-paren">(</span><em>host='127.0.0.1'</em>, <em>port=None</em>, <em>connect_timeout=3</em>, <em>request_timeout=60</em>, <em>logger=&lt;Logger StreamManagerClient (WARNING)&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/streammanagerclient.html#StreamManagerClient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.streammanagerclient.StreamManagerClient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Creates a client for the Greengrass StreamManager. All parameters are optional.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>host</strong> – The host which StreamManager server is running on. Default is localhost.</li>
+<li><strong>port</strong> – The port which StreamManager server is running on. Default is found in environment variables.</li>
+<li><strong>connect_timeout</strong> – The timeout in seconds for connecting to the server. Default is 3 seconds.</li>
+<li><strong>request_timeout</strong> – The timeout in seconds for all operations. Default is 60 seconds.</li>
+<li><strong>logger</strong> – A logger to use for client logging. Default is Python’s builtin logger.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><a class="reference internal" href="greengrasssdk.stream_manager.exceptions.html#greengrasssdk.stream_manager.exceptions.StreamManagerException" title="greengrasssdk.stream_manager.exceptions.StreamManagerException"><code class="xref py py-exc docutils literal notranslate"><span class="pre">StreamManagerException</span></code></a> and subtypes if authenticating to the server fails.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><code class="xref py py-exc docutils literal notranslate"><span class="pre">asyncio.TimeoutError</span></code> if the request times out.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ConnectionError</span></code> if the client is unable to connect to the server.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.streammanagerclient.StreamManagerClient.read_messages">
+<code class="descname">read_messages</code><span class="sig-paren">(</span><em>stream_name: str</em>, <em>options: Optional[greengrasssdk.stream_manager.data.ReadMessagesOptions] = None</em><span class="sig-paren">)</span> &#x2192; List[greengrasssdk.stream_manager.data.Message]<a class="reference internal" href="../_modules/greengrasssdk/stream_manager/streammanagerclient.html#StreamManagerClient.read_messages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.streammanagerclient.StreamManagerClient.read_messages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read message(s) from a chosen stream with options. If no options are specified it will try to read
+1 message from the stream.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>stream_name</strong> – The name of the stream to read from.</li>
+<li><strong>options</strong> – <p>(Optional) Options used when reading from the stream of type <a class="reference internal" href="greengrasssdk.stream_manager.data.html#greengrasssdk.stream_manager.data.ReadMessagesOptions" title="greengrasssdk.stream_manager.data.ReadMessagesOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">data.ReadMessagesOptions</span></code></a>.
+Defaults are:</p>
+<ul>
+<li>desired_start_sequence_number: 0,</li>
+<li>min_message_count: 1,</li>
+<li>max_message_count: 1,</li>
+<li><dl class="first docutils">
+<dt>read_timeout_millis: 0 <code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">Where</span> <span class="pre">0</span> <span class="pre">here</span> <span class="pre">represents</span> <span class="pre">that</span> <span class="pre">the</span> <span class="pre">server</span> <span class="pre">will</span> <span class="pre">immediately</span> <span class="pre">return</span> <span class="pre">the</span> <span class="pre">messages</span></code></dt>
+<dd><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">or</span> <span class="pre">an</span> <span class="pre">exception</span> <span class="pre">if</span> <span class="pre">there</span> <span class="pre">were</span> <span class="pre">not</span> <span class="pre">enough</span> <span class="pre">messages</span> <span class="pre">available.</span></code></dd>
+</dl>
+</li>
+</ul>
+<p>If desired_start_sequence_number is specified in the options and is less
+than the current beginning of the stream, returned messages will start
+at the beginning of the stream and not necessarily the desired_start_sequence_number.</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">List of at least 1 message.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><a class="reference internal" href="greengrasssdk.stream_manager.exceptions.html#greengrasssdk.stream_manager.exceptions.StreamManagerException" title="greengrasssdk.stream_manager.exceptions.StreamManagerException"><code class="xref py py-exc docutils literal notranslate"><span class="pre">StreamManagerException</span></code></a> and subtypes based on the precise error.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><code class="xref py py-exc docutils literal notranslate"><span class="pre">asyncio.TimeoutError</span></code> if the request times out.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ConnectionError</span></code> if the client is unable to reconnect to the server.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.streammanagerclient.StreamManagerClient.append_message">
+<code class="descname">append_message</code><span class="sig-paren">(</span><em>stream_name: str</em>, <em>data: bytes</em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="../_modules/greengrasssdk/stream_manager/streammanagerclient.html#StreamManagerClient.append_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.streammanagerclient.StreamManagerClient.append_message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append a message into the specified message stream. Returns the sequence number of the message
+if it was successfully appended.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>stream_name</strong> – The name of the stream to append to.</li>
+<li><strong>data</strong> – Bytes type data.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Sequence number that the message was assigned if it was appended.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><a class="reference internal" href="greengrasssdk.stream_manager.exceptions.html#greengrasssdk.stream_manager.exceptions.StreamManagerException" title="greengrasssdk.stream_manager.exceptions.StreamManagerException"><code class="xref py py-exc docutils literal notranslate"><span class="pre">StreamManagerException</span></code></a> and subtypes based on the precise error.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><code class="xref py py-exc docutils literal notranslate"><span class="pre">asyncio.TimeoutError</span></code> if the request times out.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ConnectionError</span></code> if the client is unable to reconnect to the server.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.streammanagerclient.StreamManagerClient.create_message_stream">
+<code class="descname">create_message_stream</code><span class="sig-paren">(</span><em>definition: greengrasssdk.stream_manager.data.MessageStreamDefinition</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/greengrasssdk/stream_manager/streammanagerclient.html#StreamManagerClient.create_message_stream"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.streammanagerclient.StreamManagerClient.create_message_stream" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a message stream with a given definition.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>definition</strong> – <a class="reference internal" href="greengrasssdk.stream_manager.data.html#greengrasssdk.stream_manager.data.MessageStreamDefinition" title="greengrasssdk.stream_manager.data.MessageStreamDefinition"><code class="xref py py-class docutils literal notranslate"><span class="pre">MessageStreamDefinition</span></code></a> definition object.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Nothing is returned if the request succeeds.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="greengrasssdk.stream_manager.exceptions.html#greengrasssdk.stream_manager.exceptions.StreamManagerException" title="greengrasssdk.stream_manager.exceptions.StreamManagerException"><code class="xref py py-exc docutils literal notranslate"><span class="pre">StreamManagerException</span></code></a> and subtypes based on the precise error.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal notranslate"><span class="pre">asyncio.TimeoutError</span></code> if the request times out.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ConnectionError</span></code> if the client is unable to reconnect to the server.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.streammanagerclient.StreamManagerClient.delete_message_stream">
+<code class="descname">delete_message_stream</code><span class="sig-paren">(</span><em>stream_name: str</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/greengrasssdk/stream_manager/streammanagerclient.html#StreamManagerClient.delete_message_stream"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.streammanagerclient.StreamManagerClient.delete_message_stream" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes a message stream based on its name. Nothing is returned if the request succeeds,
+a subtype of <a class="reference internal" href="greengrasssdk.stream_manager.exceptions.html#greengrasssdk.stream_manager.exceptions.StreamManagerException" title="greengrasssdk.stream_manager.exceptions.StreamManagerException"><code class="xref py py-exc docutils literal notranslate"><span class="pre">StreamManagerException</span></code></a> will be raised if an error occurs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>stream_name</strong> – The name of the stream to be deleted.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Nothing is returned if the request succeeds.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="greengrasssdk.stream_manager.exceptions.html#greengrasssdk.stream_manager.exceptions.StreamManagerException" title="greengrasssdk.stream_manager.exceptions.StreamManagerException"><code class="xref py py-exc docutils literal notranslate"><span class="pre">StreamManagerException</span></code></a> and subtypes based on the precise error.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal notranslate"><span class="pre">asyncio.TimeoutError</span></code> if the request times out.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ConnectionError</span></code> if the client is unable to reconnect to the server.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.streammanagerclient.StreamManagerClient.list_streams">
+<code class="descname">list_streams</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/greengrasssdk/stream_manager/streammanagerclient.html#StreamManagerClient.list_streams"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.streammanagerclient.StreamManagerClient.list_streams" title="Permalink to this definition">¶</a></dt>
+<dd><p>List the streams in StreamManager. Returns a list of their names.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">List of stream names.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="greengrasssdk.stream_manager.exceptions.html#greengrasssdk.stream_manager.exceptions.StreamManagerException" title="greengrasssdk.stream_manager.exceptions.StreamManagerException"><code class="xref py py-exc docutils literal notranslate"><span class="pre">StreamManagerException</span></code></a> and subtypes based on the precise error.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal notranslate"><span class="pre">asyncio.TimeoutError</span></code> if the request times out.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ConnectionError</span></code> if the client is unable to reconnect to the server.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.streammanagerclient.StreamManagerClient.describe_message_stream">
+<code class="descname">describe_message_stream</code><span class="sig-paren">(</span><em>stream_name: str</em><span class="sig-paren">)</span> &#x2192; greengrasssdk.stream_manager.data.MessageStreamInfo<a class="reference internal" href="../_modules/greengrasssdk/stream_manager/streammanagerclient.html#StreamManagerClient.describe_message_stream"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.streammanagerclient.StreamManagerClient.describe_message_stream" title="Permalink to this definition">¶</a></dt>
+<dd><p>Describe a message stream to get metadata including the stream’s definition,
+size, and exporter statuses.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>stream_name</strong> – The name of the stream to describe.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="greengrasssdk.stream_manager.data.html#greengrasssdk.stream_manager.data.MessageStreamInfo" title="greengrasssdk.stream_manager.data.MessageStreamInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">MessageStreamInfo</span></code></a> type containing the stream information.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="greengrasssdk.stream_manager.exceptions.html#greengrasssdk.stream_manager.exceptions.StreamManagerException" title="greengrasssdk.stream_manager.exceptions.StreamManagerException"><code class="xref py py-exc docutils literal notranslate"><span class="pre">StreamManagerException</span></code></a> and subtypes based on the precise error.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal notranslate"><span class="pre">asyncio.TimeoutError</span></code> if the request times out.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ConnectionError</span></code> if the client is unable to reconnect to the server.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.streammanagerclient.StreamManagerClient.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/streammanagerclient.html#StreamManagerClient.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.streammanagerclient.StreamManagerClient.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call to shutdown the client and close all existing connections. Once a client is closed it cannot be reused.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="greengrasssdk.stream_manager.exceptions.html#greengrasssdk.stream_manager.exceptions.StreamManagerException" title="greengrasssdk.stream_manager.exceptions.StreamManagerException"><code class="xref py py-exc docutils literal notranslate"><span class="pre">StreamManagerException</span></code></a> and subtypes based on the precise error.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Amazon.com.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.5.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

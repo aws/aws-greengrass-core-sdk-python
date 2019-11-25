@@ -2,6 +2,11 @@
 CHANGELOG
 =========
 
+1.5.0
+=====
+
+SDK supports StreamManager client.
+
 1.4.0
 ======
 

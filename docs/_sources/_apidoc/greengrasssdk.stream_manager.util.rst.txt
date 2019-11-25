@@ -1,0 +1,7 @@
+greengrasssdk.stream\_manager.util module
+=========================================
+
+.. automodule:: greengrasssdk.stream_manager.util
+    :members:
+    :undoc-members:
+    :show-inheritance:

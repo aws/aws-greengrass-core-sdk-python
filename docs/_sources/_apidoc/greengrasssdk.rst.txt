@@ -1,0 +1,26 @@
+greengrasssdk package
+=====================
+
+.. automodule:: greengrasssdk
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+    greengrasssdk.stream_manager
+    greengrasssdk.utils
+
+Submodules
+----------
+
+.. toctree::
+
+   greengrasssdk.IoTDataPlane
+   greengrasssdk.Lambda
+   greengrasssdk.SecretsManager
+   greengrasssdk.client
+

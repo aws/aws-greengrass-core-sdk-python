@@ -1,0 +1,10 @@
+.. include::
+    ../resources/README.rst
+
+API Documentation
+=================
+* :doc:`IoTDataPlane <_apidoc/greengrasssdk.IoTDataPlane>`
+* :doc:`Lambda <_apidoc/greengrasssdk.Lambda>`
+* :doc:`SecretsManager <_apidoc/greengrasssdk.SecretsManager>`
+* :doc:`stream_manager <_apidoc/greengrasssdk.stream_manager>`
+* :ref:`genindex`

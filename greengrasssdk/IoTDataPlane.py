@@ -95,14 +95,16 @@ class Client:
               The name of the MQTT topic.
             * *payload* (``bytes or seekable file-like object``) --
               The state information, in JSON format.
-
+            * *queueFullPolicy* (``string``) --
+              The policy for GGC to take when its internal queue is full
         :returns: None
         """
 
         topic = self._get_required_parameter('topic', **kwargs)
 
-        # payload is an optional parameter
+        # payload and queueFullPolicy are optional parameters
         payload = kwargs.get('payload', b'')
+        queue_full_policy = kwargs.get('queueFullPolicy', '')
 
         function_arn = ROUTER_FUNCTION_ARN
         client_context = {
@@ -111,6 +113,15 @@ class Client:
                 'subject': topic
             }
         }
+
+        if queue_full_policy == 'AllOrException':
+            client_context['custom']['queueFullPolicy'] = 'AllOrError'
+        elif queue_full_policy in ['BestEffort', '']:
+            client_context['custom']['queueFullPolicy'] = queue_full_policy
+        else:
+            raise ValueError('Invalid value for queueFullPolicy: {queueFullPolicy}'.format(
+                queueFullPolicy=queue_full_policy
+            ))
 
         customer_logger.debug('Publishing message on topic "{}" with Payload "{}"'.format(topic, payload))
         self.lambda_client._invoke_internal(
@@ -142,6 +153,11 @@ class Client:
             payload,
             base64.b64encode(json.dumps(client_context).encode())
         )
+
+        if response['FunctionError'] != '':
+            raise ShadowError('Request for shadow state returned FunctionError "{}" with error payload "{}"'.format(
+                response['FunctionError'], response['Payload']
+            ))
 
         payload = response['Payload'].read()
         if response:

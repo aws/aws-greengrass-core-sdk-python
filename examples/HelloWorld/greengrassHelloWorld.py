@@ -1,5 +1,5 @@
 #
-# Copyright 2010-2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# Copyright 2010-2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 #
 
 # greengrassHelloWorld.py
@@ -12,9 +12,14 @@
 # the we are executing an infinite loop.
 
 import greengrasssdk
+import logging
 import platform
+import sys
 from threading import Timer
 
+# Setup logging to stdout
+logger = logging.getLogger(__name__)
+logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
 # Creating a greengrass core sdk client
 client = greengrasssdk.client('iot-data')
@@ -31,16 +36,21 @@ my_platform = platform.platform()
 # this function never returns a result.
 
 def greengrass_hello_world_run():
-    if not my_platform:
-        client.publish(
-            topic='hello/world',
-            payload='Hello world! Sent from Greengrass Core.')
-    else:
-        client.publish(
-            topic='hello/world',
-            payload='Hello world! Sent from '
-                    'Greengrass Core running on platform: {}'
-                    .format(my_platform))
+    try:
+        if not my_platform:
+            client.publish(
+                topic='hello/world',
+                queueFullPolicy='AllOrException',
+                payload='Hello world! Sent from Greengrass Core.')
+        else:
+            client.publish(
+                topic='hello/world',
+                queueFullPolicy='AllOrException',
+                payload='Hello world! Sent from '
+                        'Greengrass Core running on platform: {}'
+                        .format(my_platform))
+    except Exception as e:
+        logger.error('Failed to publish message: ' + repr(e))
 
     # Asynchronously schedule this function to be run again in 5 seconds
     Timer(5, greengrass_hello_world_run).start()

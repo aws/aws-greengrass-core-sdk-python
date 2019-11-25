@@ -1,0 +1,7 @@
+greengrasssdk.IoTDataPlane module
+=================================
+
+.. automodule:: greengrasssdk.IoTDataPlane
+    :members:
+    :undoc-members:
+    :show-inheritance:
