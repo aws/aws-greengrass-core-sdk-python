@@ -13,7 +13,6 @@ from greengrasssdk.stream_manager import (
     StreamManagerClient,
 )
 
-
 # This example will create a Greengrass StreamManager stream called "SomeStream".
 # It will then start writing data into that stream and StreamManager will
 # automatically export the written data to a Kinesis Data Stream called "MyKinesisStream".

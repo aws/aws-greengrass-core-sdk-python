@@ -11,18 +11,19 @@
 # Greengrass core.  The handler will NOT be invoked in our example since
 # the we are executing an infinite loop.
 
-import greengrasssdk
 import logging
 import platform
 import sys
 from threading import Timer
+
+import greengrasssdk
 
 # Setup logging to stdout
 logger = logging.getLogger(__name__)
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
 # Creating a greengrass core sdk client
-client = greengrasssdk.client('iot-data')
+client = greengrasssdk.client("iot-data")
 
 # Retrieving platform information to send from Greengrass Core
 my_platform = platform.platform()
@@ -35,22 +36,21 @@ my_platform = platform.platform()
 # hitting the execution timeout of three seconds.  This is expected as
 # this function never returns a result.
 
+
 def greengrass_hello_world_run():
     try:
         if not my_platform:
             client.publish(
-                topic='hello/world',
-                queueFullPolicy='AllOrException',
-                payload='Hello world! Sent from Greengrass Core.')
+                topic="hello/world", queueFullPolicy="AllOrException", payload="Hello world! Sent from Greengrass Core."
+            )
         else:
             client.publish(
-                topic='hello/world',
-                queueFullPolicy='AllOrException',
-                payload='Hello world! Sent from '
-                        'Greengrass Core running on platform: {}'
-                        .format(my_platform))
+                topic="hello/world",
+                queueFullPolicy="AllOrException",
+                payload="Hello world! Sent from " "Greengrass Core running on platform: {}".format(my_platform),
+            )
     except Exception as e:
-        logger.error('Failed to publish message: ' + repr(e))
+        logger.error("Failed to publish message: " + repr(e))
 
     # Asynchronously schedule this function to be run again in 5 seconds
     Timer(5, greengrass_hello_world_run).start()

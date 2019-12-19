@@ -1,67 +1,57 @@
 #
-# Copyright 2010-2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 #
 
-# carAggregator.py
 # ***********************         IMPORTANT          ***********************
-# This is part of the Traffic Light example and requires both LightController
-# and TrafficLight GGADS to work properly.
-# This also requires setup steps including permissions before it will work.
-# Please refer to module 6 in Greengrass getting started guide for
-# directions.
+# This lambda function is part of the traffic light example and requires
+# both lightController.py and trafficLight.py to work properly.
+# It also requires setup steps including permissions. Please refer to
+# Module 6 in Greengrass getting started guide for directions.
+#
+# Because this Lambda creates a small table in DynamoDB, you may be charged
+# for creating a table. Please refer to DynamoDB Pricing here:
+# https://aws.amazon.com/dynamodb/pricing/
+#
 # **************************************************************************
 
-# This example demonstrates how state can be tracked in a pinned lambda and how
-# to interface with AWS,
-# This lambda function will listens to shadow MQTT message on light status.
-# When the light is green, it generates a random number to represent the number
-# of cars that passed.
+# This example demonstrates how a shadow state can be tracked in a long-lived
+# lambda and how to interface with DynamoDB. This lambda function listens
+# to shadow MQTT message on light status, and when the light is green,
+# it generates a random number to represent the number of cars that have passed.
 # This function stores statistics on these numbers and uploads them to DynamoDB
-# on every fourth green light.
-# Since this function is long-lived it will run forever when deployed to a
-# Greengrass core.
+# on every fourth green light. Since this function is long-lived it
+# will run forever when deployed to a Greengrass core.
 
 import logging
-import boto3
 from datetime import datetime
 from random import randint
+
+import boto3
 from botocore.exceptions import ClientError
 
-# initialized dynamo db client
+# Initialized DynamoDB client
 # Note this creates a dynamodb table in region us-east-1 (N. Virginia)
 # Change the region name to something different if you like
 # Note endpoint and aws credentials are not specified. By default this
 # uses the credentials configured for the session. See Boto 3 docs
 # for more details.
-dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
+
+dynamodb = boto3.resource("dynamodb", region_name="us-east-1")
 tableName = "CarStats"
 
 # Create the dynamo db table if needed
 try:
     table = dynamodb.create_table(
         TableName=tableName,
-        KeySchema=[
-            {
-                'AttributeName': 'Time',
-                'KeyType': 'HASH'  # Partition key
-            }
-        ],
-        AttributeDefinitions=[
-            {
-                'AttributeName': 'Time',
-                'AttributeType': 'S'
-            }
-        ],
-        ProvisionedThroughput={
-            'ReadCapacityUnits': 5,
-            'WriteCapacityUnits': 5
-        }
+        KeySchema=[{"AttributeName": "Time", "KeyType": "HASH"}],  # Partition key
+        AttributeDefinitions=[{"AttributeName": "Time", "AttributeType": "S"}],
+        ProvisionedThroughput={"ReadCapacityUnits": 5, "WriteCapacityUnits": 5},
     )
 
     # Wait until the table exists.
-    table.meta.client.get_waiter('table_exists').wait(TableName=tableName)
+    table.meta.client.get_waiter("table_exists").wait(TableName=tableName)
 except ClientError as e:
-    if e.response['Error']['Code'] == 'ResourceInUseException':
+    if e.response["Error"]["Code"] == "ResourceInUseException":
         print("Table already created")
     else:
         raise e
@@ -100,7 +90,7 @@ def function_handler(event, context):
     logger.info(event)
     lightValue = event["current"]["state"]["reported"]["property"]
     logger.info("reported light state: " + lightValue)
-    if lightValue == 'G':
+    if lightValue == "G":
         logger.info("Green light")
 
         # generate a random number of cars passing during this green light
@@ -126,11 +116,11 @@ def function_handler(event, context):
             table = dynamodb.Table(tableName)
             table.put_item(
                 Item={
-                    'Time': str(datetime.utcnow()),
-                    'TotalTraffic': totalTraffic,
-                    'TotalGreenlights': totalGreenlights,
-                    'MinCarsPassing': minCars,
-                    'MaxCarsPassing': maxCars,
+                    "Time": str(datetime.utcnow()),
+                    "TotalTraffic": totalTraffic,
+                    "TotalGreenlights": totalGreenlights,
+                    "MinCarsPassing": minCars,
+                    "MaxCarsPassing": maxCars,
                 }
             )
     return
