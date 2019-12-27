@@ -50,8 +50,8 @@ def function_handler(event, context):
                 queueFullPolicy="AllOrException",
                 payload=json.dumps(
                     {
-                        "message": "Hello world! Sent from Greengrass Core running on platform: {}."
-                        + "  Invocation Count: {}".format(my_platform, my_counter)
+                        "message": "Hello world! Sent from Greengrass Core running on platform: {}.".format(my_platform)
+                                   + "  Invocation Count: {}".format(my_counter)
                     }
                 ),
             )
