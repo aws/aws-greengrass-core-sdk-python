@@ -57,7 +57,7 @@ Now that you have a lambda client, you can publish requests.
 Compatibility
 ==============
 
-As new features are added to AWS IoT Greengrass, previous versions of the AWS IoT Greengrass SDK will be incompatible with newer versions of the AWS IoT Greengrass core. The following table lists the compatible SDKs for all GGC releases.
+As new features are added to AWS IoT Greengrass, newer versions of the AWS IoT Greengrass SDK may be incompatible with older versions of the AWS IoT Greengrass core. The following table lists the compatible SDKs for all GGC releases.
 
 +-------------+------------------------+
 | GGC Version | Compatible SDK Versions|
