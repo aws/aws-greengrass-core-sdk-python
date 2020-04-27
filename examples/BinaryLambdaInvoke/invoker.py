@@ -29,11 +29,11 @@ def handler(event, context):
 
     try:
         response = client.invoke(
-            ClientContext=base64.b64encode(bytes(client_context)),
-            FunctionName="arn:aws:lambda:<region>:<accountId>:function:<targetFunctionName>:<targetFunctionQualifier>",
+            ClientContext=base64.b64encode(bytes(client_context, "utf-8")),
+            FunctionName="arn:aws:lambda:<region>:<accountId>:function:<targetFunctionName>",
             InvocationType="RequestResponse",
             Payload="Non-JSON Data",
-            Qualifier="1",
+            Qualifier="<targetFunctionQualifier>",
         )
 
         logger.info(response["Payload"].read())

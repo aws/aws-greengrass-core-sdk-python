@@ -1,6 +1,11 @@
 #
 # Copyright 2010-2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 #
+
+# Remember to mark your 'invokee' lambda as a binary
+# lambda. You can configure this on the lambda configuration page in the
+# console. 
+
 import logging
 import sys
 
