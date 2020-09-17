@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>greengrasssdk.stream_manager.streammanagerclient &mdash; Greengrass Core Python SDK 1.5.0 documentation</title>
+  <title>greengrasssdk.stream_manager.streammanagerclient &mdash; Greengrass Core Python SDK 1.6.0 documentation</title>
   
 
   
@@ -56,7 +56,7 @@
             
             
               <div class="version">
-                1.5.0
+                1.6.0
               </div>
             
           
@@ -173,9 +173,13 @@
     <span class="n">ReadMessagesRequest</span><span class="p">,</span>
     <span class="n">ReadMessagesResponse</span><span class="p">,</span>
     <span class="n">ResponseStatusCode</span><span class="p">,</span>
+    <span class="n">UnknownOperationError</span><span class="p">,</span>
+    <span class="n">UpdateMessageStreamRequest</span><span class="p">,</span>
+    <span class="n">UpdateMessageStreamResponse</span><span class="p">,</span>
+    <span class="n">VersionInfo</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">.exceptions</span> <span class="k">import</span> <span class="n">ClientException</span><span class="p">,</span> <span class="n">ConnectFailedException</span><span class="p">,</span> <span class="n">StreamManagerException</span><span class="p">,</span> <span class="n">ValidationException</span>
-<span class="kn">from</span> <span class="nn">.util</span> <span class="k">import</span> <span class="n">Util</span>
+<span class="kn">from</span> <span class="nn">.utilinternal</span> <span class="k">import</span> <span class="n">UtilInternal</span>
 
 
 <div class="viewcode-block" id="StreamManagerClient"><a class="viewcode-back" href="../../../_apidoc/greengrasssdk.stream_manager.streammanagerclient.html#greengrasssdk.stream_manager.streammanagerclient.StreamManagerClient">[docs]</a><span class="k">class</span> <span class="nc">StreamManagerClient</span><span class="p">:</span>
@@ -193,8 +197,15 @@
 <span class="sd">    :raises: :exc:`ConnectionError` if the client is unable to connect to the server.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">__PROTOCOL_VERSION</span> <span class="o">=</span> <span class="s2">&quot;1.0.0&quot;</span>
-    <span class="n">__SDK_VERSION</span> <span class="o">=</span> <span class="s2">&quot;1.0.0&quot;</span>
+    <span class="c1"># Version of the Java SDK.</span>
+    <span class="c1"># NOTE: When you bump this version,</span>
+    <span class="c1"># consider adding the old version to olderSupportedProtocolVersions list (if you intend to support it)</span>
+    <span class="n">__SDK_VERSION</span> <span class="o">=</span> <span class="s2">&quot;1.1.0&quot;</span>
+
+    <span class="c1"># List of supported protocol protocol.</span>
+    <span class="c1"># These are meant to be used for graceful degradation if the server does not support the current SDK version.</span>
+    <span class="n">__OLD_SUPPORTED_PROTOCOL_VERSIONS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;1.0.0&quot;</span><span class="p">]</span>
+
     <span class="n">__CONNECT_VERSION</span> <span class="o">=</span> <span class="mi">1</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
@@ -238,7 +249,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__event_loop_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">connected</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">Util</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__connect</span><span class="p">(),</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__loop</span><span class="p">)</span>
+        <span class="n">UtilInternal</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__connect</span><span class="p">(),</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__loop</span><span class="p">)</span>
 
     <span class="k">async</span> <span class="k">def</span> <span class="nf">_close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__writer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -287,8 +298,8 @@
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">length_bytes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">IncompleteReadError</span><span class="p">(</span><span class="n">length_bytes</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
 
-        <span class="n">length</span> <span class="o">=</span> <span class="n">Util</span><span class="o">.</span><span class="n">int_from_bytes</span><span class="p">(</span><span class="n">length_bytes</span><span class="p">)</span>
-        <span class="n">operation</span> <span class="o">=</span> <span class="n">Util</span><span class="o">.</span><span class="n">int_from_bytes</span><span class="p">(</span><span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="n">UtilInternal</span><span class="o">.</span><span class="n">int_from_bytes</span><span class="p">(</span><span class="n">length_bytes</span><span class="p">)</span>
+        <span class="n">operation</span> <span class="o">=</span> <span class="n">UtilInternal</span><span class="o">.</span><span class="n">int_from_bytes</span><span class="p">(</span><span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
 
         <span class="c1"># Read from the socket until we have read the full packet</span>
         <span class="n">payload</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">()</span>
@@ -350,6 +361,10 @@
             <span class="n">response</span> <span class="o">=</span> <span class="n">DeleteMessageStreamResponse</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Received DeleteMessageStreamResponse from server: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span>
             <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__requests</span><span class="p">[</span><span class="n">response</span><span class="o">.</span><span class="n">request_id</span><span class="p">]</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">operation</span> <span class="o">==</span> <span class="n">Operation</span><span class="o">.</span><span class="n">UpdateMessageStreamResponse</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">UpdateMessageStreamResponse</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Received UpdateMessageStreamResponse from server: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__requests</span><span class="p">[</span><span class="n">response</span><span class="o">.</span><span class="n">request_id</span><span class="p">]</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">operation</span> <span class="o">==</span> <span class="n">Operation</span><span class="o">.</span><span class="n">AppendMessageResponse</span><span class="p">:</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">AppendMessageResponse</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Received AppendMessageResponse from server: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span>
@@ -361,6 +376,14 @@
         <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">operation</span> <span class="o">==</span> <span class="n">Operation</span><span class="o">.</span><span class="n">DescribeMessageStreamResponse</span><span class="p">:</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">DescribeMessageStreamResponse</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Received DescribeMessageStreamResponse from server: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span>
+            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__requests</span><span class="p">[</span><span class="n">response</span><span class="o">.</span><span class="n">request_id</span><span class="p">]</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">operation</span> <span class="o">==</span> <span class="n">Operation</span><span class="o">.</span><span class="n">UnknownOperationError</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                <span class="s2">&quot;Received response with unsupported operation from server: </span><span class="si">%s</span><span class="s2">. &quot;</span>
+                <span class="s2">&quot;You should update your server version&quot;</span><span class="p">,</span>
+                <span class="n">response</span><span class="o">.</span><span class="n">operation</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">UnknownOperationError</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
             <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__requests</span><span class="p">[</span><span class="n">response</span><span class="o">.</span><span class="n">request_id</span><span class="p">]</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">operation</span> <span class="o">==</span> <span class="n">Operation</span><span class="o">.</span><span class="n">Unknown</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Received response with unknown operation from server: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span>
@@ -377,17 +400,19 @@
 
     <span class="k">async</span> <span class="k">def</span> <span class="nf">__connect_request_response</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">ConnectRequest</span><span class="p">()</span>
-        <span class="n">data</span><span class="o">.</span><span class="n">request_id</span> <span class="o">=</span> <span class="n">Util</span><span class="o">.</span><span class="n">get_request_id</span><span class="p">()</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">request_id</span> <span class="o">=</span> <span class="n">UtilInternal</span><span class="o">.</span><span class="n">get_request_id</span><span class="p">()</span>
         <span class="n">data</span><span class="o">.</span><span class="n">sdk_version</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__SDK_VERSION</span>
-        <span class="n">data</span><span class="o">.</span><span class="n">protocol_version</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__PROTOCOL_VERSION</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">other_supported_protocol_versions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__OLD_SUPPORTED_PROTOCOL_VERSIONS</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">protocol_version</span> <span class="o">=</span> <span class="n">VersionInfo</span><span class="o">.</span><span class="n">PROTOCOL_VERSION</span><span class="o">.</span><span class="n">value</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth_token</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">data</span><span class="o">.</span><span class="n">auth_token</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth_token</span>
 
         <span class="c1"># Write the connect version</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">Util</span><span class="o">.</span><span class="n">int_to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__CONNECT_VERSION</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">UtilInternal</span><span class="o">.</span><span class="n">int_to_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__CONNECT_VERSION</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
         <span class="c1"># Write request to socket</span>
         <span class="n">frame</span> <span class="o">=</span> <span class="n">MessageFrame</span><span class="p">(</span><span class="n">operation</span><span class="o">=</span><span class="n">Operation</span><span class="o">.</span><span class="n">Connect</span><span class="p">,</span> <span class="n">payload</span><span class="o">=</span><span class="n">cbor2</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">Util</span><span class="o">.</span><span class="n">encode_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">UtilInternal</span><span class="o">.</span><span class="n">encode_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
         <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__writer</span><span class="o">.</span><span class="n">drain</span><span class="p">()</span>
 
         <span class="c1"># Read connect version</span>
@@ -395,7 +420,7 @@
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">connect_response_version_byte</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">IncompleteReadError</span><span class="p">(</span><span class="n">connect_response_version_byte</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
-        <span class="n">connect_response_version</span> <span class="o">=</span> <span class="n">Util</span><span class="o">.</span><span class="n">int_from_bytes</span><span class="p">(</span><span class="n">connect_response_version_byte</span><span class="p">)</span>
+        <span class="n">connect_response_version</span> <span class="o">=</span> <span class="n">UtilInternal</span><span class="o">.</span><span class="n">int_from_bytes</span><span class="p">(</span><span class="n">connect_response_version_byte</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">connect_response_version</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__CONNECT_VERSION</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Unexpected response from the server, Connect version: </span><span class="si">%s</span><span class="s2">.&quot;</span><span class="p">,</span> <span class="n">connect_response_version</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">ConnectFailedException</span><span class="p">(</span><span class="s2">&quot;Failed to establish connection with the server&quot;</span><span class="p">)</span>
@@ -415,12 +440,23 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Received ConnectResponse with unexpected status </span><span class="si">%s</span><span class="s2">.&quot;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">ConnectFailedException</span><span class="p">(</span><span class="s2">&quot;Failed to establish connection with the server&quot;</span><span class="p">)</span>
 
+        <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">protocol_version</span> <span class="o">!=</span> <span class="n">response</span><span class="o">.</span><span class="n">protocol_version</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;SDK with version </span><span class="si">%s</span><span class="s2"> using Protocol version </span><span class="si">%s</span><span class="s2"> is not fully compatible with Server with version </span><span class="si">%s</span><span class="s2">. &quot;</span>
+                <span class="s2">&quot;Client has connected in a compatibility mode using protocol version </span><span class="si">%s</span><span class="s2">. &quot;</span>
+                <span class="s2">&quot;Some features will not work as expected&quot;</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__SDK_VERSION</span><span class="p">,</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">protocol_version</span><span class="p">,</span>
+                <span class="n">response</span><span class="o">.</span><span class="n">server_version</span><span class="p">,</span>
+                <span class="n">response</span><span class="o">.</span><span class="n">protocol_version</span><span class="p">,</span>
+            <span class="p">)</span>
+
     <span class="k">async</span> <span class="k">def</span> <span class="nf">__send_and_receive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operation</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="k">async</span> <span class="k">def</span> <span class="nf">inner</span><span class="p">(</span><span class="n">operation</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">request_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">data</span><span class="o">.</span><span class="n">request_id</span> <span class="o">=</span> <span class="n">Util</span><span class="o">.</span><span class="n">get_request_id</span><span class="p">()</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">request_id</span> <span class="o">=</span> <span class="n">UtilInternal</span><span class="o">.</span><span class="n">get_request_id</span><span class="p">()</span>
 
-            <span class="n">validation</span> <span class="o">=</span> <span class="n">Util</span><span class="o">.</span><span class="n">is_invalid</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">validation</span> <span class="o">=</span> <span class="n">UtilInternal</span><span class="o">.</span><span class="n">is_invalid</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">validation</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">ValidationException</span><span class="p">(</span><span class="n">validation</span><span class="p">)</span>
 
@@ -432,7 +468,8 @@
 
             <span class="c1"># Write request to socket</span>
             <span class="n">frame</span> <span class="o">=</span> <span class="n">MessageFrame</span><span class="p">(</span><span class="n">operation</span><span class="o">=</span><span class="n">operation</span><span class="p">,</span> <span class="n">payload</span><span class="o">=</span><span class="n">cbor2</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()))</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">Util</span><span class="o">.</span><span class="n">encode_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">UtilInternal</span><span class="o">.</span><span class="n">encode_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
             <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__writer</span><span class="o">.</span><span class="n">drain</span><span class="p">()</span>
 
             <span class="c1"># Wait for reader to come back with the response</span>
@@ -455,7 +492,7 @@
         <span class="k">if</span> <span class="n">options</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">ReadMessagesOptions</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="n">ValidationException</span><span class="p">(</span><span class="s2">&quot;options argument to read_messages must be a ReadMessageOptions object&quot;</span><span class="p">)</span>
-            <span class="n">validation</span> <span class="o">=</span> <span class="n">Util</span><span class="o">.</span><span class="n">is_invalid</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+            <span class="n">validation</span> <span class="o">=</span> <span class="n">UtilInternal</span><span class="o">.</span><span class="n">is_invalid</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">validation</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">ValidationException</span><span class="p">(</span><span class="n">validation</span><span class="p">)</span>
             <span class="k">if</span> <span class="p">(</span>
@@ -475,7 +512,7 @@
             <span class="n">Operation</span><span class="o">.</span><span class="n">AppendMessage</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">append_message_request</span>
         <span class="p">)</span>  <span class="c1"># type: AppendMessageResponse</span>
 
-        <span class="n">Util</span><span class="o">.</span><span class="n">raise_on_error_response</span><span class="p">(</span><span class="n">append_message_response</span><span class="p">)</span>
+        <span class="n">UtilInternal</span><span class="o">.</span><span class="n">raise_on_error_response</span><span class="p">(</span><span class="n">append_message_response</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">append_message_response</span><span class="o">.</span><span class="n">sequence_number</span>
 
     <span class="k">async</span> <span class="k">def</span> <span class="nf">_create_message_stream</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">definition</span><span class="p">:</span> <span class="n">MessageStreamDefinition</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -486,7 +523,7 @@
             <span class="n">Operation</span><span class="o">.</span><span class="n">CreateMessageStream</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">create_stream_request</span>
         <span class="p">)</span>  <span class="c1"># type: CreateMessageStreamResponse</span>
 
-        <span class="n">Util</span><span class="o">.</span><span class="n">raise_on_error_response</span><span class="p">(</span><span class="n">create_stream_response</span><span class="p">)</span>
+        <span class="n">UtilInternal</span><span class="o">.</span><span class="n">raise_on_error_response</span><span class="p">(</span><span class="n">create_stream_response</span><span class="p">)</span>
 
     <span class="k">async</span> <span class="k">def</span> <span class="nf">_delete_message_stream</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">delete_stream_request</span> <span class="o">=</span> <span class="n">DeleteMessageStreamRequest</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">stream_name</span><span class="p">)</span>
@@ -494,7 +531,19 @@
             <span class="n">Operation</span><span class="o">.</span><span class="n">DeleteMessageStream</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">delete_stream_request</span>
         <span class="p">)</span>  <span class="c1"># type: DeleteMessageStreamResponse</span>
 
-        <span class="n">Util</span><span class="o">.</span><span class="n">raise_on_error_response</span><span class="p">(</span><span class="n">delete_stream_response</span><span class="p">)</span>
+        <span class="n">UtilInternal</span><span class="o">.</span><span class="n">raise_on_error_response</span><span class="p">(</span><span class="n">delete_stream_response</span><span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">_update_message_stream</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">definition</span><span class="p">:</span> <span class="n">MessageStreamDefinition</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">definition</span><span class="p">,</span> <span class="n">MessageStreamDefinition</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">ValidationException</span><span class="p">(</span>
+                <span class="s2">&quot;definition argument to update_message_stream must be a MessageStreamDefinition object&quot;</span>
+            <span class="p">)</span>
+        <span class="n">update_stream_request</span> <span class="o">=</span> <span class="n">UpdateMessageStreamRequest</span><span class="p">(</span><span class="n">definition</span><span class="o">=</span><span class="n">definition</span><span class="p">)</span>
+        <span class="n">update_stream_response</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__send_and_receive</span><span class="p">(</span>
+            <span class="n">Operation</span><span class="o">.</span><span class="n">UpdateMessageStream</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">update_stream_request</span>
+        <span class="p">)</span>  <span class="c1"># type: UpdateMessageStreamResponse</span>
+
+        <span class="n">UtilInternal</span><span class="o">.</span><span class="n">raise_on_error_response</span><span class="p">(</span><span class="n">update_stream_response</span><span class="p">)</span>
 
     <span class="k">async</span> <span class="k">def</span> <span class="nf">_read_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="n">ReadMessagesOptions</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Message</span><span class="p">]:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__validate_read_message_options</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
@@ -503,7 +552,7 @@
             <span class="n">Operation</span><span class="o">.</span><span class="n">ReadMessages</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">read_messages_request</span>
         <span class="p">)</span>  <span class="c1"># type: ReadMessagesResponse</span>
 
-        <span class="n">Util</span><span class="o">.</span><span class="n">raise_on_error_response</span><span class="p">(</span><span class="n">read_messages_response</span><span class="p">)</span>
+        <span class="n">UtilInternal</span><span class="o">.</span><span class="n">raise_on_error_response</span><span class="p">(</span><span class="n">read_messages_response</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">read_messages_response</span><span class="o">.</span><span class="n">messages</span>
 
     <span class="k">async</span> <span class="k">def</span> <span class="nf">_list_streams</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
@@ -511,14 +560,14 @@
             <span class="n">Operation</span><span class="o">.</span><span class="n">ListStreams</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">ListStreamsRequest</span><span class="p">()</span>
         <span class="p">)</span>  <span class="c1"># type: ListStreamsResponse</span>
 
-        <span class="n">Util</span><span class="o">.</span><span class="n">raise_on_error_response</span><span class="p">(</span><span class="n">list_streams_response</span><span class="p">)</span>
+        <span class="n">UtilInternal</span><span class="o">.</span><span class="n">raise_on_error_response</span><span class="p">(</span><span class="n">list_streams_response</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">list_streams_response</span><span class="o">.</span><span class="n">streams</span>
 
     <span class="k">async</span> <span class="k">def</span> <span class="nf">_describe_message_stream</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MessageStreamInfo</span><span class="p">:</span>
         <span class="n">describe_message_stream_response</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__send_and_receive</span><span class="p">(</span>
             <span class="n">Operation</span><span class="o">.</span><span class="n">DescribeMessageStream</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">DescribeMessageStreamRequest</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">stream_name</span><span class="p">)</span>
         <span class="p">)</span>  <span class="c1"># type: DescribeMessageStreamResponse</span>
-        <span class="n">Util</span><span class="o">.</span><span class="n">raise_on_error_response</span><span class="p">(</span><span class="n">describe_message_stream_response</span><span class="p">)</span>
+        <span class="n">UtilInternal</span><span class="o">.</span><span class="n">raise_on_error_response</span><span class="p">(</span><span class="n">describe_message_stream_response</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">describe_message_stream_response</span><span class="o">.</span><span class="n">message_stream_info</span>
 
@@ -548,7 +597,7 @@
 <span class="sd">        :raises: :exc:`ConnectionError` if the client is unable to reconnect to the server.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__check_closed</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">Util</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_read_messages</span><span class="p">(</span><span class="n">stream_name</span><span class="p">,</span> <span class="n">options</span><span class="p">),</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__loop</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">UtilInternal</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_read_messages</span><span class="p">(</span><span class="n">stream_name</span><span class="p">,</span> <span class="n">options</span><span class="p">),</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__loop</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="StreamManagerClient.append_message"><a class="viewcode-back" href="../../../_apidoc/greengrasssdk.stream_manager.streammanagerclient.html#greengrasssdk.stream_manager.streammanagerclient.StreamManagerClient.append_message">[docs]</a>    <span class="k">def</span> <span class="nf">append_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -563,7 +612,7 @@
 <span class="sd">        :raises: :exc:`ConnectionError` if the client is unable to reconnect to the server.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__check_closed</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">Util</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_append_message</span><span class="p">(</span><span class="n">stream_name</span><span class="p">,</span> <span class="n">data</span><span class="p">),</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__loop</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">UtilInternal</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_append_message</span><span class="p">(</span><span class="n">stream_name</span><span class="p">,</span> <span class="n">data</span><span class="p">),</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__loop</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="StreamManagerClient.create_message_stream"><a class="viewcode-back" href="../../../_apidoc/greengrasssdk.stream_manager.streammanagerclient.html#greengrasssdk.stream_manager.streammanagerclient.StreamManagerClient.create_message_stream">[docs]</a>    <span class="k">def</span> <span class="nf">create_message_stream</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">definition</span><span class="p">:</span> <span class="n">MessageStreamDefinition</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -576,7 +625,7 @@
 <span class="sd">        :raises: :exc:`ConnectionError` if the client is unable to reconnect to the server.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__check_closed</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">Util</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_create_message_stream</span><span class="p">(</span><span class="n">definition</span><span class="p">),</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__loop</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">UtilInternal</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_create_message_stream</span><span class="p">(</span><span class="n">definition</span><span class="p">),</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__loop</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="StreamManagerClient.delete_message_stream"><a class="viewcode-back" href="../../../_apidoc/greengrasssdk.stream_manager.streammanagerclient.html#greengrasssdk.stream_manager.streammanagerclient.StreamManagerClient.delete_message_stream">[docs]</a>    <span class="k">def</span> <span class="nf">delete_message_stream</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -590,7 +639,21 @@
 <span class="sd">        :raises: :exc:`ConnectionError` if the client is unable to reconnect to the server.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__check_closed</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">Util</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_delete_message_stream</span><span class="p">(</span><span class="n">stream_name</span><span class="p">),</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__loop</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">UtilInternal</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_delete_message_stream</span><span class="p">(</span><span class="n">stream_name</span><span class="p">),</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__loop</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="StreamManagerClient.update_message_stream"><a class="viewcode-back" href="../../../_apidoc/greengrasssdk.stream_manager.streammanagerclient.html#greengrasssdk.stream_manager.streammanagerclient.StreamManagerClient.update_message_stream">[docs]</a>    <span class="k">def</span> <span class="nf">update_message_stream</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">definition</span><span class="p">:</span> <span class="n">MessageStreamDefinition</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Updates a message stream based on a given definition.</span>
+<span class="sd">        Minimum version requirements: StreamManager server version 1.1 (or AWS IoT Greengrass Core 1.11.0)</span>
+
+<span class="sd">        :param definition: class:`~.data.MessageStreamDefinition` definition object.</span>
+<span class="sd">        :return: Nothing is returned if the request succeeds.</span>
+<span class="sd">        :raises: :exc:`~.exceptions.StreamManagerException` and subtypes based on the precise error.</span>
+<span class="sd">        :raises: :exc:`asyncio.TimeoutError` if the request times out.</span>
+<span class="sd">        :raises: :exc:`ConnectionError` if the client is unable to reconnect to the server.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__check_closed</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">UtilInternal</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_update_message_stream</span><span class="p">(</span><span class="n">definition</span><span class="p">),</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__loop</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="StreamManagerClient.list_streams"><a class="viewcode-back" href="../../../_apidoc/greengrasssdk.stream_manager.streammanagerclient.html#greengrasssdk.stream_manager.streammanagerclient.StreamManagerClient.list_streams">[docs]</a>    <span class="k">def</span> <span class="nf">list_streams</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -602,7 +665,7 @@
 <span class="sd">        :raises: :exc:`ConnectionError` if the client is unable to reconnect to the server.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__check_closed</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">Util</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_list_streams</span><span class="p">(),</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__loop</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">UtilInternal</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_list_streams</span><span class="p">(),</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__loop</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="StreamManagerClient.describe_message_stream"><a class="viewcode-back" href="../../../_apidoc/greengrasssdk.stream_manager.streammanagerclient.html#greengrasssdk.stream_manager.streammanagerclient.StreamManagerClient.describe_message_stream">[docs]</a>    <span class="k">def</span> <span class="nf">describe_message_stream</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MessageStreamInfo</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -616,7 +679,7 @@
 <span class="sd">        :raises: :exc:`ConnectionError` if the client is unable to reconnect to the server.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__check_closed</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">Util</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_describe_message_stream</span><span class="p">(</span><span class="n">stream_name</span><span class="p">),</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__loop</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">UtilInternal</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_describe_message_stream</span><span class="p">(</span><span class="n">stream_name</span><span class="p">),</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__loop</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="StreamManagerClient.close"><a class="viewcode-back" href="../../../_apidoc/greengrasssdk.stream_manager.streammanagerclient.html#greengrasssdk.stream_manager.streammanagerclient.StreamManagerClient.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -625,7 +688,7 @@
 <span class="sd">        :raises: :exc:`~.exceptions.StreamManagerException` and subtypes based on the precise error.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__closed</span><span class="p">:</span>
-            <span class="n">Util</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_close</span><span class="p">(),</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__loop</span><span class="p">)</span>
+            <span class="n">UtilInternal</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_close</span><span class="p">(),</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__loop</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__loop</span><span class="o">.</span><span class="n">is_closed</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__loop</span><span class="o">.</span><span class="n">call_soon_threadsafe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__loop</span><span class="o">.</span><span class="n">stop</span><span class="p">)</span></div></div>
 </pre></div>
@@ -640,7 +703,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Amazon.com.
+        &copy; Copyright 2020, Amazon.com.
 
     </p>
   </div>
@@ -662,7 +725,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'1.5.0',
+            VERSION:'1.6.0',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

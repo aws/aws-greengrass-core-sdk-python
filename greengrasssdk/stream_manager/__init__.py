@@ -3,6 +3,7 @@
 
 from .streammanagerclient import StreamManagerClient
 from .exceptions import *
+from .util import Util
 from .data import (
     ReadMessagesOptions,
     MessageStreamDefinition,
@@ -12,4 +13,28 @@ from .data import (
     HTTPConfig,
     IoTAnalyticsConfig,
     KinesisConfig,
+    ExportFormat,
+    # Status related
+    # Config
+    StatusConfig,
+    # Data
+    StatusContext,
+    StatusLevel,
+    EventType,
+    Status,
+    StatusMessage,
+    # S3 Tasks related:
+    # Config
+    S3ExportTaskExecutorConfig,
+    # Data
+    S3ExportTaskDefinition,
+    # Iot SiteWise related:
+    # Config
+    IoTSiteWiseConfig,
+    # Data
+    Variant,
+    Quality,
+    TimeInNanos,
+    AssetPropertyValue,
+    PutAssetPropertyValueEntry,
 )

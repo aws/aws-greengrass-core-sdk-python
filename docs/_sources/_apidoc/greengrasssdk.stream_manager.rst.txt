@@ -21,4 +21,5 @@ Submodules
    greengrasssdk.stream_manager.exceptions
    greengrasssdk.stream_manager.streammanagerclient
    greengrasssdk.stream_manager.util
+   greengrasssdk.stream_manager.utilinternal
 

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>greengrasssdk.stream_manager.util &mdash; Greengrass Core Python SDK 1.5.0 documentation</title>
+  <title>greengrasssdk.stream_manager.util &mdash; Greengrass Core Python SDK 1.6.0 documentation</title>
   
 
   
@@ -56,7 +56,7 @@
             
             
               <div class="version">
-                1.5.0
+                1.6.0
               </div>
             
           
@@ -143,162 +143,42 @@
            <div itemprop="articleBody">
             
   <h1>Source code for greengrasssdk.stream_manager.util</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">asyncio</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">uuid</span>
+<span></span><span class="kn">import</span> <span class="nn">json</span>
 
-<span class="kn">from</span> <span class="nn">.data</span> <span class="k">import</span> <span class="n">ResponseStatusCode</span>
-<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="k">import</span> <span class="p">(</span>
-    <span class="n">InvalidRequestException</span><span class="p">,</span>
-    <span class="n">MessageStoreReadErrorException</span><span class="p">,</span>
-    <span class="n">NotEnoughMessagesException</span><span class="p">,</span>
-    <span class="n">RequestPayloadTooLargeException</span><span class="p">,</span>
-    <span class="n">ResourceNotFoundException</span><span class="p">,</span>
-    <span class="n">ResponsePayloadTooLargeException</span><span class="p">,</span>
-    <span class="n">ServerTimeoutException</span><span class="p">,</span>
-    <span class="n">StreamManagerException</span><span class="p">,</span>
-    <span class="n">UnauthorizedException</span><span class="p">,</span>
-    <span class="n">UnknownFailureException</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="k">import</span> <span class="n">ValidationException</span>
+<span class="kn">from</span> <span class="nn">.utilinternal</span> <span class="k">import</span> <span class="n">UtilInternal</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Util functions exposed to the customers</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
 
 <div class="viewcode-block" id="Util"><a class="viewcode-back" href="../../../_apidoc/greengrasssdk.stream_manager.util.html#greengrasssdk.stream_manager.util.Util">[docs]</a><span class="k">class</span> <span class="nc">Util</span><span class="p">:</span>
-    <span class="n">__ENDIAN</span> <span class="o">=</span> <span class="s2">&quot;big&quot;</span>
-    <span class="n">_MAX_PACKET_SIZE</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">30</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Validate And Serialize an instance of class to Json bytes.</span>
+<span class="sd">    :param data: an instance object</span>
+<span class="sd">    :return: a byte array.</span>
+<span class="sd">    :raises: :ValidationException</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Util.sync"><a class="viewcode-back" href="../../../_apidoc/greengrasssdk.stream_manager.util.html#greengrasssdk.stream_manager.util.Util.sync">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">sync</span><span class="p">(</span><span class="n">coro</span><span class="p">,</span> <span class="n">loop</span><span class="p">:</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">AbstractEventLoop</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">iscoroutine</span><span class="p">(</span><span class="n">coro</span><span class="p">):</span>
-            <span class="c1"># Run async function in the loop and return the value or raise the exception</span>
-            <span class="k">return</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">run_coroutine_threadsafe</span><span class="p">(</span><span class="n">coro</span><span class="p">,</span> <span class="n">loop</span><span class="o">=</span><span class="n">loop</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+<div class="viewcode-block" id="Util.validate_and_serialize_to_json_bytes"><a class="viewcode-back" href="../../../_apidoc/greengrasssdk.stream_manager.util.html#greengrasssdk.stream_manager.util.Util.validate_and_serialize_to_json_bytes">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">validate_and_serialize_to_json_bytes</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="n">validation</span> <span class="o">=</span> <span class="n">UtilInternal</span><span class="o">.</span><span class="n">is_invalid</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">validation</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ValidationException</span><span class="p">(</span><span class="n">validation</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">UtilInternal</span><span class="o">.</span><span class="n">serialize_to_json_with_empty_array_as_null</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
 
-        <span class="k">return</span> <span class="n">coro</span></div>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Deserialize the json byte array to an object</span>
+<span class="sd">    :param :bytes byte array of data</span>
+<span class="sd">    :param :type instance class type</span>
+<span class="sd">    :return: an object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Util.int_to_bytes"><a class="viewcode-back" href="../../../_apidoc/greengrasssdk.stream_manager.util.html#greengrasssdk.stream_manager.util.Util.int_to_bytes">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">int_to_bytes</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">int</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">length</span><span class="p">,</span> <span class="n">byteorder</span><span class="o">=</span><span class="n">Util</span><span class="o">.</span><span class="n">__ENDIAN</span><span class="p">,</span> <span class="n">signed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="Util.int_from_bytes"><a class="viewcode-back" href="../../../_apidoc/greengrasssdk.stream_manager.util.html#greengrasssdk.stream_manager.util.Util.int_from_bytes">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">int_from_bytes</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">byteorder</span><span class="o">=</span><span class="n">Util</span><span class="o">.</span><span class="n">__ENDIAN</span><span class="p">,</span> <span class="n">signed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="Util.encode_frame"><a class="viewcode-back" href="../../../_apidoc/greengrasssdk.stream_manager.util.html#greengrasssdk.stream_manager.util.Util.encode_frame">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">encode_frame</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">payload</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&gt;</span> <span class="n">Util</span><span class="o">.</span><span class="n">_MAX_PACKET_SIZE</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">RequestPayloadTooLargeException</span><span class="p">()</span>
-        <span class="k">return</span> <span class="nb">bytes</span><span class="p">(</span>
-            <span class="p">[</span>
-                <span class="o">*</span><span class="p">(</span><span class="n">Util</span><span class="o">.</span><span class="n">int_to_bytes</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">payload</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)),</span>
-                <span class="o">*</span><span class="n">Util</span><span class="o">.</span><span class="n">int_to_bytes</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">operation</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
-                <span class="o">*</span><span class="n">frame</span><span class="o">.</span><span class="n">payload</span><span class="p">,</span>
-            <span class="p">]</span>
-        <span class="p">)</span></div>
-
-<div class="viewcode-block" id="Util.get_request_id"><a class="viewcode-back" href="../../../_apidoc/greengrasssdk.stream_manager.util.html#greengrasssdk.stream_manager.util.Util.get_request_id">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">get_request_id</span><span class="p">():</span>
-        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span></div>
-
-<div class="viewcode-block" id="Util.is_invalid"><a class="viewcode-back" href="../../../_apidoc/greengrasssdk.stream_manager.util.html#greengrasssdk.stream_manager.util.Util.is_invalid">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">is_invalid</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="s2">&quot;_validations_map&quot;</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">for</span> <span class="n">prop_name</span><span class="p">,</span> <span class="n">validations</span> <span class="ow">in</span> <span class="n">o</span><span class="o">.</span><span class="n">_validations_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">prop_name</span><span class="p">):</span>
-                <span class="k">return</span> <span class="s2">&quot;Object is malformed, missing property: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prop_name</span><span class="p">)</span>
-            <span class="c1"># Validate all properties on lists</span>
-            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">prop_name</span><span class="p">))</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">prop_name</span><span class="p">)):</span>
-                    <span class="n">result</span> <span class="o">=</span> <span class="n">Util</span><span class="o">.</span><span class="n">is_invalid</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="n">result</span><span class="p">:</span>
-                        <span class="k">return</span> <span class="s2">&quot;Property </span><span class="si">{}</span><span class="s2">[</span><span class="si">{}</span><span class="s2">] is invalid because </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prop_name</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
-
-            <span class="c1"># Recurse down to check validity of objects within objects</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="n">Util</span><span class="o">.</span><span class="n">is_invalid</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">prop_name</span><span class="p">))</span>
-            <span class="k">if</span> <span class="n">result</span><span class="p">:</span>
-                <span class="k">return</span> <span class="s2">&quot;Property </span><span class="si">{}</span><span class="s2"> is invalid because </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prop_name</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
-
-            <span class="c1"># Validate the property</span>
-            <span class="k">if</span> <span class="s2">&quot;required&quot;</span> <span class="ow">in</span> <span class="n">validations</span> <span class="ow">and</span> <span class="n">validations</span><span class="p">[</span><span class="s2">&quot;required&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">prop_name</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">return</span> <span class="s2">&quot;Property </span><span class="si">{}</span><span class="s2"> is required, but was None&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prop_name</span><span class="p">)</span>
-            <span class="k">if</span> <span class="p">(</span>
-                <span class="s2">&quot;minLength&quot;</span> <span class="ow">in</span> <span class="n">validations</span>
-                <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">prop_name</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-                <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">prop_name</span><span class="p">))</span> <span class="o">&lt;</span> <span class="n">validations</span><span class="p">[</span><span class="s2">&quot;minLength&quot;</span><span class="p">]</span>
-            <span class="p">):</span>
-                <span class="k">return</span> <span class="s2">&quot;Property </span><span class="si">{}</span><span class="s2"> must have a minimum length of </span><span class="si">{}</span><span class="s2">, but found length of </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">prop_name</span><span class="p">,</span> <span class="n">validations</span><span class="p">[</span><span class="s2">&quot;minLength&quot;</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">prop_name</span><span class="p">))</span>
-                <span class="p">)</span>
-            <span class="k">if</span> <span class="p">(</span>
-                <span class="s2">&quot;maxLength&quot;</span> <span class="ow">in</span> <span class="n">validations</span>
-                <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">prop_name</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-                <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">prop_name</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">validations</span><span class="p">[</span><span class="s2">&quot;maxLength&quot;</span><span class="p">]</span>
-            <span class="p">):</span>
-                <span class="k">return</span> <span class="s2">&quot;Property </span><span class="si">{}</span><span class="s2"> must have a maximum length of </span><span class="si">{}</span><span class="s2">, but found length of </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">prop_name</span><span class="p">,</span> <span class="n">validations</span><span class="p">[</span><span class="s2">&quot;maxLength&quot;</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">prop_name</span><span class="p">))</span>
-                <span class="p">)</span>
-            <span class="k">if</span> <span class="p">(</span>
-                <span class="s2">&quot;minItems&quot;</span> <span class="ow">in</span> <span class="n">validations</span>
-                <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">prop_name</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-                <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">prop_name</span><span class="p">))</span> <span class="o">&lt;</span> <span class="n">validations</span><span class="p">[</span><span class="s2">&quot;minItems&quot;</span><span class="p">]</span>
-            <span class="p">):</span>
-                <span class="k">return</span> <span class="s2">&quot;Property </span><span class="si">{}</span><span class="s2"> must have at least </span><span class="si">{}</span><span class="s2"> items, but found </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">prop_name</span><span class="p">,</span> <span class="n">validations</span><span class="p">[</span><span class="s2">&quot;minItems&quot;</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">prop_name</span><span class="p">))</span>
-                <span class="p">)</span>
-            <span class="k">if</span> <span class="p">(</span>
-                <span class="s2">&quot;maxItems&quot;</span> <span class="ow">in</span> <span class="n">validations</span>
-                <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">prop_name</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-                <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">prop_name</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">validations</span><span class="p">[</span><span class="s2">&quot;maxItems&quot;</span><span class="p">]</span>
-            <span class="p">):</span>
-                <span class="k">return</span> <span class="s2">&quot;Property </span><span class="si">{}</span><span class="s2"> must have at most </span><span class="si">{}</span><span class="s2"> items, but found </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">prop_name</span><span class="p">,</span> <span class="n">validations</span><span class="p">[</span><span class="s2">&quot;maxItems&quot;</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">prop_name</span><span class="p">))</span>
-                <span class="p">)</span>
-            <span class="k">if</span> <span class="p">(</span>
-                <span class="s2">&quot;maximum&quot;</span> <span class="ow">in</span> <span class="n">validations</span>
-                <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">prop_name</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-                <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">prop_name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">validations</span><span class="p">[</span><span class="s2">&quot;maximum&quot;</span><span class="p">]</span>
-            <span class="p">):</span>
-                <span class="k">return</span> <span class="s2">&quot;Property </span><span class="si">{}</span><span class="s2"> must be at most </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prop_name</span><span class="p">,</span> <span class="n">validations</span><span class="p">[</span><span class="s2">&quot;maximum&quot;</span><span class="p">])</span>
-            <span class="k">if</span> <span class="p">(</span>
-                <span class="s2">&quot;minimum&quot;</span> <span class="ow">in</span> <span class="n">validations</span>
-                <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">prop_name</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-                <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">prop_name</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">validations</span><span class="p">[</span><span class="s2">&quot;minimum&quot;</span><span class="p">]</span>
-            <span class="p">):</span>
-                <span class="k">return</span> <span class="s2">&quot;Property </span><span class="si">{}</span><span class="s2"> must be at least </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prop_name</span><span class="p">,</span> <span class="n">validations</span><span class="p">[</span><span class="s2">&quot;minimum&quot;</span><span class="p">])</span>
-            <span class="k">if</span> <span class="p">(</span>
-                <span class="s2">&quot;pattern&quot;</span> <span class="ow">in</span> <span class="n">validations</span>
-                <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">prop_name</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-                <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">fullmatch</span><span class="p">(</span><span class="n">validations</span><span class="p">[</span><span class="s2">&quot;pattern&quot;</span><span class="p">],</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">prop_name</span><span class="p">))</span> <span class="ow">is</span> <span class="kc">None</span>
-            <span class="p">):</span>
-                <span class="k">return</span> <span class="s2">&quot;Property </span><span class="si">{}</span><span class="s2"> must match regex </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prop_name</span><span class="p">,</span> <span class="n">validations</span><span class="p">[</span><span class="s2">&quot;pattern&quot;</span><span class="p">])</span>
-
-        <span class="k">return</span> <span class="kc">False</span></div>
-
-<div class="viewcode-block" id="Util.raise_on_error_response"><a class="viewcode-back" href="../../../_apidoc/greengrasssdk.stream_manager.util.html#greengrasssdk.stream_manager.util.Util.raise_on_error_response">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">raise_on_error_response</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">ResponseStatusCode</span><span class="o">.</span><span class="n">Success</span><span class="p">:</span>
-            <span class="k">return</span>
-        <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">ResponseStatusCode</span><span class="o">.</span><span class="n">InvalidRequest</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">InvalidRequestException</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">error_message</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">request_id</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">ResponseStatusCode</span><span class="o">.</span><span class="n">RequestPayloadTooLarge</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">RequestPayloadTooLargeException</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">error_message</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">request_id</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">ResponseStatusCode</span><span class="o">.</span><span class="n">ResourceNotFound</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">ResourceNotFoundException</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">error_message</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">request_id</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">ResponseStatusCode</span><span class="o">.</span><span class="n">ResponsePayloadTooLarge</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">ResponsePayloadTooLargeException</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">error_message</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">request_id</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">ResponseStatusCode</span><span class="o">.</span><span class="n">ServerTimeout</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">ServerTimeoutException</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">error_message</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">request_id</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">ResponseStatusCode</span><span class="o">.</span><span class="n">Unauthorized</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">UnauthorizedException</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">error_message</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">request_id</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">ResponseStatusCode</span><span class="o">.</span><span class="n">UnknownFailure</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">UnknownFailureException</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">error_message</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">request_id</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">ResponseStatusCode</span><span class="o">.</span><span class="n">NotEnoughMessages</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">NotEnoughMessagesException</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">error_message</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">request_id</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">ResponseStatusCode</span><span class="o">.</span><span class="n">MessageStoreReadError</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">MessageStoreReadErrorException</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">error_message</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">request_id</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">StreamManagerException</span><span class="p">(</span>
-                <span class="s2">&quot;Client is not able to understand this server response status code&quot;</span><span class="p">,</span> <span class="s2">&quot;Unrecognized&quot;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">request_id</span>
-            <span class="p">)</span></div></div>
+<div class="viewcode-block" id="Util.deserialize_json_bytes_to_obj"><a class="viewcode-back" href="../../../_apidoc/greengrasssdk.stream_manager.util.html#greengrasssdk.stream_manager.util.Util.deserialize_json_bytes_to_obj">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">deserialize_json_bytes_to_obj</span><span class="p">(</span><span class="nb">bytes</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">type</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="nb">bytes</span><span class="p">))</span></div></div>
 </pre></div>
 
            </div>
@@ -311,7 +191,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Amazon.com.
+        &copy; Copyright 2020, Amazon.com.
 
     </p>
   </div>
@@ -333,7 +213,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'1.5.0',
+            VERSION:'1.6.0',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

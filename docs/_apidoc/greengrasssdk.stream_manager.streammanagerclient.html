@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>greengrasssdk.stream_manager.streammanagerclient module &mdash; Greengrass Core Python SDK 1.5.0 documentation</title>
+  <title>greengrasssdk.stream_manager.streammanagerclient module &mdash; Greengrass Core Python SDK 1.6.0 documentation</title>
   
 
   
@@ -56,7 +56,7 @@
             
             
               <div class="version">
-                1.5.0
+                1.6.0
               </div>
             
           
@@ -301,6 +301,29 @@ a subtype of <a class="reference internal" href="greengrasssdk.stream_manager.ex
 </dd></dl>
 
 <dl class="method">
+<dt id="greengrasssdk.stream_manager.streammanagerclient.StreamManagerClient.update_message_stream">
+<code class="descname">update_message_stream</code><span class="sig-paren">(</span><em>definition: greengrasssdk.stream_manager.data.MessageStreamDefinition</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/greengrasssdk/stream_manager/streammanagerclient.html#StreamManagerClient.update_message_stream"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.streammanagerclient.StreamManagerClient.update_message_stream" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates a message stream based on a given definition.
+Minimum version requirements: StreamManager server version 1.1 (or AWS IoT Greengrass Core 1.11.0)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>definition</strong> – class:<a class="reference internal" href="greengrasssdk.stream_manager.data.html#greengrasssdk.stream_manager.data.MessageStreamDefinition" title="greengrasssdk.stream_manager.data.MessageStreamDefinition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageStreamDefinition</span></code></a> definition object.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Nothing is returned if the request succeeds.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="greengrasssdk.stream_manager.exceptions.html#greengrasssdk.stream_manager.exceptions.StreamManagerException" title="greengrasssdk.stream_manager.exceptions.StreamManagerException"><code class="xref py py-exc docutils literal notranslate"><span class="pre">StreamManagerException</span></code></a> and subtypes based on the precise error.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal notranslate"><span class="pre">asyncio.TimeoutError</span></code> if the request times out.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ConnectionError</span></code> if the client is unable to reconnect to the server.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="greengrasssdk.stream_manager.streammanagerclient.StreamManagerClient.list_streams">
 <code class="descname">list_streams</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/greengrasssdk/stream_manager/streammanagerclient.html#StreamManagerClient.list_streams"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.streammanagerclient.StreamManagerClient.list_streams" title="Permalink to this definition">¶</a></dt>
 <dd><p>List the streams in StreamManager. Returns a list of their names.</p>
@@ -372,7 +395,7 @@ size, and exporter statuses.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Amazon.com.
+        &copy; Copyright 2020, Amazon.com.
 
     </p>
   </div>
@@ -394,7 +417,7 @@ size, and exporter statuses.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.5.0',
+            VERSION:'1.6.0',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

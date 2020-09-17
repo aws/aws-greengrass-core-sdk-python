@@ -26,17 +26,49 @@ class InvocationException(Exception):
 
 
 class Client:
-    def __init__(self, endpoint='localhost', port=8000):
+    def __init__(self, endpoint='localhost', port=None):
         """
         :param endpoint: Endpoint used to connect to IPC.
         :type endpoint: str
 
-        :param port: Port number used to connect to the :code:`endpoint`.
-        :type port: int
+        :param port: Deprecated. Will not be used.
+        :type port: None
         """
-        self.ipc = IPCClient(endpoint=endpoint, port=port)
+        self.ipc = IPCClient(endpoint=endpoint)
 
     def invoke(self, **kwargs):
+        r"""
+        Invokes Lambda function of the given name.
+
+        :Keyword Arguments:
+            * *ClientContext* (``bytes``) --
+              Optional Base64-encoded data about the invoking client to pass to the Lambda function
+            * *FunctionName* (``string``) --
+              [REQUIRED]
+              The Amazon Resource Name (ARN) of the Lambda function to invoke. Name formats:
+
+              * Qualified ARN - The function ARN with the version suffix. e.g. arn:aws:lambda:aws-region:acct-id:function:helloworld:1
+              * Unqualified ARN - The function ARN without the version suffix. e.g. arn:aws:lambda:aws-region:acct-id:function:helloworld
+            * *InvocationType* (``string``) --
+              Choose from the following options.
+
+              * ``RequestResponse`` (default) - Invoke the Lambda synchronously. Block until the function returns a response or times out.
+              * ``Event`` - Invoke the Lambda asynchronously. The response only includes empty payload.
+            * *Payload* (``bytes``) --
+              Optional input for the Lambda function to invoke.
+            * *Qualifier* (``string``) --
+              Optional parameter to specify a Lambda function version if it was not included in the FunctionName field.
+              If you specify a function version, the API uses the qualified function ARN to invoke a specific Lambda function.
+        :returns: (``dict``) --
+            * *FunctionError* (``string``) --
+              If present, indicates that an error occurred while executing the Lambda function. If an error occurred,
+              this field will have one of two values, ``Handled`` or ``Unhandled``. ``Handled`` errors are errors that are reported by the function
+              while the ``Unhandled`` errors are those detected and reported by Greengrass Core.
+              ``Unhandled`` errors include out of memory errors and function timeouts. Error details are provided in the Payload.
+            * *Payload* (``bytes or StreamingBody object``) --
+              It is the result returned by the Lambda function. This is present only if the invocation type is ``RequestResponse``.
+              In the event of a function error this field contains a message describing the error.
+        """
 
         # FunctionName is a required parameter
         if 'FunctionName' not in kwargs:

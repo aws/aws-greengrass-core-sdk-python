@@ -52,3 +52,19 @@ class NotEnoughMessagesException(StreamManagerException):
 
 class MessageStoreReadErrorException(StreamManagerException):
     pass
+
+
+class ServerOutOfMemoryException(StreamManagerException):
+    pass
+
+
+class UpdateFailedException(StreamManagerException):
+    pass
+
+
+class UnknownOperationException(StreamManagerException):
+    pass
+
+
+class UpdateNotAllowedException(InvalidRequestException):
+    pass

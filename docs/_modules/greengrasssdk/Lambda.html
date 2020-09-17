@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>greengrasssdk.Lambda &mdash; Greengrass Core Python SDK 1.5.0 documentation</title>
+  <title>greengrasssdk.Lambda &mdash; Greengrass Core Python SDK 1.6.0 documentation</title>
   
 
   
@@ -56,7 +56,7 @@
             
             
               <div class="version">
-                1.5.0
+                1.6.0
               </div>
             
           
@@ -171,17 +171,49 @@
 
 
 <div class="viewcode-block" id="Client"><a class="viewcode-back" href="../../_apidoc/greengrasssdk.Lambda.html#greengrasssdk.Lambda.Client">[docs]</a><span class="k">class</span> <span class="nc">Client</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8000</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :param endpoint: Endpoint used to connect to IPC.</span>
 <span class="sd">        :type endpoint: str</span>
 
-<span class="sd">        :param port: Port number used to connect to the :code:`endpoint`.</span>
-<span class="sd">        :type port: int</span>
+<span class="sd">        :param port: Deprecated. Will not be used.</span>
+<span class="sd">        :type port: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ipc</span> <span class="o">=</span> <span class="n">IPCClient</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ipc</span> <span class="o">=</span> <span class="n">IPCClient</span><span class="p">(</span><span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Client.invoke"><a class="viewcode-back" href="../../_apidoc/greengrasssdk.Lambda.html#greengrasssdk.Lambda.Client.invoke">[docs]</a>    <span class="k">def</span> <span class="nf">invoke</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Invokes Lambda function of the given name.</span>
+
+<span class="sd">        :Keyword Arguments:</span>
+<span class="sd">            * *ClientContext* (``bytes``) --</span>
+<span class="sd">              Optional Base64-encoded data about the invoking client to pass to the Lambda function</span>
+<span class="sd">            * *FunctionName* (``string``) --</span>
+<span class="sd">              [REQUIRED]</span>
+<span class="sd">              The Amazon Resource Name (ARN) of the Lambda function to invoke. Name formats:</span>
+
+<span class="sd">              * Qualified ARN - The function ARN with the version suffix. e.g. arn:aws:lambda:aws-region:acct-id:function:helloworld:1</span>
+<span class="sd">              * Unqualified ARN - The function ARN without the version suffix. e.g. arn:aws:lambda:aws-region:acct-id:function:helloworld</span>
+<span class="sd">            * *InvocationType* (``string``) --</span>
+<span class="sd">              Choose from the following options.</span>
+
+<span class="sd">              * ``RequestResponse`` (default) - Invoke the Lambda synchronously. Block until the function returns a response or times out.</span>
+<span class="sd">              * ``Event`` - Invoke the Lambda asynchronously. The response only includes empty payload.</span>
+<span class="sd">            * *Payload* (``bytes``) --</span>
+<span class="sd">              Optional input for the Lambda function to invoke.</span>
+<span class="sd">            * *Qualifier* (``string``) --</span>
+<span class="sd">              Optional parameter to specify a Lambda function version if it was not included in the FunctionName field.</span>
+<span class="sd">              If you specify a function version, the API uses the qualified function ARN to invoke a specific Lambda function.</span>
+<span class="sd">        :returns: (``dict``) --</span>
+<span class="sd">            * *FunctionError* (``string``) --</span>
+<span class="sd">              If present, indicates that an error occurred while executing the Lambda function. If an error occurred,</span>
+<span class="sd">              this field will have one of two values, ``Handled`` or ``Unhandled``. ``Handled`` errors are errors that are reported by the function</span>
+<span class="sd">              while the ``Unhandled`` errors are those detected and reported by Greengrass Core.</span>
+<span class="sd">              ``Unhandled`` errors include out of memory errors and function timeouts. Error details are provided in the Payload.</span>
+<span class="sd">            * *Payload* (``bytes or StreamingBody object``) --</span>
+<span class="sd">              It is the result returned by the Lambda function. This is present only if the invocation type is ``RequestResponse``.</span>
+<span class="sd">              In the event of a function error this field contains a message describing the error.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># FunctionName is a required parameter</span>
         <span class="k">if</span> <span class="s1">&#39;FunctionName&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
@@ -294,7 +326,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Amazon.com.
+        &copy; Copyright 2020, Amazon.com.
 
     </p>
   </div>
@@ -316,7 +348,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.5.0',
+            VERSION:'1.6.0',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

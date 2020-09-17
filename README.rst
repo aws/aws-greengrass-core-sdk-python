@@ -70,6 +70,8 @@ As new features are added to AWS IoT Greengrass, newer versions of the AWS IoT G
 +-------------+------------------------+
 | 1.10.x      | 1.0.x-1.5.x            |
 +-------------+------------------------+
+| 1.11.x      | 1.0.x-1.6.x            |
++-------------+------------------------+
 
 ==============
 Stream Manager

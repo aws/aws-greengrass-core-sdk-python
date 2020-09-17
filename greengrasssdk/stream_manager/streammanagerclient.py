@@ -28,9 +28,13 @@ from .data import (
     ReadMessagesRequest,
     ReadMessagesResponse,
     ResponseStatusCode,
+    UnknownOperationError,
+    UpdateMessageStreamRequest,
+    UpdateMessageStreamResponse,
+    VersionInfo,
 )
 from .exceptions import ClientException, ConnectFailedException, StreamManagerException, ValidationException
-from .util import Util
+from .utilinternal import UtilInternal
 
 
 class StreamManagerClient:
@@ -48,8 +52,15 @@ class StreamManagerClient:
     :raises: :exc:`ConnectionError` if the client is unable to connect to the server.
     """
 
-    __PROTOCOL_VERSION = "1.0.0"
-    __SDK_VERSION = "1.0.0"
+    # Version of the Java SDK.
+    # NOTE: When you bump this version,
+    # consider adding the old version to olderSupportedProtocolVersions list (if you intend to support it)
+    __SDK_VERSION = "1.1.0"
+
+    # List of supported protocol protocol.
+    # These are meant to be used for graceful degradation if the server does not support the current SDK version.
+    __OLD_SUPPORTED_PROTOCOL_VERSIONS = ["1.0.0"]
+
     __CONNECT_VERSION = 1
 
     def __init__(
@@ -93,7 +104,7 @@ class StreamManagerClient:
         self.__event_loop_thread.start()
 
         self.connected = False
-        Util.sync(self.__connect(), loop=self.__loop)
+        UtilInternal.sync(self.__connect(), loop=self.__loop)
 
     async def _close(self):
         if self.__writer is not None:
@@ -142,8 +153,8 @@ class StreamManagerClient:
         if len(length_bytes) == 0:
             raise asyncio.IncompleteReadError(length_bytes, 4)
 
-        length = Util.int_from_bytes(length_bytes)
-        operation = Util.int_from_bytes(await self.__reader.read(n=1))
+        length = UtilInternal.int_from_bytes(length_bytes)
+        operation = UtilInternal.int_from_bytes(await self.__reader.read(n=1))
 
         # Read from the socket until we have read the full packet
         payload = bytearray()
@@ -205,6 +216,10 @@ class StreamManagerClient:
             response = DeleteMessageStreamResponse.from_dict(payload)
             self.logger.debug("Received DeleteMessageStreamResponse from server: %s", response)
             await self.__requests[response.request_id].put(response)
+        elif response.operation == Operation.UpdateMessageStreamResponse:
+            response = UpdateMessageStreamResponse.from_dict(payload)
+            self.logger.debug("Received UpdateMessageStreamResponse from server: %s", response)
+            await self.__requests[response.request_id].put(response)
         elif response.operation == Operation.AppendMessageResponse:
             response = AppendMessageResponse.from_dict(payload)
             self.logger.debug("Received AppendMessageResponse from server: %s", response)
@@ -216,6 +231,14 @@ class StreamManagerClient:
         elif response.operation == Operation.DescribeMessageStreamResponse:
             response = DescribeMessageStreamResponse.from_dict(payload)
             self.logger.debug("Received DescribeMessageStreamResponse from server: %s", response)
+            await self.__requests[response.request_id].put(response)
+        elif response.operation == Operation.UnknownOperationError:
+            self.logger.error(
+                "Received response with unsupported operation from server: %s. "
+                "You should update your server version",
+                response.operation,
+            )
+            response = UnknownOperationError.from_dict(payload)
             await self.__requests[response.request_id].put(response)
         elif response.operation == Operation.Unknown:
             self.logger.error("Received response with unknown operation from server: %s", response)
@@ -232,17 +255,19 @@ class StreamManagerClient:
 
     async def __connect_request_response(self):
         data = ConnectRequest()
-        data.request_id = Util.get_request_id()
+        data.request_id = UtilInternal.get_request_id()
         data.sdk_version = self.__SDK_VERSION
-        data.protocol_version = self.__PROTOCOL_VERSION
+        data.other_supported_protocol_versions = self.__OLD_SUPPORTED_PROTOCOL_VERSIONS
+        data.protocol_version = VersionInfo.PROTOCOL_VERSION.value
         if self.auth_token is not None:
             data.auth_token = self.auth_token
 
         # Write the connect version
-        self.__writer.write(Util.int_to_bytes(self.__CONNECT_VERSION, 1))
+        self.__writer.write(UtilInternal.int_to_bytes(self.__CONNECT_VERSION, 1))
         # Write request to socket
         frame = MessageFrame(operation=Operation.Connect, payload=cbor2.dumps(data.as_dict()))
-        self.__writer.write(Util.encode_frame(frame))
+        for b in UtilInternal.encode_frame(frame):
+            self.__writer.write(b)
         await self.__writer.drain()
 
         # Read connect version
@@ -250,7 +275,7 @@ class StreamManagerClient:
         if len(connect_response_version_byte) == 0:
             raise asyncio.IncompleteReadError(connect_response_version_byte, 1)
 
-        connect_response_version = Util.int_from_bytes(connect_response_version_byte)
+        connect_response_version = UtilInternal.int_from_bytes(connect_response_version_byte)
         if connect_response_version != self.__CONNECT_VERSION:
             self.logger.error("Unexpected response from the server, Connect version: %s.", connect_response_version)
             raise ConnectFailedException("Failed to establish connection with the server")
@@ -270,12 +295,23 @@ class StreamManagerClient:
             self.logger.error("Received ConnectResponse with unexpected status %s.", response.status)
             raise ConnectFailedException("Failed to establish connection with the server")
 
+        if data.protocol_version != response.protocol_version:
+            self.logger.warn(
+                "SDK with version %s using Protocol version %s is not fully compatible with Server with version %s. "
+                "Client has connected in a compatibility mode using protocol version %s. "
+                "Some features will not work as expected",
+                self.__SDK_VERSION,
+                data.protocol_version,
+                response.server_version,
+                response.protocol_version,
+            )
+
     async def __send_and_receive(self, operation, data):
         async def inner(operation, data):
             if data.request_id is None:
-                data.request_id = Util.get_request_id()
+                data.request_id = UtilInternal.get_request_id()
 
-            validation = Util.is_invalid(data)
+            validation = UtilInternal.is_invalid(data)
             if validation:
                 raise ValidationException(validation)
 
@@ -287,7 +323,8 @@ class StreamManagerClient:
 
             # Write request to socket
             frame = MessageFrame(operation=operation, payload=cbor2.dumps(data.as_dict()))
-            self.__writer.write(Util.encode_frame(frame))
+            for b in UtilInternal.encode_frame(frame):
+                self.__writer.write(b)
             await self.__writer.drain()
 
             # Wait for reader to come back with the response
@@ -310,7 +347,7 @@ class StreamManagerClient:
         if options is not None:
             if not isinstance(options, ReadMessagesOptions):
                 raise ValidationException("options argument to read_messages must be a ReadMessageOptions object")
-            validation = Util.is_invalid(options)
+            validation = UtilInternal.is_invalid(options)
             if validation:
                 raise ValidationException(validation)
             if (
@@ -330,7 +367,7 @@ class StreamManagerClient:
             Operation.AppendMessage, data=append_message_request
         )  # type: AppendMessageResponse
 
-        Util.raise_on_error_response(append_message_response)
+        UtilInternal.raise_on_error_response(append_message_response)
         return append_message_response.sequence_number
 
     async def _create_message_stream(self, definition: MessageStreamDefinition) -> None:
@@ -341,7 +378,7 @@ class StreamManagerClient:
             Operation.CreateMessageStream, data=create_stream_request
         )  # type: CreateMessageStreamResponse
 
-        Util.raise_on_error_response(create_stream_response)
+        UtilInternal.raise_on_error_response(create_stream_response)
 
     async def _delete_message_stream(self, stream_name: str) -> None:
         delete_stream_request = DeleteMessageStreamRequest(name=stream_name)
@@ -349,7 +386,19 @@ class StreamManagerClient:
             Operation.DeleteMessageStream, data=delete_stream_request
         )  # type: DeleteMessageStreamResponse
 
-        Util.raise_on_error_response(delete_stream_response)
+        UtilInternal.raise_on_error_response(delete_stream_response)
+
+    async def _update_message_stream(self, definition: MessageStreamDefinition) -> None:
+        if not isinstance(definition, MessageStreamDefinition):
+            raise ValidationException(
+                "definition argument to update_message_stream must be a MessageStreamDefinition object"
+            )
+        update_stream_request = UpdateMessageStreamRequest(definition=definition)
+        update_stream_response = await self.__send_and_receive(
+            Operation.UpdateMessageStream, data=update_stream_request
+        )  # type: UpdateMessageStreamResponse
+
+        UtilInternal.raise_on_error_response(update_stream_response)
 
     async def _read_messages(self, stream_name: str, options: ReadMessagesOptions = None) -> List[Message]:
         self.__validate_read_message_options(options)
@@ -358,7 +407,7 @@ class StreamManagerClient:
             Operation.ReadMessages, data=read_messages_request
         )  # type: ReadMessagesResponse
 
-        Util.raise_on_error_response(read_messages_response)
+        UtilInternal.raise_on_error_response(read_messages_response)
         return read_messages_response.messages
 
     async def _list_streams(self) -> List[str]:
@@ -366,14 +415,14 @@ class StreamManagerClient:
             Operation.ListStreams, data=ListStreamsRequest()
         )  # type: ListStreamsResponse
 
-        Util.raise_on_error_response(list_streams_response)
+        UtilInternal.raise_on_error_response(list_streams_response)
         return list_streams_response.streams
 
     async def _describe_message_stream(self, stream_name: str) -> MessageStreamInfo:
         describe_message_stream_response = await self.__send_and_receive(
             Operation.DescribeMessageStream, data=DescribeMessageStreamRequest(name=stream_name)
         )  # type: DescribeMessageStreamResponse
-        Util.raise_on_error_response(describe_message_stream_response)
+        UtilInternal.raise_on_error_response(describe_message_stream_response)
 
         return describe_message_stream_response.message_stream_info
 
@@ -403,7 +452,7 @@ class StreamManagerClient:
         :raises: :exc:`ConnectionError` if the client is unable to reconnect to the server.
         """
         self.__check_closed()
-        return Util.sync(self._read_messages(stream_name, options), loop=self.__loop)
+        return UtilInternal.sync(self._read_messages(stream_name, options), loop=self.__loop)
 
     def append_message(self, stream_name: str, data: bytes) -> int:
         """
@@ -418,7 +467,7 @@ class StreamManagerClient:
         :raises: :exc:`ConnectionError` if the client is unable to reconnect to the server.
         """
         self.__check_closed()
-        return Util.sync(self._append_message(stream_name, data), loop=self.__loop)
+        return UtilInternal.sync(self._append_message(stream_name, data), loop=self.__loop)
 
     def create_message_stream(self, definition: MessageStreamDefinition) -> None:
         """
@@ -431,7 +480,7 @@ class StreamManagerClient:
         :raises: :exc:`ConnectionError` if the client is unable to reconnect to the server.
         """
         self.__check_closed()
-        return Util.sync(self._create_message_stream(definition), loop=self.__loop)
+        return UtilInternal.sync(self._create_message_stream(definition), loop=self.__loop)
 
     def delete_message_stream(self, stream_name: str) -> None:
         """
@@ -445,7 +494,21 @@ class StreamManagerClient:
         :raises: :exc:`ConnectionError` if the client is unable to reconnect to the server.
         """
         self.__check_closed()
-        return Util.sync(self._delete_message_stream(stream_name), loop=self.__loop)
+        return UtilInternal.sync(self._delete_message_stream(stream_name), loop=self.__loop)
+
+    def update_message_stream(self, definition: MessageStreamDefinition) -> None:
+        """
+        Updates a message stream based on a given definition.
+        Minimum version requirements: StreamManager server version 1.1 (or AWS IoT Greengrass Core 1.11.0)
+
+        :param definition: class:`~.data.MessageStreamDefinition` definition object.
+        :return: Nothing is returned if the request succeeds.
+        :raises: :exc:`~.exceptions.StreamManagerException` and subtypes based on the precise error.
+        :raises: :exc:`asyncio.TimeoutError` if the request times out.
+        :raises: :exc:`ConnectionError` if the client is unable to reconnect to the server.
+        """
+        self.__check_closed()
+        return UtilInternal.sync(self._update_message_stream(definition), loop=self.__loop)
 
     def list_streams(self) -> List[str]:
         """
@@ -457,7 +520,7 @@ class StreamManagerClient:
         :raises: :exc:`ConnectionError` if the client is unable to reconnect to the server.
         """
         self.__check_closed()
-        return Util.sync(self._list_streams(), loop=self.__loop)
+        return UtilInternal.sync(self._list_streams(), loop=self.__loop)
 
     def describe_message_stream(self, stream_name: str) -> MessageStreamInfo:
         """
@@ -471,7 +534,7 @@ class StreamManagerClient:
         :raises: :exc:`ConnectionError` if the client is unable to reconnect to the server.
         """
         self.__check_closed()
-        return Util.sync(self._describe_message_stream(stream_name), loop=self.__loop)
+        return UtilInternal.sync(self._describe_message_stream(stream_name), loop=self.__loop)
 
     def close(self):
         """
@@ -480,6 +543,6 @@ class StreamManagerClient:
         :raises: :exc:`~.exceptions.StreamManagerException` and subtypes based on the precise error.
         """
         if not self.__closed:
-            Util.sync(self._close(), loop=self.__loop)
+            UtilInternal.sync(self._close(), loop=self.__loop)
         if not self.__loop.is_closed():
             self.__loop.call_soon_threadsafe(self.__loop.stop)

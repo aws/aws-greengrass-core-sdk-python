@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>greengrasssdk.Lambda module &mdash; Greengrass Core Python SDK 1.5.0 documentation</title>
+  <title>greengrasssdk.Lambda module &mdash; Greengrass Core Python SDK 1.6.0 documentation</title>
   
 
   
@@ -56,7 +56,7 @@
             
             
               <div class="version">
-                1.5.0
+                1.6.0
               </div>
             
           
@@ -157,12 +157,60 @@
 
 <dl class="class">
 <dt id="greengrasssdk.Lambda.Client">
-<em class="property">class </em><code class="descclassname">greengrasssdk.Lambda.</code><code class="descname">Client</code><span class="sig-paren">(</span><em>endpoint='localhost'</em>, <em>port=8000</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/Lambda.html#Client"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.Lambda.Client" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">greengrasssdk.Lambda.</code><code class="descname">Client</code><span class="sig-paren">(</span><em>endpoint='localhost'</em>, <em>port=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/Lambda.html#Client"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.Lambda.Client" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="method">
 <dt id="greengrasssdk.Lambda.Client.invoke">
 <code class="descname">invoke</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/Lambda.html#Client.invoke"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.Lambda.Client.invoke" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Invokes Lambda function of the given name.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><ul class="first simple">
+<li><em>ClientContext</em> (<code class="docutils literal notranslate"><span class="pre">bytes</span></code>) –
+Optional Base64-encoded data about the invoking client to pass to the Lambda function</li>
+<li><em>FunctionName</em> (<code class="docutils literal notranslate"><span class="pre">string</span></code>) –
+[REQUIRED]
+The Amazon Resource Name (ARN) of the Lambda function to invoke. Name formats:<ul>
+<li>Qualified ARN - The function ARN with the version suffix. e.g. arn:aws:lambda:aws-region:acct-id:function:helloworld:1</li>
+<li>Unqualified ARN - The function ARN without the version suffix. e.g. arn:aws:lambda:aws-region:acct-id:function:helloworld</li>
+</ul>
+</li>
+<li><em>InvocationType</em> (<code class="docutils literal notranslate"><span class="pre">string</span></code>) –
+Choose from the following options.<ul>
+<li><code class="docutils literal notranslate"><span class="pre">RequestResponse</span></code> (default) - Invoke the Lambda synchronously. Block until the function returns a response or times out.</li>
+<li><code class="docutils literal notranslate"><span class="pre">Event</span></code> - Invoke the Lambda asynchronously. The response only includes empty payload.</li>
+</ul>
+</li>
+<li><em>Payload</em> (<code class="docutils literal notranslate"><span class="pre">bytes</span></code>) –
+Optional input for the Lambda function to invoke.</li>
+<li><em>Qualifier</em> (<code class="docutils literal notranslate"><span class="pre">string</span></code>) –
+Optional parameter to specify a Lambda function version if it was not included in the FunctionName field.
+If you specify a function version, the API uses the qualified function ARN to invoke a specific Lambda function.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><p>(<code class="docutils literal notranslate"><span class="pre">dict</span></code>) –
+* <em>FunctionError</em> (<code class="docutils literal notranslate"><span class="pre">string</span></code>) –</p>
+<blockquote>
+<div><p>If present, indicates that an error occurred while executing the Lambda function. If an error occurred,
+this field will have one of two values, <code class="docutils literal notranslate"><span class="pre">Handled</span></code> or <code class="docutils literal notranslate"><span class="pre">Unhandled</span></code>. <code class="docutils literal notranslate"><span class="pre">Handled</span></code> errors are errors that are reported by the function
+while the <code class="docutils literal notranslate"><span class="pre">Unhandled</span></code> errors are those detected and reported by Greengrass Core.
+<code class="docutils literal notranslate"><span class="pre">Unhandled</span></code> errors include out of memory errors and function timeouts. Error details are provided in the Payload.</p>
+</div></blockquote>
+<ul class="simple">
+<li><em>Payload</em> (<code class="docutils literal notranslate"><span class="pre">bytes</span> <span class="pre">or</span> <span class="pre">StreamingBody</span> <span class="pre">object</span></code>) –
+It is the result returned by the Lambda function. This is present only if the invocation type is <code class="docutils literal notranslate"><span class="pre">RequestResponse</span></code>.
+In the event of a function error this field contains a message describing the error.</li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 
@@ -199,7 +247,7 @@ If the amt argument is omitted, read all data.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Amazon.com.
+        &copy; Copyright 2020, Amazon.com.
 
     </p>
   </div>
@@ -221,7 +269,7 @@ If the amt argument is omitted, read all data.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.5.0',
+            VERSION:'1.6.0',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

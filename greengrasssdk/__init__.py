@@ -10,5 +10,5 @@ try:
 except:
     pass
 
-__version__ = '1.5.0'
+__version__ = '1.6.0'
 INTERFACE_VERSION = '1.5'

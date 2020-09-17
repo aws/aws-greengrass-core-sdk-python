@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>greengrasssdk.stream_manager.util module &mdash; Greengrass Core Python SDK 1.5.0 documentation</title>
+  <title>greengrasssdk.stream_manager.util module &mdash; Greengrass Core Python SDK 1.6.0 documentation</title>
   
 
   
@@ -56,7 +56,7 @@
             
             
               <div class="version">
-                1.5.0
+                1.6.0
               </div>
             
           
@@ -153,39 +153,18 @@
 <dt id="greengrasssdk.stream_manager.util.Util">
 <em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.util.</code><code class="descname">Util</code><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/util.html#Util"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.util.Util" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Validate And Serialize an instance of class to Json bytes.
+:param data: an instance object
+:return: a byte array.
+:raises: :ValidationException</p>
 <dl class="staticmethod">
-<dt id="greengrasssdk.stream_manager.util.Util.sync">
-<em class="property">static </em><code class="descname">sync</code><span class="sig-paren">(</span><em>coro</em>, <em>loop: asyncio.events.AbstractEventLoop</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/util.html#Util.sync"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.util.Util.sync" title="Permalink to this definition">¶</a></dt>
+<dt id="greengrasssdk.stream_manager.util.Util.validate_and_serialize_to_json_bytes">
+<em class="property">static </em><code class="descname">validate_and_serialize_to_json_bytes</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/util.html#Util.validate_and_serialize_to_json_bytes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.util.Util.validate_and_serialize_to_json_bytes" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="staticmethod">
-<dt id="greengrasssdk.stream_manager.util.Util.int_to_bytes">
-<em class="property">static </em><code class="descname">int_to_bytes</code><span class="sig-paren">(</span><em>i</em>, <em>length=4</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/util.html#Util.int_to_bytes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.util.Util.int_to_bytes" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="staticmethod">
-<dt id="greengrasssdk.stream_manager.util.Util.int_from_bytes">
-<em class="property">static </em><code class="descname">int_from_bytes</code><span class="sig-paren">(</span><em>b</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/util.html#Util.int_from_bytes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.util.Util.int_from_bytes" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="staticmethod">
-<dt id="greengrasssdk.stream_manager.util.Util.encode_frame">
-<em class="property">static </em><code class="descname">encode_frame</code><span class="sig-paren">(</span><em>frame</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/util.html#Util.encode_frame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.util.Util.encode_frame" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="staticmethod">
-<dt id="greengrasssdk.stream_manager.util.Util.get_request_id">
-<em class="property">static </em><code class="descname">get_request_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/util.html#Util.get_request_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.util.Util.get_request_id" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="staticmethod">
-<dt id="greengrasssdk.stream_manager.util.Util.is_invalid">
-<em class="property">static </em><code class="descname">is_invalid</code><span class="sig-paren">(</span><em>o</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/util.html#Util.is_invalid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.util.Util.is_invalid" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="staticmethod">
-<dt id="greengrasssdk.stream_manager.util.Util.raise_on_error_response">
-<em class="property">static </em><code class="descname">raise_on_error_response</code><span class="sig-paren">(</span><em>response</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/util.html#Util.raise_on_error_response"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.util.Util.raise_on_error_response" title="Permalink to this definition">¶</a></dt>
+<dt id="greengrasssdk.stream_manager.util.Util.deserialize_json_bytes_to_obj">
+<em class="property">static </em><code class="descname">deserialize_json_bytes_to_obj</code><span class="sig-paren">(</span><em>bytes</em>, <em>type</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/util.html#Util.deserialize_json_bytes_to_obj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.util.Util.deserialize_json_bytes_to_obj" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -203,7 +182,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Amazon.com.
+        &copy; Copyright 2020, Amazon.com.
 
     </p>
   </div>
@@ -225,7 +204,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.5.0',
+            VERSION:'1.6.0',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
