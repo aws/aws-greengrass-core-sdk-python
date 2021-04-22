@@ -133,13 +133,13 @@ def discoverGGC(host, iotCAPath, certificatePath, privateKeyPath, clientId):
         except DiscoveryInvalidRequestException as e:
             print("Invalid discovery request detected!")
             print("Type: " + str(type(e)))
-            print("Error message: " + e.message)
+            print("Error message: " + str(e))
             print("Stopping...")
             break
         except BaseException as e:
             print("Error in discovery!")
             print("Type: " + str(type(e)))
-            print("Error message: " + e.message)
+            print("Error message: " + str(e))
             retryCount -= 1
             print("\n" + str(retryCount) + "/" + str(MAX_DISCOVERY_RETRIES) + " retries left\n")
             print("Backing off...\n")
