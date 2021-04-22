@@ -63,9 +63,9 @@ def isIpAddress(value):
 
 
 # function reads host GGC ip address from filePath
-def getGGCAddr(filePath):
+def getGGCAddresses(filePath):
     f = open(filePath, "r")
-    return f.readline()
+    return f.readline().split(',')
 
 
 # Used to discover GGC group CA and end point. After discovering it persists in GROUP_PATH
@@ -98,7 +98,7 @@ def discoverGGC(host, iotCAPath, certificatePath, privateKeyPath, clientId):
             groupId, ca = caList[0]
             coreInfo = coreList[0]
             print("Discovered GGC: " + coreInfo.coreThingArn + " from Group: " + groupId)
-            hostAddr = ""
+            hostAddr = []
 
             # In this example Ip detector lambda is turned on which reports
             # the GGC hostAddr to the CIS (Connectivity Information Service) that stores the
@@ -106,15 +106,11 @@ def discoverGGC(host, iotCAPath, certificatePath, privateKeyPath, clientId):
             # This is the information used by discovery and the list of host addresses
             # could be outdated or wrong and you would normally want to
             # validate it in a better way.
-            # For simplicity, we will assume the first host address that looks like an ip
-            # is the right one to connect to GGC.
-            # Note: this can also be set manually via the update-connectivity-info CLI
             for addr in coreInfo.connectivityInfoList:
-                hostAddr = addr.host
-                if isIpAddress(hostAddr):
-                    break
+                if isIpAddress(addr.host):
+                    hostAddr.append(addr.host)
 
-            print("Discovered GGC Host Address: " + hostAddr)
+            print("Discovered GGC Host Addresses: " + ','.join(hostAddr))
             print("Now we persist the connectivity/identity information...")
             groupCA = GROUP_PATH + CA_NAME
             ggcHostPath = GROUP_PATH + GGC_ADDR_NAME
@@ -124,7 +120,7 @@ def discoverGGC(host, iotCAPath, certificatePath, privateKeyPath, clientId):
             groupCAFile.write(ca)
             groupCAFile.close()
             groupHostFile = open(ggcHostPath, "w")
-            groupHostFile.write(hostAddr)
+            groupHostFile.write(','.join(hostAddr))
             groupHostFile.close()
 
             discovered = True
@@ -188,8 +184,8 @@ else:
 # read GGC Host Address from file
 ggcAddrPath = GROUP_PATH + GGC_ADDR_NAME
 rootCAPath = GROUP_PATH + CA_NAME
-ggcAddr = getGGCAddr(ggcAddrPath)
-print("GGC Host Address: " + ggcAddr)
+ggcAddrs = getGGCAddresses(ggcAddrPath)
+print("GGC Host Address: " + ','.join(ggcAddrs))
 print("GGC Group CA Path: " + rootCAPath)
 print("Private Key of lightController thing Path: " + privateKeyPath)
 print("Certificate of lightController thing Path: " + certificatePath)
@@ -198,7 +194,6 @@ print("Target shadow thing ID(thing name for trafficLight): " + thingName)
 
 # Init AWSIoTMQTTShadowClient
 myAWSIoTMQTTShadowClient = AWSIoTMQTTShadowClient(clientId)
-myAWSIoTMQTTShadowClient.configureEndpoint(ggcAddr, 8883)
 myAWSIoTMQTTShadowClient.configureCredentials(rootCAPath, privateKeyPath, certificatePath)
 
 # AWSIoTMQTTShadowClient configuration
@@ -207,7 +202,22 @@ myAWSIoTMQTTShadowClient.configureConnectDisconnectTimeout(10)  # 10 sec
 myAWSIoTMQTTShadowClient.configureMQTTOperationTimeout(5)  # 5 sec
 
 # Connect to AWS IoT
-myAWSIoTMQTTShadowClient.connect()
+connected = False
+for addr in ggcAddrs:
+    try:
+        print("Trying to connect to GGC Host Address: " + addr)
+        myAWSIoTMQTTShadowClient.configureEndpoint(addr, 8883)
+        myAWSIoTMQTTShadowClient.connect()
+        connected = True
+    except BaseException as e:
+        print("Error while connecting")
+        print("Address " + addr + " is not accessible")
+        print("Type: " + str(type(e)))
+        print("Error message: " + str(e))
+
+if not connected:
+    print("Could not connect to any Greengrass Core address")
+    sys.exit(-2)
 
 # Create a deviceShadow with persistent subscription
 deviceShadowHandler = myAWSIoTMQTTShadowClient.createShadowHandlerWithName(thingName, True)
