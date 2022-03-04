@@ -14,13 +14,17 @@ VERSION_RE = re.compile(r'''__version__ = ['"]([0-9.]+)['"]''')
 
 
 requires = [
-    "cbor2==4.1.2"
+    "cbor2~=5.4.2"
 ]
 
 
 def get_version():
     init = open(os.path.join(ROOT,'greengrasssdk','__init__.py')).read()
-    return VERSION_RE.search(init).group(1)
+    version = VERSION_RE.search(init).group(1)
+    if os.getenv("PYPI_TEST", False) == "True":
+        import time
+        return version + "." + str(int(time.time()))
+    return version
 
 
 setup(

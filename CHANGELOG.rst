@@ -2,6 +2,10 @@
 CHANGELOG
 =========
 
+1.6.1
+=====
+Stream manager support for Python 3.10.
+
 1.6.0
 =====
 Stream manager supports automatic data export to AWS S3 and AWS IoT SiteWise, provides new API method to update existing streams, and pause or resume exporting.

@@ -1,3 +1,8 @@
+"""
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: Apache-2.0
+"""
+
 import asyncio
 import logging
 import os
@@ -36,6 +41,13 @@ from .data import (
 from .exceptions import ClientException, ConnectFailedException, StreamManagerException, ValidationException
 from .utilinternal import UtilInternal
 
+# Version of the Python SDK.
+# NOTE: This version is independent of the StreamManager PROTOCOL_VERSION, which versions the data format
+#  over the wire. When bumping the PROTOCOL_VERSION, consider adding the old version to
+#  __OLD_SUPPORTED_PROTOCOL_VERSIONS list (if you intend to support it). Nothing else is needed to bump
+#  this SDK_VERSION.
+SDK_VERSION = "1.1.1"
+
 
 class StreamManagerClient:
     """
@@ -51,11 +63,6 @@ class StreamManagerClient:
     :raises: :exc:`asyncio.TimeoutError` if the request times out.
     :raises: :exc:`ConnectionError` if the client is unable to connect to the server.
     """
-
-    # Version of the Java SDK.
-    # NOTE: When you bump this version,
-    # consider adding the old version to olderSupportedProtocolVersions list (if you intend to support it)
-    __SDK_VERSION = "1.1.0"
 
     # List of supported protocol protocol.
     # These are meant to be used for graceful degradation if the server does not support the current SDK version.
@@ -106,6 +113,12 @@ class StreamManagerClient:
         self.connected = False
         UtilInternal.sync(self.__connect(), loop=self.__loop)
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, traceback):
+        self.close()
+
     async def _close(self):
         if self.__writer is not None:
             self.__closed = True
@@ -131,12 +144,12 @@ class StreamManagerClient:
             return
         try:
             self.logger.debug("Opening connection to %s:%d", self.host, self.port)
-            future = asyncio.open_connection(self.host, self.port, loop=self.__loop)
+            future = asyncio.open_connection(self.host, self.port)
             self.__reader, self.__writer = await asyncio.wait_for(
-                future, timeout=self.connect_timeout, loop=self.__loop
+                future, timeout=self.connect_timeout
             )
 
-            await asyncio.wait_for(self.__connect_request_response(), timeout=self.request_timeout, loop=self.__loop)
+            await asyncio.wait_for(self.__connect_request_response(), timeout=self.request_timeout)
 
             self.logger.debug("Socket connected successfully. Starting read loop.")
             self.connected = True
@@ -256,7 +269,7 @@ class StreamManagerClient:
     async def __connect_request_response(self):
         data = ConnectRequest()
         data.request_id = UtilInternal.get_request_id()
-        data.sdk_version = self.__SDK_VERSION
+        data.sdk_version = SDK_VERSION
         data.other_supported_protocol_versions = self.__OLD_SUPPORTED_PROTOCOL_VERSIONS
         data.protocol_version = VersionInfo.PROTOCOL_VERSION.value
         if self.auth_token is not None:
@@ -300,7 +313,7 @@ class StreamManagerClient:
                 "SDK with version %s using Protocol version %s is not fully compatible with Server with version %s. "
                 "Client has connected in a compatibility mode using protocol version %s. "
                 "Some features will not work as expected",
-                self.__SDK_VERSION,
+                SDK_VERSION,
                 data.protocol_version,
                 response.server_version,
                 response.protocol_version,
@@ -337,7 +350,7 @@ class StreamManagerClient:
 
         # Perform the actual work as async so that we can put a timeout on the whole operation
         try:
-            return await asyncio.wait_for(inner(operation, data), timeout=self.request_timeout, loop=self.__loop)
+            return await asyncio.wait_for(inner(operation, data), timeout=self.request_timeout)
         except asyncio.TimeoutError:
             # Drop async queue from request map
             del self.__requests[data.request_id]

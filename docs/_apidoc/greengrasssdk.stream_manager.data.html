@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>greengrasssdk.stream_manager.data package &mdash; Greengrass Core Python SDK 1.6.0 documentation</title>
+  <title>greengrasssdk.stream_manager.data package &mdash; Greengrass Core Python SDK 1.6.1 documentation</title>
   
 
   
@@ -56,7 +56,7 @@
             
             
               <div class="version">
-                1.6.0
+                1.6.1
               </div>
             
           
@@ -531,6 +531,90 @@ UnknownOperation: Client request is not recognized by the server.</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="greengrasssdk.stream_manager.data.Status">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">Status</code><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#Status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.Status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>The status of the event.</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Status.Success">
+<code class="descname">Success</code><em class="property"> = 0</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Status.Success" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Status.Failure">
+<code class="descname">Failure</code><em class="property"> = 1</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Status.Failure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Status.InProgress">
+<code class="descname">InProgress</code><em class="property"> = 2</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Status.InProgress" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Status.Warning">
+<code class="descname">Warning</code><em class="property"> = 3</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Status.Warning" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Status.Canceled">
+<code class="descname">Canceled</code><em class="property"> = 4</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Status.Canceled" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Status.from_dict">
+<code class="descname">from_dict</code><em class="property"> = &lt;function Status.from_dict&gt;</em><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#Status.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.Status.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.Status.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#Status.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.Status.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="greengrasssdk.stream_manager.data.StatusLevel">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">StatusLevel</code><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#StatusLevel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.StatusLevel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Defines the verbosity of status messages in a status-stream.</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.StatusLevel.ERROR">
+<code class="descname">ERROR</code><em class="property"> = 0</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.StatusLevel.ERROR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.StatusLevel.WARN">
+<code class="descname">WARN</code><em class="property"> = 1</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.StatusLevel.WARN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.StatusLevel.INFO">
+<code class="descname">INFO</code><em class="property"> = 2</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.StatusLevel.INFO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.StatusLevel.DEBUG">
+<code class="descname">DEBUG</code><em class="property"> = 3</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.StatusLevel.DEBUG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.StatusLevel.TRACE">
+<code class="descname">TRACE</code><em class="property"> = 4</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.StatusLevel.TRACE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.StatusLevel.from_dict">
+<code class="descname">from_dict</code><em class="property"> = &lt;function StatusLevel.from_dict&gt;</em><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#StatusLevel.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.StatusLevel.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.StatusLevel.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#StatusLevel.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.StatusLevel.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="greengrasssdk.stream_manager.data.S3ExportTaskDefinition">
 <em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">S3ExportTaskDefinition</code><span class="sig-paren">(</span><em>input_url: str = None</em>, <em>bucket: str = None</em>, <em>key: str = None</em>, <em>user_metadata: dict = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#S3ExportTaskDefinition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.S3ExportTaskDefinition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
@@ -632,90 +716,6 @@ Example: myKeyNamePrefix/!{timestamp:yyyy/MM/dd}/myKeyNameSuffix.</p>
 <dl class="method">
 <dt id="greengrasssdk.stream_manager.data.EventType.as_dict">
 <code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#EventType.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.EventType.as_dict" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="greengrasssdk.stream_manager.data.Status">
-<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">Status</code><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#Status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.Status" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
-<p>The status of the event.</p>
-<dl class="attribute">
-<dt id="greengrasssdk.stream_manager.data.Status.Success">
-<code class="descname">Success</code><em class="property"> = 0</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Status.Success" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="greengrasssdk.stream_manager.data.Status.Failure">
-<code class="descname">Failure</code><em class="property"> = 1</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Status.Failure" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="greengrasssdk.stream_manager.data.Status.InProgress">
-<code class="descname">InProgress</code><em class="property"> = 2</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Status.InProgress" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="greengrasssdk.stream_manager.data.Status.Warning">
-<code class="descname">Warning</code><em class="property"> = 3</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Status.Warning" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="greengrasssdk.stream_manager.data.Status.Canceled">
-<code class="descname">Canceled</code><em class="property"> = 4</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Status.Canceled" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="greengrasssdk.stream_manager.data.Status.from_dict">
-<code class="descname">from_dict</code><em class="property"> = &lt;function Status.from_dict&gt;</em><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#Status.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.Status.from_dict" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="greengrasssdk.stream_manager.data.Status.as_dict">
-<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#Status.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.Status.as_dict" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="greengrasssdk.stream_manager.data.StatusLevel">
-<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">StatusLevel</code><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#StatusLevel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.StatusLevel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
-<p>Defines the verbosity of status messages in a status-stream.</p>
-<dl class="attribute">
-<dt id="greengrasssdk.stream_manager.data.StatusLevel.ERROR">
-<code class="descname">ERROR</code><em class="property"> = 0</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.StatusLevel.ERROR" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="greengrasssdk.stream_manager.data.StatusLevel.WARN">
-<code class="descname">WARN</code><em class="property"> = 1</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.StatusLevel.WARN" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="greengrasssdk.stream_manager.data.StatusLevel.INFO">
-<code class="descname">INFO</code><em class="property"> = 2</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.StatusLevel.INFO" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="greengrasssdk.stream_manager.data.StatusLevel.DEBUG">
-<code class="descname">DEBUG</code><em class="property"> = 3</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.StatusLevel.DEBUG" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="greengrasssdk.stream_manager.data.StatusLevel.TRACE">
-<code class="descname">TRACE</code><em class="property"> = 4</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.StatusLevel.TRACE" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="greengrasssdk.stream_manager.data.StatusLevel.from_dict">
-<code class="descname">from_dict</code><em class="property"> = &lt;function StatusLevel.from_dict&gt;</em><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#StatusLevel.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.StatusLevel.from_dict" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="greengrasssdk.stream_manager.data.StatusLevel.as_dict">
-<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#StatusLevel.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.StatusLevel.as_dict" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -888,79 +888,59 @@ The minimum value is 60000 milliseconds and the maximum is 9223372036854 millise
 </dd></dl>
 
 <dl class="class">
-<dt id="greengrasssdk.stream_manager.data.StatusConfig">
-<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">StatusConfig</code><span class="sig-paren">(</span><em>status_level: greengrasssdk.stream_manager.data.StatusLevel = None</em>, <em>status_stream_name: str = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#StatusConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.StatusConfig" title="Permalink to this definition">¶</a></dt>
+<dt id="greengrasssdk.stream_manager.data.IoTSiteWiseConfig">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">IoTSiteWiseConfig</code><span class="sig-paren">(</span><em>identifier: str = None</em>, <em>batch_size: int = None</em>, <em>batch_interval_millis: int = None</em>, <em>priority: int = None</em>, <em>start_sequence_number: int = None</em>, <em>disabled: bool = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#IoTSiteWiseConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.IoTSiteWiseConfig" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Configuration for status in a status-stream.</p>
+<p>Configuration object for IotSiteWise data streams export destination. Minimum version requirements: StreamManager server version 1.1 (or AWS IoT Greengrass Core 1.11.0)</p>
 <dl class="attribute">
-<dt id="greengrasssdk.stream_manager.data.StatusConfig.status_level">
-<code class="descname">status_level</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.StatusConfig.status_level" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the verbosity of status messages in a status-stream.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="greengrasssdk.stream_manager.data.StatusConfig.status_stream_name">
-<code class="descname">status_stream_name</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.StatusConfig.status_stream_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>The name of the stream to which status messages are appended.
-The status-stream should be created before associating it with another stream.</p>
-</dd></dl>
-
-<dl class="staticmethod">
-<dt id="greengrasssdk.stream_manager.data.StatusConfig.from_dict">
-<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#StatusConfig.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.StatusConfig.from_dict" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="greengrasssdk.stream_manager.data.StatusConfig.as_dict">
-<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#StatusConfig.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.StatusConfig.as_dict" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="greengrasssdk.stream_manager.data.S3ExportTaskExecutorConfig">
-<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">S3ExportTaskExecutorConfig</code><span class="sig-paren">(</span><em>identifier: str = None</em>, <em>size_threshold_for_multipart_upload_bytes: int = None</em>, <em>priority: int = None</em>, <em>disabled: bool = None</em>, <em>status_config: greengrasssdk.stream_manager.data.StatusConfig = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#S3ExportTaskExecutorConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.S3ExportTaskExecutorConfig" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Configuration object for S3 export tasks executor.  Minimum version requirements: StreamManager server version 1.1 (or AWS IoT Greengrass Core 1.11.0)</p>
-<dl class="attribute">
-<dt id="greengrasssdk.stream_manager.data.S3ExportTaskExecutorConfig.identifier">
-<code class="descname">identifier</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.S3ExportTaskExecutorConfig.identifier" title="Permalink to this definition">¶</a></dt>
-<dd><p>A unique identifier to identify this individual upload task.
+<dt id="greengrasssdk.stream_manager.data.IoTSiteWiseConfig.identifier">
+<code class="descname">identifier</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.IoTSiteWiseConfig.identifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>A unique identifier to identify this individual upload stream.
 Must be an alphanumeric string including spaces, commas, periods, hyphens, and underscores with length between 1 and 255.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="greengrasssdk.stream_manager.data.S3ExportTaskExecutorConfig.size_threshold_for_multipart_upload_bytes">
-<code class="descname">size_threshold_for_multipart_upload_bytes</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.S3ExportTaskExecutorConfig.size_threshold_for_multipart_upload_bytes" title="Permalink to this definition">¶</a></dt>
-<dd><p>The size threshold in bytes for when to use multipart uploads. Uploads over this size will automatically use a multipart upload strategy, while uploads equal or smaller than this threshold will use a single connection to upload the whole object.</p>
+<dt id="greengrasssdk.stream_manager.data.IoTSiteWiseConfig.batch_size">
+<code class="descname">batch_size</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.IoTSiteWiseConfig.batch_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>The maximum size of a batch to send to the destination. Messages will be queued until the batch size is reached, after which they will then be uploaded. If unspecified the default will be 10.
+If both batchSize and batchIntervalMillis are specified, then messages will be eligible for upload when either condition is met.
+The minimum batch size is 1 and the maximum is 10.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="greengrasssdk.stream_manager.data.S3ExportTaskExecutorConfig.priority">
-<code class="descname">priority</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.S3ExportTaskExecutorConfig.priority" title="Permalink to this definition">¶</a></dt>
-<dd><p>Priority for this upload task. Lower values are higher priority. If not specified it will have the lowest priority.</p>
+<dt id="greengrasssdk.stream_manager.data.IoTSiteWiseConfig.batch_interval_millis">
+<code class="descname">batch_interval_millis</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.IoTSiteWiseConfig.batch_interval_millis" title="Permalink to this definition">¶</a></dt>
+<dd><p>The time in milliseconds between the earliest un-uploaded message and the current time. If this time is exceeded, messages will be uploaded in the next batch. If unspecified messages will be eligible for upload immediately.
+If both batchSize and batchIntervalMillis are specified, then messages will be eligible for upload when either condition is met.
+The minimum value is 60000 milliseconds and the maximum is 9223372036854 milliseconds.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="greengrasssdk.stream_manager.data.S3ExportTaskExecutorConfig.disabled">
-<code class="descname">disabled</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.S3ExportTaskExecutorConfig.disabled" title="Permalink to this definition">¶</a></dt>
+<dt id="greengrasssdk.stream_manager.data.IoTSiteWiseConfig.priority">
+<code class="descname">priority</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.IoTSiteWiseConfig.priority" title="Permalink to this definition">¶</a></dt>
+<dd><p>Priority for this upload stream. Lower values are higher priority. If not specified it will have the lowest priority.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.IoTSiteWiseConfig.start_sequence_number">
+<code class="descname">start_sequence_number</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.IoTSiteWiseConfig.start_sequence_number" title="Permalink to this definition">¶</a></dt>
+<dd><p>The sequence number of the message to use as the starting message in the export. Default is 0. The sequence number provided should be less than the newest sequence number in the stream, i.e., sequence number of the last messaged appended. To find the newest sequence number, describe the stream and then check the storage status of the returned MessageStreamInfo object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.IoTSiteWiseConfig.disabled">
+<code class="descname">disabled</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.IoTSiteWiseConfig.disabled" title="Permalink to this definition">¶</a></dt>
 <dd><p>Enable or disable this export. Default is false.</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="greengrasssdk.stream_manager.data.S3ExportTaskExecutorConfig.status_config">
-<code class="descname">status_config</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.S3ExportTaskExecutorConfig.status_config" title="Permalink to this definition">¶</a></dt>
-<dd><p>Event status configuration that specifies the target status stream and verbosity.</p>
-</dd></dl>
-
 <dl class="staticmethod">
-<dt id="greengrasssdk.stream_manager.data.S3ExportTaskExecutorConfig.from_dict">
-<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#S3ExportTaskExecutorConfig.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.S3ExportTaskExecutorConfig.from_dict" title="Permalink to this definition">¶</a></dt>
+<dt id="greengrasssdk.stream_manager.data.IoTSiteWiseConfig.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#IoTSiteWiseConfig.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.IoTSiteWiseConfig.from_dict" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="greengrasssdk.stream_manager.data.S3ExportTaskExecutorConfig.as_dict">
-<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#S3ExportTaskExecutorConfig.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.S3ExportTaskExecutorConfig.as_dict" title="Permalink to this definition">¶</a></dt>
+<dt id="greengrasssdk.stream_manager.data.IoTSiteWiseConfig.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#IoTSiteWiseConfig.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.IoTSiteWiseConfig.as_dict" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1067,6 +1047,84 @@ The minimum value is 60000 milliseconds and the maximum is 9223372036854 millise
 </dd></dl>
 
 <dl class="class">
+<dt id="greengrasssdk.stream_manager.data.StatusConfig">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">StatusConfig</code><span class="sig-paren">(</span><em>status_level: greengrasssdk.stream_manager.data.StatusLevel = None</em>, <em>status_stream_name: str = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#StatusConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.StatusConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Configuration for status in a status-stream.</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.StatusConfig.status_level">
+<code class="descname">status_level</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.StatusConfig.status_level" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the verbosity of status messages in a status-stream.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.StatusConfig.status_stream_name">
+<code class="descname">status_stream_name</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.StatusConfig.status_stream_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the stream to which status messages are appended.
+The status-stream should be created before associating it with another stream.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="greengrasssdk.stream_manager.data.StatusConfig.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#StatusConfig.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.StatusConfig.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.StatusConfig.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#StatusConfig.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.StatusConfig.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="greengrasssdk.stream_manager.data.S3ExportTaskExecutorConfig">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">S3ExportTaskExecutorConfig</code><span class="sig-paren">(</span><em>identifier: str = None</em>, <em>size_threshold_for_multipart_upload_bytes: int = None</em>, <em>priority: int = None</em>, <em>disabled: bool = None</em>, <em>status_config: greengrasssdk.stream_manager.data.StatusConfig = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#S3ExportTaskExecutorConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.S3ExportTaskExecutorConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Configuration object for S3 export tasks executor.  Minimum version requirements: StreamManager server version 1.1 (or AWS IoT Greengrass Core 1.11.0)</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.S3ExportTaskExecutorConfig.identifier">
+<code class="descname">identifier</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.S3ExportTaskExecutorConfig.identifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>A unique identifier to identify this individual upload task.
+Must be an alphanumeric string including spaces, commas, periods, hyphens, and underscores with length between 1 and 255.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.S3ExportTaskExecutorConfig.size_threshold_for_multipart_upload_bytes">
+<code class="descname">size_threshold_for_multipart_upload_bytes</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.S3ExportTaskExecutorConfig.size_threshold_for_multipart_upload_bytes" title="Permalink to this definition">¶</a></dt>
+<dd><p>The size threshold in bytes for when to use multipart uploads. Uploads over this size will automatically use a multipart upload strategy, while uploads equal or smaller than this threshold will use a single connection to upload the whole object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.S3ExportTaskExecutorConfig.priority">
+<code class="descname">priority</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.S3ExportTaskExecutorConfig.priority" title="Permalink to this definition">¶</a></dt>
+<dd><p>Priority for this upload task. Lower values are higher priority. If not specified it will have the lowest priority.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.S3ExportTaskExecutorConfig.disabled">
+<code class="descname">disabled</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.S3ExportTaskExecutorConfig.disabled" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enable or disable this export. Default is false.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.S3ExportTaskExecutorConfig.status_config">
+<code class="descname">status_config</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.S3ExportTaskExecutorConfig.status_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Event status configuration that specifies the target status stream and verbosity.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="greengrasssdk.stream_manager.data.S3ExportTaskExecutorConfig.from_dict">
+<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#S3ExportTaskExecutorConfig.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.S3ExportTaskExecutorConfig.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.S3ExportTaskExecutorConfig.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#S3ExportTaskExecutorConfig.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.S3ExportTaskExecutorConfig.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="greengrasssdk.stream_manager.data.IoTAnalyticsConfig">
 <em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">IoTAnalyticsConfig</code><span class="sig-paren">(</span><em>identifier: str = None</em>, <em>iot_channel: str = None</em>, <em>iot_msg_id_prefix: str = None</em>, <em>batch_size: int = None</em>, <em>batch_interval_millis: int = None</em>, <em>priority: int = None</em>, <em>start_sequence_number: int = None</em>, <em>disabled: bool = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#IoTAnalyticsConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.IoTAnalyticsConfig" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
@@ -1133,64 +1191,6 @@ The minimum value is 60000 milliseconds and the maximum is 9223372036854 millise
 <dl class="method">
 <dt id="greengrasssdk.stream_manager.data.IoTAnalyticsConfig.as_dict">
 <code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#IoTAnalyticsConfig.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.IoTAnalyticsConfig.as_dict" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="greengrasssdk.stream_manager.data.IoTSiteWiseConfig">
-<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">IoTSiteWiseConfig</code><span class="sig-paren">(</span><em>identifier: str = None</em>, <em>batch_size: int = None</em>, <em>batch_interval_millis: int = None</em>, <em>priority: int = None</em>, <em>start_sequence_number: int = None</em>, <em>disabled: bool = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#IoTSiteWiseConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.IoTSiteWiseConfig" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Configuration object for IotSiteWise data streams export destination. Minimum version requirements: StreamManager server version 1.1 (or AWS IoT Greengrass Core 1.11.0)</p>
-<dl class="attribute">
-<dt id="greengrasssdk.stream_manager.data.IoTSiteWiseConfig.identifier">
-<code class="descname">identifier</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.IoTSiteWiseConfig.identifier" title="Permalink to this definition">¶</a></dt>
-<dd><p>A unique identifier to identify this individual upload stream.
-Must be an alphanumeric string including spaces, commas, periods, hyphens, and underscores with length between 1 and 255.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="greengrasssdk.stream_manager.data.IoTSiteWiseConfig.batch_size">
-<code class="descname">batch_size</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.IoTSiteWiseConfig.batch_size" title="Permalink to this definition">¶</a></dt>
-<dd><p>The maximum size of a batch to send to the destination. Messages will be queued until the batch size is reached, after which they will then be uploaded. If unspecified the default will be 10.
-If both batchSize and batchIntervalMillis are specified, then messages will be eligible for upload when either condition is met.
-The minimum batch size is 1 and the maximum is 10.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="greengrasssdk.stream_manager.data.IoTSiteWiseConfig.batch_interval_millis">
-<code class="descname">batch_interval_millis</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.IoTSiteWiseConfig.batch_interval_millis" title="Permalink to this definition">¶</a></dt>
-<dd><p>The time in milliseconds between the earliest un-uploaded message and the current time. If this time is exceeded, messages will be uploaded in the next batch. If unspecified messages will be eligible for upload immediately.
-If both batchSize and batchIntervalMillis are specified, then messages will be eligible for upload when either condition is met.
-The minimum value is 60000 milliseconds and the maximum is 9223372036854 milliseconds.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="greengrasssdk.stream_manager.data.IoTSiteWiseConfig.priority">
-<code class="descname">priority</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.IoTSiteWiseConfig.priority" title="Permalink to this definition">¶</a></dt>
-<dd><p>Priority for this upload stream. Lower values are higher priority. If not specified it will have the lowest priority.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="greengrasssdk.stream_manager.data.IoTSiteWiseConfig.start_sequence_number">
-<code class="descname">start_sequence_number</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.IoTSiteWiseConfig.start_sequence_number" title="Permalink to this definition">¶</a></dt>
-<dd><p>The sequence number of the message to use as the starting message in the export. Default is 0. The sequence number provided should be less than the newest sequence number in the stream, i.e., sequence number of the last messaged appended. To find the newest sequence number, describe the stream and then check the storage status of the returned MessageStreamInfo object.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="greengrasssdk.stream_manager.data.IoTSiteWiseConfig.disabled">
-<code class="descname">disabled</code><a class="headerlink" href="#greengrasssdk.stream_manager.data.IoTSiteWiseConfig.disabled" title="Permalink to this definition">¶</a></dt>
-<dd><p>Enable or disable this export. Default is false.</p>
-</dd></dl>
-
-<dl class="staticmethod">
-<dt id="greengrasssdk.stream_manager.data.IoTSiteWiseConfig.from_dict">
-<em class="property">static </em><code class="descname">from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#IoTSiteWiseConfig.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.IoTSiteWiseConfig.from_dict" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="greengrasssdk.stream_manager.data.IoTSiteWiseConfig.as_dict">
-<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#IoTSiteWiseConfig.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.IoTSiteWiseConfig.as_dict" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -2048,6 +2048,38 @@ The maximum value is the value of the client timeout.</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="greengrasssdk.stream_manager.data.Quality">
+<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">Quality</code><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#Quality"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.Quality" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Quality.GOOD">
+<code class="descname">GOOD</code><em class="property"> = 'GOOD'</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Quality.GOOD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Quality.BAD">
+<code class="descname">BAD</code><em class="property"> = 'BAD'</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Quality.BAD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Quality.UNCERTAIN">
+<code class="descname">UNCERTAIN</code><em class="property"> = 'UNCERTAIN'</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Quality.UNCERTAIN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="greengrasssdk.stream_manager.data.Quality.from_dict">
+<code class="descname">from_dict</code><em class="property"> = &lt;function Quality.from_dict&gt;</em><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#Quality.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.Quality.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="greengrasssdk.stream_manager.data.Quality.as_dict">
+<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#Quality.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.Quality.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="greengrasssdk.stream_manager.data.Variant">
 <em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">Variant</code><span class="sig-paren">(</span><em>string_value: str = None</em>, <em>integer_value: int = None</em>, <em>double_value: float = None</em>, <em>boolean_value: bool = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#Variant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.Variant" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
@@ -2084,38 +2116,6 @@ The maximum value is the value of the client timeout.</p>
 <dl class="method">
 <dt id="greengrasssdk.stream_manager.data.Variant.as_dict">
 <code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#Variant.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.Variant.as_dict" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="greengrasssdk.stream_manager.data.Quality">
-<em class="property">class </em><code class="descclassname">greengrasssdk.stream_manager.data.</code><code class="descname">Quality</code><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#Quality"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.Quality" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
-<p>An enumeration.</p>
-<dl class="attribute">
-<dt id="greengrasssdk.stream_manager.data.Quality.GOOD">
-<code class="descname">GOOD</code><em class="property"> = 'GOOD'</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Quality.GOOD" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="greengrasssdk.stream_manager.data.Quality.BAD">
-<code class="descname">BAD</code><em class="property"> = 'BAD'</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Quality.BAD" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="greengrasssdk.stream_manager.data.Quality.UNCERTAIN">
-<code class="descname">UNCERTAIN</code><em class="property"> = 'UNCERTAIN'</em><a class="headerlink" href="#greengrasssdk.stream_manager.data.Quality.UNCERTAIN" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="greengrasssdk.stream_manager.data.Quality.from_dict">
-<code class="descname">from_dict</code><em class="property"> = &lt;function Quality.from_dict&gt;</em><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#Quality.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.Quality.from_dict" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="greengrasssdk.stream_manager.data.Quality.as_dict">
-<code class="descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/greengrasssdk/stream_manager/data.html#Quality.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greengrasssdk.stream_manager.data.Quality.as_dict" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -2223,7 +2223,7 @@ The maximum value is the value of the client timeout.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Amazon.com.
+        &copy; Copyright 2022, Amazon.com.
 
     </p>
   </div>
@@ -2245,7 +2245,7 @@ The maximum value is the value of the client timeout.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.6.0',
+            VERSION:'1.6.1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

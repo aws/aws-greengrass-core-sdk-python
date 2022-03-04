@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>greengrasssdk.stream_manager.streammanagerclient &mdash; Greengrass Core Python SDK 1.6.0 documentation</title>
+  <title>greengrasssdk.stream_manager.streammanagerclient &mdash; Greengrass Core Python SDK 1.6.1 documentation</title>
   
 
   
@@ -56,7 +56,7 @@
             
             
               <div class="version">
-                1.6.0
+                1.6.1
               </div>
             
           
@@ -143,15 +143,20 @@
            <div itemprop="articleBody">
             
   <h1>Source code for greengrasssdk.stream_manager.streammanagerclient</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">asyncio</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.</span>
+<span class="sd">SPDX-License-Identifier: Apache-2.0</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">asyncio</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">threading</span> <span class="k">import</span> <span class="n">Thread</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Thread</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">import</span> <span class="nn">cbor2</span>
 
-<span class="kn">from</span> <span class="nn">.data</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">.data</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">AppendMessageRequest</span><span class="p">,</span>
     <span class="n">AppendMessageResponse</span><span class="p">,</span>
     <span class="n">ConnectRequest</span><span class="p">,</span>
@@ -178,8 +183,15 @@
     <span class="n">UpdateMessageStreamResponse</span><span class="p">,</span>
     <span class="n">VersionInfo</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="k">import</span> <span class="n">ClientException</span><span class="p">,</span> <span class="n">ConnectFailedException</span><span class="p">,</span> <span class="n">StreamManagerException</span><span class="p">,</span> <span class="n">ValidationException</span>
-<span class="kn">from</span> <span class="nn">.utilinternal</span> <span class="k">import</span> <span class="n">UtilInternal</span>
+<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="n">ClientException</span><span class="p">,</span> <span class="n">ConnectFailedException</span><span class="p">,</span> <span class="n">StreamManagerException</span><span class="p">,</span> <span class="n">ValidationException</span>
+<span class="kn">from</span> <span class="nn">.utilinternal</span> <span class="kn">import</span> <span class="n">UtilInternal</span>
+
+<span class="c1"># Version of the Python SDK.</span>
+<span class="c1"># NOTE: This version is independent of the StreamManager PROTOCOL_VERSION, which versions the data format</span>
+<span class="c1">#  over the wire. When bumping the PROTOCOL_VERSION, consider adding the old version to</span>
+<span class="c1">#  __OLD_SUPPORTED_PROTOCOL_VERSIONS list (if you intend to support it). Nothing else is needed to bump</span>
+<span class="c1">#  this SDK_VERSION.</span>
+<span class="n">SDK_VERSION</span> <span class="o">=</span> <span class="s2">&quot;1.1.1&quot;</span>
 
 
 <div class="viewcode-block" id="StreamManagerClient"><a class="viewcode-back" href="../../../_apidoc/greengrasssdk.stream_manager.streammanagerclient.html#greengrasssdk.stream_manager.streammanagerclient.StreamManagerClient">[docs]</a><span class="k">class</span> <span class="nc">StreamManagerClient</span><span class="p">:</span>
@@ -197,18 +209,13 @@
 <span class="sd">    :raises: :exc:`ConnectionError` if the client is unable to connect to the server.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># Version of the Java SDK.</span>
-    <span class="c1"># NOTE: When you bump this version,</span>
-    <span class="c1"># consider adding the old version to olderSupportedProtocolVersions list (if you intend to support it)</span>
-    <span class="n">__SDK_VERSION</span> <span class="o">=</span> <span class="s2">&quot;1.1.0&quot;</span>
-
     <span class="c1"># List of supported protocol protocol.</span>
     <span class="c1"># These are meant to be used for graceful degradation if the server does not support the current SDK version.</span>
     <span class="n">__OLD_SUPPORTED_PROTOCOL_VERSIONS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;1.0.0&quot;</span><span class="p">]</span>
 
     <span class="n">__CONNECT_VERSION</span> <span class="o">=</span> <span class="mi">1</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">host</span><span class="o">=</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span>
         <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -251,6 +258,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">connected</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">UtilInternal</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__connect</span><span class="p">(),</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__loop</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">traceback</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
     <span class="k">async</span> <span class="k">def</span> <span class="nf">_close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__writer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__closed</span> <span class="o">=</span> <span class="kc">True</span>
@@ -276,12 +289,12 @@
             <span class="k">return</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Opening connection to </span><span class="si">%s</span><span class="s2">:</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">)</span>
-            <span class="n">future</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">open_connection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">,</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__loop</span><span class="p">)</span>
+            <span class="n">future</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">open_connection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__reader</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__writer</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span>
-                <span class="n">future</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">connect_timeout</span><span class="p">,</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__loop</span>
+                <span class="n">future</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">connect_timeout</span>
             <span class="p">)</span>
 
-            <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__connect_request_response</span><span class="p">(),</span> <span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">request_timeout</span><span class="p">,</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__loop</span><span class="p">)</span>
+            <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__connect_request_response</span><span class="p">(),</span> <span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">request_timeout</span><span class="p">)</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Socket connected successfully. Starting read loop.&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">connected</span> <span class="o">=</span> <span class="kc">True</span>
@@ -401,7 +414,7 @@
     <span class="k">async</span> <span class="k">def</span> <span class="nf">__connect_request_response</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">ConnectRequest</span><span class="p">()</span>
         <span class="n">data</span><span class="o">.</span><span class="n">request_id</span> <span class="o">=</span> <span class="n">UtilInternal</span><span class="o">.</span><span class="n">get_request_id</span><span class="p">()</span>
-        <span class="n">data</span><span class="o">.</span><span class="n">sdk_version</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__SDK_VERSION</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">sdk_version</span> <span class="o">=</span> <span class="n">SDK_VERSION</span>
         <span class="n">data</span><span class="o">.</span><span class="n">other_supported_protocol_versions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__OLD_SUPPORTED_PROTOCOL_VERSIONS</span>
         <span class="n">data</span><span class="o">.</span><span class="n">protocol_version</span> <span class="o">=</span> <span class="n">VersionInfo</span><span class="o">.</span><span class="n">PROTOCOL_VERSION</span><span class="o">.</span><span class="n">value</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth_token</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -445,7 +458,7 @@
                 <span class="s2">&quot;SDK with version </span><span class="si">%s</span><span class="s2"> using Protocol version </span><span class="si">%s</span><span class="s2"> is not fully compatible with Server with version </span><span class="si">%s</span><span class="s2">. &quot;</span>
                 <span class="s2">&quot;Client has connected in a compatibility mode using protocol version </span><span class="si">%s</span><span class="s2">. &quot;</span>
                 <span class="s2">&quot;Some features will not work as expected&quot;</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__SDK_VERSION</span><span class="p">,</span>
+                <span class="n">SDK_VERSION</span><span class="p">,</span>
                 <span class="n">data</span><span class="o">.</span><span class="n">protocol_version</span><span class="p">,</span>
                 <span class="n">response</span><span class="o">.</span><span class="n">server_version</span><span class="p">,</span>
                 <span class="n">response</span><span class="o">.</span><span class="n">protocol_version</span><span class="p">,</span>
@@ -482,7 +495,7 @@
 
         <span class="c1"># Perform the actual work as async so that we can put a timeout on the whole operation</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">return</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span><span class="n">inner</span><span class="p">(</span><span class="n">operation</span><span class="p">,</span> <span class="n">data</span><span class="p">),</span> <span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">request_timeout</span><span class="p">,</span> <span class="n">loop</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__loop</span><span class="p">)</span>
+            <span class="k">return</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span><span class="n">inner</span><span class="p">(</span><span class="n">operation</span><span class="p">,</span> <span class="n">data</span><span class="p">),</span> <span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">request_timeout</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">TimeoutError</span><span class="p">:</span>
             <span class="c1"># Drop async queue from request map</span>
             <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__requests</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">request_id</span><span class="p">]</span>
@@ -703,7 +716,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Amazon.com.
+        &copy; Copyright 2022, Amazon.com.
 
     </p>
   </div>
@@ -725,7 +738,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'1.6.0',
+            VERSION:'1.6.1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

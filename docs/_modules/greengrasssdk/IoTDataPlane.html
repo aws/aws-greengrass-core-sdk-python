@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>greengrasssdk.IoTDataPlane &mdash; Greengrass Core Python SDK 1.6.0 documentation</title>
+  <title>greengrasssdk.IoTDataPlane &mdash; Greengrass Core Python SDK 1.6.1 documentation</title>
   
 
   
@@ -56,7 +56,7 @@
             
             
               <div class="version">
-                1.6.0
+                1.6.1
               </div>
             
           
@@ -151,8 +151,8 @@
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
-<span class="kn">from</span> <span class="nn">greengrasssdk</span> <span class="k">import</span> <span class="n">Lambda</span>
-<span class="kn">from</span> <span class="nn">greengrass_common.env_vars</span> <span class="k">import</span> <span class="n">SHADOW_FUNCTION_ARN</span><span class="p">,</span> <span class="n">ROUTER_FUNCTION_ARN</span><span class="p">,</span> <span class="n">MY_FUNCTION_ARN</span>
+<span class="kn">from</span> <span class="nn">greengrasssdk</span> <span class="kn">import</span> <span class="n">Lambda</span>
+<span class="kn">from</span> <span class="nn">greengrass_common.env_vars</span> <span class="kn">import</span> <span class="n">SHADOW_FUNCTION_ARN</span><span class="p">,</span> <span class="n">ROUTER_FUNCTION_ARN</span><span class="p">,</span> <span class="n">MY_FUNCTION_ARN</span>
 
 <span class="c1"># Log messages in the SDK are part of customer&#39;s log because they&#39;re helpful for debugging</span>
 <span class="c1"># customer&#39;s lambdas. Since we configured the root logger to log to customer&#39;s log and set the</span>
@@ -167,7 +167,7 @@
 
 
 <div class="viewcode-block" id="Client"><a class="viewcode-back" href="../../_apidoc/greengrasssdk.IoTDataPlane.html#greengrasssdk.IoTDataPlane.Client">[docs]</a><span class="k">class</span> <span class="nc">Client</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lambda_client</span> <span class="o">=</span> <span class="n">Lambda</span><span class="o">.</span><span class="n">Client</span><span class="p">()</span>
 
 <div class="viewcode-block" id="Client.get_thing_shadow"><a class="viewcode-back" href="../../_apidoc/greengrasssdk.IoTDataPlane.html#greengrasssdk.IoTDataPlane.Client.get_thing_shadow">[docs]</a>    <span class="k">def</span> <span class="nf">get_thing_shadow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -325,7 +325,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Amazon.com.
+        &copy; Copyright 2022, Amazon.com.
 
     </p>
   </div>
@@ -347,7 +347,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.6.0',
+            VERSION:'1.6.1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

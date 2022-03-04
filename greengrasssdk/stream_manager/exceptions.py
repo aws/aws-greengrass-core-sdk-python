@@ -1,3 +1,9 @@
+"""
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: Apache-2.0
+"""
+
+
 class StreamManagerException(Exception):
     def __init__(self, message="", status=None, request_id=None):
         super().__init__(message)

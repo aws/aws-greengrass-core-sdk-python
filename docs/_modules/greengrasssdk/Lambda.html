@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>greengrasssdk.Lambda &mdash; Greengrass Core Python SDK 1.6.0 documentation</title>
+  <title>greengrasssdk.Lambda &mdash; Greengrass Core Python SDK 1.6.1 documentation</title>
   
 
   
@@ -56,7 +56,7 @@
             
             
               <div class="version">
-                1.6.0
+                1.6.1
               </div>
             
           
@@ -150,11 +150,11 @@
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">re</span>
 
-<span class="kn">from</span> <span class="nn">io</span> <span class="k">import</span> <span class="n">BytesIO</span>
+<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span>
 
-<span class="kn">from</span> <span class="nn">greengrass_common.function_arn_fields</span> <span class="k">import</span> <span class="n">FunctionArnFields</span>
-<span class="kn">from</span> <span class="nn">greengrass_ipc_python_sdk.ipc_client</span> <span class="k">import</span> <span class="n">IPCClient</span><span class="p">,</span> <span class="n">IPCException</span>
-<span class="kn">from</span> <span class="nn">greengrasssdk.utils.testing</span> <span class="k">import</span> <span class="n">mock</span>
+<span class="kn">from</span> <span class="nn">greengrass_common.function_arn_fields</span> <span class="kn">import</span> <span class="n">FunctionArnFields</span>
+<span class="kn">from</span> <span class="nn">greengrass_ipc_python_sdk.ipc_client</span> <span class="kn">import</span> <span class="n">IPCClient</span><span class="p">,</span> <span class="n">IPCException</span>
+<span class="kn">from</span> <span class="nn">greengrasssdk.utils.testing</span> <span class="kn">import</span> <span class="n">mock</span>
 
 <span class="c1"># Log messages in the SDK are part of customer&#39;s log because they&#39;re helpful for debugging</span>
 <span class="c1"># customer&#39;s lambdas. Since we configured the root logger to log to customer&#39;s log and set the</span>
@@ -171,7 +171,7 @@
 
 
 <div class="viewcode-block" id="Client"><a class="viewcode-back" href="../../_apidoc/greengrasssdk.Lambda.html#greengrasssdk.Lambda.Client">[docs]</a><span class="k">class</span> <span class="nc">Client</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :param endpoint: Endpoint used to connect to IPC.</span>
 <span class="sd">        :type endpoint: str</span>
@@ -300,7 +300,7 @@
 
 <span class="sd">    This provides a consistent interface to AWS Lambda Python SDK</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">payload</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">payload</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_raw_stream</span> <span class="o">=</span> <span class="n">BytesIO</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_amount_read</span> <span class="o">=</span> <span class="mi">0</span>
 
@@ -326,7 +326,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Amazon.com.
+        &copy; Copyright 2022, Amazon.com.
 
     </p>
   </div>
@@ -348,7 +348,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.6.0',
+            VERSION:'1.6.1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

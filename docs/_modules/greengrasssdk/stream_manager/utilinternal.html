@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>greengrasssdk.stream_manager.utilinternal &mdash; Greengrass Core Python SDK 1.6.0 documentation</title>
+  <title>greengrasssdk.stream_manager.utilinternal &mdash; Greengrass Core Python SDK 1.6.1 documentation</title>
   
 
   
@@ -56,7 +56,7 @@
             
             
               <div class="version">
-                1.6.0
+                1.6.1
               </div>
             
           
@@ -143,14 +143,19 @@
            <div itemprop="articleBody">
             
   <h1>Source code for greengrasssdk.stream_manager.utilinternal</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">asyncio</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.</span>
+<span class="sd">SPDX-License-Identifier: Apache-2.0</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">asyncio</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">uuid</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Sequence</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span>
 
-<span class="kn">from</span> <span class="nn">.data</span> <span class="k">import</span> <span class="n">ResponseStatusCode</span>
-<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="k">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">.data</span> <span class="kn">import</span> <span class="n">ResponseStatusCode</span>
+<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">InvalidRequestException</span><span class="p">,</span>
     <span class="n">MessageStoreReadErrorException</span><span class="p">,</span>
     <span class="n">NotEnoughMessagesException</span><span class="p">,</span>
@@ -366,7 +371,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Amazon.com.
+        &copy; Copyright 2022, Amazon.com.
 
     </p>
   </div>
@@ -388,7 +393,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'1.6.0',
+            VERSION:'1.6.1',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

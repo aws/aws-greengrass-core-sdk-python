@@ -80,11 +80,15 @@ def main(logger):
         )
 
         # Read the statuses from the export status stream
-        is_file_uploaded_to_s3 = False
-        while not is_file_uploaded_to_s3:
+        stop_checking = False
+        next_seq = 0
+        while not stop_checking:
             try:
                 messages_list = client.read_messages(
-                    status_stream_name, ReadMessagesOptions(min_message_count=1, read_timeout_millis=1000)
+                    status_stream_name,
+                    ReadMessagesOptions(
+                        desired_start_sequence_number=next_seq, min_message_count=1, read_timeout_millis=1000
+                    ),
                 )
                 for message in messages_list:
                     # Deserialize the status message first.
@@ -98,15 +102,20 @@ def main(logger):
                     # the S3 task.
                     if status_message.status == Status.Success:
                         logger.info("Successfully uploaded file at path " + file_url + " to S3.")
-                        is_file_uploaded_to_s3 = True
+                        stop_checking = True
+                    elif status_message.status == Status.InProgress:
+                        logger.info("File upload is in Progress.")
+                        next_seq = message.sequence_number + 1
                     elif status_message.status == Status.Failure or status_message.status == Status.Canceled:
                         logger.info(
                             "Unable to upload file at path " + file_url + " to S3. Message: " + status_message.message
                         )
-                        is_file_uploaded_to_s3 = True
-                time.sleep(5)
+                        stop_checking = True
+                if not stop_checking:
+                    time.sleep(5)
             except StreamManagerException:
                 logger.exception("Exception while running")
+                time.sleep(5)
     except asyncio.TimeoutError:
         logger.exception("Timed out while executing")
     except Exception:
