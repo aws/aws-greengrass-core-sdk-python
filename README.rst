@@ -45,12 +45,17 @@ Now that you have a lambda client, you can publish requests.
         'message':"hello"
     })
 
+    client_context = json.dumps({
+                    "custom": "custom text"
+    })
+
     # Invoke the lambda function
     response = client.invoke(
+        ClientContext=base64.b64encode(bytes(client_context, "utf-8")),
         FunctionName='arn:<partition>:lambda:<region>:<account id>:function:<function name>',
         InvocationType='RequestResponse',
-        Payload=payload,
-        Qualifier='2'
+        Payload=msg,
+        Qualifier='<targetFunctionQualifier>'
     )
 
 ==============
